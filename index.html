@@ -42,7 +42,6 @@
     overflow-x: hidden;
   }
 
-  /* Ambient background glow */
   body::before {
     content: '';
     position: fixed;
@@ -58,7 +57,6 @@
 
   a { color: inherit; text-decoration: none; }
 
-  /* ── NAVIGATION ── */
   .nav {
     position: sticky;
     top: 0;
@@ -105,7 +103,6 @@
   }
   .nav-link.active { color: var(--accent); }
 
-  /* ── HERO ── */
   .hero {
     position: relative;
     max-width: 1000px;
@@ -172,7 +169,6 @@
     backdrop-filter: blur(10px);
   }
 
-  /* ── ARCHIVE DRAWER ── */
   .archive-section {
     max-width: 1000px;
     margin: 0 auto;
@@ -248,7 +244,6 @@
     font-weight: 600;
   }
 
-  /* ── SECTION DIVIDER ── */
   .section-divider {
     max-width: 1000px;
     margin: 2.5rem auto 0;
@@ -259,7 +254,6 @@
     background: linear-gradient(90deg, transparent, var(--border), transparent);
   }
 
-  /* ── TOP STORIES ── */
   .top-stories {
     max-width: 1000px;
     margin: 2.5rem auto 0;
@@ -373,14 +367,12 @@
   }
   .read-link:hover { gap: 0.5rem; }
 
-  /* ── MAIN CONTENT ── */
   .main {
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 2rem 4rem;
   }
 
-  /* ── CATEGORY ── */
   .category {
     margin-top: 3rem;
   }
@@ -415,7 +407,6 @@
     margin-left: auto;
   }
 
-  /* ── ARTICLE ITEMS ── */
   .article-list {
     display: flex;
     flex-direction: column;
@@ -468,7 +459,6 @@
     border: 1px solid var(--border);
   }
 
-  /* ── FOOTER ── */
   .footer {
     border-top: 1px solid var(--border);
     padding: 2.5rem 2rem;
@@ -484,7 +474,6 @@
     color: var(--text-secondary);
   }
 
-  /* ── SCROLL TO TOP ── */
   .scroll-top {
     position: fixed;
     bottom: 2rem;
@@ -516,7 +505,6 @@
     color: var(--accent);
   }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .hero { padding: 2.5rem 1.25rem 1.5rem; }
     .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
@@ -531,7 +519,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand">Gary's <span>Daily</span></div>
@@ -547,343 +534,339 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-label">
     <span class="dot"></span>
-    Updated today
+    Live now
   </div>
   <h1>Gary's <span class="highlight">Daily</span></h1>
-  <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me)</p>
+  <p class="subtitle">AI news and insights, curated for builders, makers, and deep learners. The stories that matter.</p>
   <div class="date-row">
-    <span class="current-date">Friday, March 20, 2026</span>
+    <div class="current-date">Saturday, March 21, 2026</div>
   </div>
 </div>
 
-<!-- ARCHIVE -->
 <div class="archive-section">
-  <div class="archive-toggle" onclick="toggleArchive()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V21H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
-    Archive
-    <span class="chevron">&#9662;</span>
-  </div>
+  <button class="archive-toggle" onclick="toggleArchive()">
+    Archive <span class="chevron">▼</span>
+  </button>
   <div class="archive-drawer" id="archiveDrawer">
     <div class="archive-grid">
-      <a class="archive-day today" href="index.html">Mar 20 (today)</a>
-      <a class="archive-day" href="archive/2026-03-19.html">Mar 19</a>
-      <a class="archive-day" href="archive/2026-03-18.html">Mar 18</a>
+      <a href="index.html" class="archive-day today">Mar 21</a>
+      <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+      <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+      <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
     </div>
   </div>
 </div>
 
-<!-- SECTION DIVIDER -->
-<div class="section-divider"><div class="divider-line"></div></div>
+<div class="section-divider">
+  <div class="divider-line"></div>
+</div>
 
-<!-- TOP STORIES -->
 <div class="top-stories" id="top">
   <div class="section-label">Top Stories</div>
-
   <div class="top-cards">
-    <div class="top-card">
-      <span class="card-rank">#1</span>
-      <h3>Anthropic's 81,000-Person AI Attitudes Study</h3>
-      <p>Anthropic used Claude itself to interview 81,000 people across 159 countries and 70 languages about their hopes and fears for AI. Professional excellence topped the hopes list, while fear of AI errors outranked job anxiety. India and South America were most optimistic; the US, Europe, and Japan more cautious. The study doubles as a proof of concept for AI as a qualitative research tool at unprecedented scale.</p>
+    <a href="https://www.cnbc.com/2026/03/20/meta-reportedly-planning-workforce-reduction.html" class="top-card">
+      <div class="card-rank">#1</div>
+      <h3>Meta Reportedly Planning 20% Workforce Reduction to Offset AI Costs</h3>
+      <p>Meta is considering layoffs affecting approximately 15,000 employees, roughly 20% of its workforce, to offset massive AI infrastructure spending projected between $115 billion and $135 billion in 2026. The cuts would represent one of the largest single rounds of tech layoffs in recent memory, underscoring the enormous capital demands of the AI arms race even for the largest companies.</p>
       <div class="card-footer">
-        <span class="tag">The Rundown AI</span>
-        <span class="tag">TLDR AI</span>
-        <span class="tag">Anthropic</span>
-        <a class="read-link" href="https://www.anthropic.com/features/81k-interviews" target="_blank">Read more &#8594;</a>
+        <span class="tag">Web</span>
+        <span class="tag">CNBC</span>
+        <span class="read-link">Read →</span>
       </div>
-    </div>
-
-    <div class="top-card">
-      <span class="card-rank">#2</span>
-      <h3>Cursor Ships Composer 2 — Frontier Coding at 1/10th the Cost</h3>
-      <p>Anysphere shipped Composer 2, its third-generation in-house coding model that topped Opus 4.6 on Terminal-Bench 2.0 (61.7% vs 58%) and sits within 5 points of GPT-5.4 on CursorBench. At $7.50/M output tokens on the fast tier, it costs roughly 1/10th of GPT-5.4 and 1/20th of Opus 4.6. An application-layer company nearing the frontier with its own model changes the economics of AI-assisted coding.</p>
+    </a>
+    <a href="https://www.artificialintelligence-news.com/news/visa-prepares-payment-systems-ai-agent-initiated-transactions/" class="top-card">
+      <div class="card-rank">#2</div>
+      <h3>Visa Launches "Agentic Ready" Program for AI Agent Payments</h3>
+      <p>Visa is rolling out its "Agentic Ready" program in Europe to test how financial infrastructure handles transactions initiated by AI agents acting on behalf of users. The program includes compliance and fraud prevention safeguards, signaling that AI agents making autonomous purchasing decisions are moving from theory to real financial systems.</p>
       <div class="card-footer">
-        <span class="tag">The Rundown AI</span>
-        <span class="tag">TLDR</span>
-        <a class="read-link" href="https://cursor.com/blog/composer-2" target="_blank">Read more &#8594;</a>
+        <span class="tag">NeuralBuddies</span>
+        <span class="tag">Web</span>
+        <span class="read-link">Read →</span>
       </div>
-    </div>
-
-    <div class="top-card">
-      <span class="card-rank">#3</span>
-      <h3>Bezos Raising $100B Fund to Buy and Automate Manufacturers with AI</h3>
-      <p>Jeff Bezos is in early talks to raise a $100 billion fund to acquire companies in chipmaking, defense, and aerospace, then use AI to accelerate their path to automation. Called "Project Prometheus," the fund would mark one of the largest AI-infrastructure plays ever. Bezos is meeting investors across the Middle East and Singapore.</p>
+    </a>
+    <a href="https://techcrunch.com/2026/03/20/britannica-merriam-webster-sue-openai/" class="top-card">
+      <div class="card-rank">#3</div>
+      <h3>Encyclopedia Britannica and Merriam-Webster Sue OpenAI for Copyright</h3>
+      <p>The publishers allege OpenAI scraped nearly 100,000 copyrighted articles without permission to train its models. The lawsuit specifically targets OpenAI's retrieval augmented generation workflow for reproducing copyrighted content, adding to the growing list of major copyright challenges facing AI companies.</p>
       <div class="card-footer">
-        <span class="tag">TLDR</span>
-        <span class="tag">The Rundown AI</span>
-        <span class="tag">WSJ</span>
-        <a class="read-link" href="https://links.tldrnewsletter.com/KL3e2O" target="_blank">Read more &#8594;</a>
+        <span class="tag">TechCrunch</span>
+        <span class="tag">Web</span>
+        <span class="read-link">Read →</span>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- MODELS & RELEASES -->
   <div class="category cat-models" id="models">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>Models & Releases</h2>
-      <span class="cat-count">5</span>
+      <div class="cat-count">4</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://venturebeat.com/technology/xiaomi-stuns-with-new-mimo-v2-pro-llm-nearing-gpt-5-2-opus-4-6-performance" target="_blank">
-        <h3>Xiaomi MiMo-V2-Pro — 1T Parameters, Fraction of the Cost</h3>
-        <p class="desc">Xiaomi's MiMo-V2-Pro is a 1-trillion-parameter foundation model approaching GPT-5.2 and Opus 4.6 performance. It uses sparse architecture activating only 42B parameters per forward pass, with Multi-Token Prediction for dramatically reduced latency. Currently API-only with an open-source variant planned.</p>
-        <div class="item-meta"><span class="src">TLDR AI</span> <span>Mar 20</span></div>
+      <a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Expands-Open-Model-Families-to-Power-the-Next-Wave-of-Agentic-Physical-and-Healthcare-AI/default.aspx" class="article-item">
+        <h3>NVIDIA Launches Agent Toolkit and Nemotron 3 Super</h3>
+        <p>NVIDIA announced its Agent Toolkit, an open platform for developing autonomous AI agents, alongside Nemotron 3 Super for multi-agent systems. The toolkit includes OpenShell for secure runtime environments and AI-Q agent blueprints that combine open and frontier models to reduce costs while maintaining accuracy.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.testingcatalog.com/minimax-launches-m2-7-model-on-minimax-agent-and-apis/" target="_blank">
-        <h3>MiniMax M2.7 Model Goes Public</h3>
-        <p class="desc">MiniMax's M2.7 model is now available via MiniMax Agent and API. It supports complex workflows in software engineering, office productivity, and research, with capabilities like autonomous debugging. MiniMax calls it a step toward models that participate in their own evolution.</p>
-        <div class="item-meta"><span class="src">TLDR AI</span> <span>Mar 20</span></div>
+      <a href="https://www.huawei.com/en/news/2026/3/mwc-ai-native-framework-solution" class="article-item">
+        <h3>Huawei Launches AgentArts Platform at MWC</h3>
+        <p>Huawei launched AgentArts, an agent development platform promising to reduce AI agent delivery time by over 60%. The public beta is scheduled for April 30, reflecting China's push for full-stack domestic AI ecosystem development.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://microsoft.ai/news/introducing-MAI-Image-2/" target="_blank">
-        <h3>Microsoft MAI-Image-2 Climbs to #5 on Arena Leaderboard</h3>
-        <p class="desc">Microsoft's AI Superintelligence team released MAI-Image-2, a text-to-image model ranked No. 5 on Arena AI. Text rendering jumped 115 points from its predecessor. Free to try in Microsoft's MAI Playground for US users, with Copilot and API access rolling out soon.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://www.japantimes.co.jp/business/2026/03/19/tech/mystery-ai-model-china-buzz/" class="article-item">
+        <h3>Xiaomi's Mystery "Hunter Alpha" Model Revealed</h3>
+        <p>A mysterious AI model called Hunter Alpha that surfaced on the OpenRouter platform on March 11 was revealed to be from Xiaomi. The model generated significant buzz in the AI community before its origin was confirmed, adding Xiaomi to the growing list of Chinese tech giants competing in foundation models.</p>
+        <div class="item-meta">
+          <span class="src">Japan Times</span>
+          <span>Mar 19</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models" target="_blank">
-        <h3>Adobe Firefly Custom Models Enter Public Beta</h3>
-        <p class="desc">Adobe expanded Firefly with custom models that let creators turn their visual style into a reusable AI model trained on their own images. The public beta launched March 19 alongside expanded video creation capabilities.</p>
-        <div class="item-meta"><span class="src">Web</span> <span>Mar 19</span></div>
+      <a href="https://techcommunity.microsoft.com/blog/azuredevcommunityblog/ai-toolkit-for-vs-code-march-2026-update/4502517" class="article-item">
+        <h3>Microsoft AI Toolkit for VS Code Gets March Update</h3>
+        <p>Microsoft released its March 2026 update for the AI Toolkit VS Code extension, bringing improved model management, local fine-tuning capabilities, and better integration with Azure AI services for developers building AI-powered applications.</p>
+        <div class="item-meta">
+          <span class="src">Microsoft</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Expands-Open-Model-Families-to-Power-the-Next-Wave-of-Agentic-Physical-and-Healthcare-AI/default.aspx" target="_blank">
-        <h3>NVIDIA Expands Open Model Families at GTC</h3>
-        <p class="desc">NVIDIA announced Nemotron 3 for multi-agent systems, Isaac GR00T N1.7 for humanoid robots, Alpamayo 1.5, and Cosmos 3 world models — expanding its open model ecosystem for agentic, physical, and healthcare AI.</p>
-        <div class="item-meta"><span class="src">Web</span> <span>Mar 20</span></div>
-      </a>
-
     </div>
   </div>
 
-  <!-- INDUSTRY & BUSINESS -->
   <div class="category cat-industry" id="industry">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>Industry & Business</h2>
-      <span class="cat-count">7</span>
+      <div class="cat-count">6</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://links.tldrnewsletter.com/LaMBxF" target="_blank">
-        <h3>OpenAI Plans Desktop 'Superapp' Unifying ChatGPT, Codex, and Browser</h3>
-        <p class="desc">OpenAI is building a unified desktop superapp combining ChatGPT, Codex, and its browser into one product with agentic capabilities that work autonomously on users' computers. The move consolidates teams around one central product.</p>
-        <div class="item-meta"><span class="src">TLDR</span> <span>Mar 20</span></div>
+      <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" class="article-item">
+        <h3>OpenAI Surpasses $25B Annualized Revenue, Eyes IPO</h3>
+        <p>OpenAI has crossed $25 billion in annualized revenue and is reportedly taking early steps toward a public listing, potentially as soon as late 2026. Meanwhile, rival Anthropic is approaching $19 billion in annualized revenue, showing the massive commercial scale AI labs have reached.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://openai.com/index/openai-to-acquire-astral/" target="_blank">
-        <h3>OpenAI Acquires Open-Source Startup Astral</h3>
-        <p class="desc">OpenAI acquired Astral, the company behind popular Python developer tools, folding Astral's staff into its Codex team. Community concerns center on the future of the open-source projects.</p>
-        <div class="item-meta"><span class="src">The Rundown AI, TLDR</span> <span>Mar 20</span></div>
+      <a href="https://www.insightfulpost.com/what-is-artificial-intelligence-news-2026/" class="article-item">
+        <h3>Apple Partners with Google Gemini for Reimagined Siri</h3>
+        <p>Apple announced a completely reimagined AI-powered Siri set to debut alongside iOS 26.4, partnering with Google to utilize its 1.2 trillion parameter Gemini model. The new Siri will feature "on-screen awareness" and context-aware assistance, running on Apple's Private Cloud Compute to maintain strict privacy standards.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.understandingai.org/p/how-to-think-about-the-ai-company" target="_blank">
-        <h3>AI Company Finances — Following the Standard Startup Playbook</h3>
-        <p class="desc">A deep analysis argues OpenAI and Anthropic are following the classic Amazon-style growth playbook: invest aggressively while demand surges, accept losses during expansion. Anthropic is reportedly turning away revenue because it lacks compute to serve demand. The key metric is gross margin, not net profit.</p>
-        <div class="item-meta"><span class="src">Understanding AI (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" class="article-item">
+        <h3>Alibaba Sets $100 Billion AI and Cloud Revenue Target</h3>
+        <p>Despite a 67% quarterly profit decline, Alibaba committed to generating over $100 billion in combined AI and cloud revenue within five years. The ambitious target signals that Chinese tech giants remain committed to AI infrastructure expansion despite near-term profitability pressures.</p>
+        <div class="item-meta">
+          <span class="src">Associated Press</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.aibyaakash.com/p/autoresearch-guide" target="_blank">
-        <h3>Cursor Raising at $50B Valuation</h3>
-        <p class="desc">Cursor parent Anysphere is reportedly raising at a $50B valuation in the same week xAI poached two of its product leaders to build Grok's coding product. AI coding is now a $5B+ market with every frontier lab competing.</p>
-        <div class="item-meta"><span class="src">AI by Aakash (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>OpenAI Narrows Focus, Abandons "Side Quests" Strategy</h3>
+        <p>OpenAI is narrowing its focus to coding tools and enterprise customers, moving away from spreading resources across multiple products like Sora and hardware devices. The strategic shift suggests even the largest AI labs are recognizing the need for product discipline.</p>
+        <div class="item-meta">
+          <span class="src">The Decoder</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://restofworld.org/2026/china-ai-one-person-companies-incentives/" target="_blank">
-        <h3>China Mobilizing Thousands of One-Person AI Startups</h3>
-        <p class="desc">Chinese cities are offering free apartments, office space, discounted compute, and special loans to attract solo AI founders. While Silicon Valley relies on venture capital, China is using government policy to drive AI participation.</p>
-        <div class="item-meta"><span class="src">TLDR</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>Code Metal Raises $125M for Defense AI Modernization</h3>
+        <p>Boston-based Code Metal raised $125 million to use AI for translating and validating legacy defense software without introducing new vulnerabilities. The round highlights growing venture interest in applying AI to critical government and defense infrastructure modernization.</p>
+        <div class="item-meta">
+          <span class="src">WIRED</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://knowledge.gtmstrategist.com/p/the-hidden-cost-of-the-ai-gtm-stack" target="_blank">
-        <h3>The Hidden Cost of the AI GTM Stack</h3>
-        <p class="desc">AI tools are becoming more expensive as usage-based pricing replaces seat-based models. Clay's pricing change made this visible: credit-based pricing models grew 120% as companies shift from selling software access to selling completed work. GTM teams now need to think about workflow efficiency like engineering systems.</p>
-        <div class="item-meta"><span class="src">GTM Strategist (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://techstartups.com/2026/03/20/top-tech-news-today-march-20-2026/" class="article-item">
+        <h3>White House Sends Federal AI Regulation Framework to Congress</h3>
+        <p>The White House is sending Congress a regulatory framework covering child safety, creator protections, and community impact of AI systems. The move marks significant progress from theoretical debate toward concrete national policy for AI governance.</p>
+        <div class="item-meta">
+          <span class="src">Axios</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">
-        <h3>US Passes AI Accountability Act</h3>
-        <p class="desc">The US passed legislation requiring companies deploying AI in hiring, lending, healthcare, and criminal justice to conduct and publish regular bias audits. A significant regulatory milestone for the AI industry.</p>
-        <div class="item-meta"><span class="src">Web</span> <span>Mar 20</span></div>
-      </a>
-
     </div>
   </div>
 
-  <!-- TOOLS & PRODUCTS -->
   <div class="category cat-tools" id="tools">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>Tools & Products</h2>
-      <span class="cat-count">5</span>
+      <div class="cat-count">4</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://blog.google/innovation-and-ai/technology/developers-tools/full-stack-vibe-coding-google-ai-studio/" target="_blank">
-        <h3>Google AI Studio Becomes a Full-Stack Vibe Coding Platform</h3>
-        <p class="desc">Google upgraded AI Studio with a new Antigravity coding agent, built-in backends, and user login — turning it into a one-stop app builder that goes from prompt to deployed app.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" class="article-item">
+        <h3>Anthropic Launches Claude Dispatch for Max Subscribers</h3>
+        <p>Anthropic released Claude Dispatch, a new feature that maintains one persistent conversation with Claude running on your desktop while allowing you to message it from your phone. The feature bridges mobile and desktop AI workflows for paying subscribers.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.perplexity.ai/hub/blog/introducing-perplexity-health" target="_blank">
-        <h3>Perplexity Health — Connect Wearables and Health Data to AI</h3>
-        <p class="desc">Perplexity introduced Health, letting users securely connect health apps, wearables, and medical data to its Computer agentic system for personalized health insights.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>Google Personal Intelligence Goes Free for All US Users</h3>
+        <p>Google is making its Personal Intelligence feature available to all US users, previously limited to paid subscribers. The feature connects Gemini across Gmail, Photos, and Chrome for a unified AI assistant experience with deep personal context.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://github.com/microsoft/apm" target="_blank">
-        <h3>Microsoft Agent Package Manager (Open Source)</h3>
-        <p class="desc">A community-driven dependency manager for AI agents. Declare your project's agentic dependencies in a YML file and every developer gets a fully configured agent setup. Works with GitHub Copilot, Claude Code, Cursor, and OpenCode.</p>
-        <div class="item-meta"><span class="src">TLDR AI</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>World Launches AgentKit for AI Shopping Verification</h3>
+        <p>Tools for Humanity released AgentKit to verify humans behind AI purchasing agents, integrating World ID with blockchain-based protocols to prevent fraud. As AI agents begin making autonomous purchases, identity verification becomes a critical infrastructure layer.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://about.fb.com/news/2026/03/boosting-your-support-and-safety-on-metas-apps-with-ai/" target="_blank">
-        <h3>Meta Launches AI Support Assistant Across Facebook and Instagram</h3>
-        <p class="desc">24/7 AI-powered support across Meta's apps, with advanced content enforcement systems catching 5,000 daily scam attempts. A major consumer AI deployment at Meta's scale.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>Patreon CEO Challenges AI Companies' Fair Use Claims</h3>
+        <p>Patreon's CEO argued that AI companies' "fair use" defenses are questionable, noting they pay major publishers licensing fees but not individual creators whose work also trained their models. The argument highlights growing creator pushback against AI training practices.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://blog.google/products-and-platform/google-maps/ask-maps-immersive-navigation/" target="_blank">
-        <h3>Google Maps Gets Biggest AI Upgrade in a Decade</h3>
-        <p class="desc">Ask Maps uses Gemini to answer natural language queries like finding a charging spot. Immersive Navigation replaces flat maps with 3D views of buildings, terrain, and lane markers using Street View and aerial photos.</p>
-        <div class="item-meta"><span class="src">AI by Aakash (Substack)</span> <span>Mar 20</span></div>
-      </a>
-
     </div>
   </div>
 
-  <!-- HOW-TO & TUTORIALS -->
   <div class="category cat-howto" id="howto">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>How-To & Tutorials</h2>
-      <span class="cat-count">4</span>
+      <div class="cat-count">3</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://www.aibyaakash.com/p/autoresearch-guide" target="_blank">
-        <h3>The Complete Guide to Karpathy's Autoresearch</h3>
-        <p class="desc">Andrej Karpathy's autoresearch framework (42K GitHub stars) automates iterative improvement of anything you can score. Three files: one to edit, one for scoring criteria, one for instructions. 12 cycles per hour, ~$25 overnight. Works on prompts, email sequences, ad copy, video scripts — not just ML. The guide covers six practical use cases with step-by-step setup.</p>
-        <div class="item-meta"><span class="src">AI by Aakash (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://www.news.aakashg.com/p/ankur-goyal-podcast" class="article-item">
+        <h3>Evals Are the New PRD: The Complete PM Playbook</h3>
+        <p>A deep-dive podcast and newsletter from Product Growth breaks down why AI product evaluations are replacing traditional product requirement documents. Companies running 12.8 eval experiments per day are building products that actually work. The guide covers the data-task-scores framework, offline vs online evals, and how to build eval culture across a team.</p>
+        <div class="item-meta">
+          <span class="src">Product Growth (Substack)</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://excellentprompts.substack.com/p/local-llms-for-solopreneurs-get-real-work-done-ollama" target="_blank">
-        <h3>How to Get Real Work Done with Ollama (Local LLMs)</h3>
-        <p class="desc">Three practical Ollama workflows that replace real work, including model picks and a prompt library. The guide bridges the gap between installing a local LLM and actually making it productive.</p>
-        <div class="item-meta"><span class="src">Excellent AI Prompts (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://excellentprompts.substack.com/p/vacation-planning" class="article-item">
+        <h3>8 AI Prompts That Replace 18 Hours of Vacation Planning</h3>
+        <p>A practical prompt framework that flips the traditional vacation planning sequence. Instead of picking a destination first, these prompts give AI your budget and constraints, then let it find destinations you hadn't considered. Covers three phases from discovery through booking to local planning.</p>
+        <div class="item-meta">
+          <span class="src">Excellent AI Prompts (Substack)</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://app.therundown.ai/guides/use-replits-new-tasks-feature-to-improve-your-site-faster" target="_blank">
-        <h3>Use Replit's Tasks Feature to Improve Your Site Faster</h3>
-        <p class="desc">Step-by-step guide to using Replit's Tasks for isolated fixes — create parallel tasks for mobile optimization, design cleanup, and bug fixes without breaking your main app. Apply changes to production when ready.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://medium.com/data-science-collective/the-best-ai-tools-for-2026-the-ones-i-keep-using-722811d12295" class="article-item">
+        <h3>Pick Your AI Home Base Model Before Choosing Tools</h3>
+        <p>The most effective AI automation strategy for 2026 starts with selecting one primary AI model as your home base. Without a go-to model, you keep bouncing around and resetting your workflow every time. Once you commit to a model, everything downstream (tool selection, automation design, prompt libraries) gets dramatically easier.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://blog.ezyang.com/2026/03/read-less-steer-more/" target="_blank">
-        <h3>"Read Less, Steer More" — The AI Coding Philosophy</h3>
-        <p class="desc">Don't treat AI output as code to read. Treat AI like a fast typist carrying out your will. If something doesn't work, just tell it to rewrite exactly to spec. Don't accommodate the AI — make it accommodate you.</p>
-        <div class="item-meta"><span class="src">TLDR</span> <span>Mar 20</span></div>
-      </a>
-
     </div>
   </div>
 
-  <!-- IDEAS & INSPIRATION -->
   <div class="category cat-ideas" id="ideas">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>Ideas & Inspiration</h2>
-      <span class="cat-count">4</span>
+      <div class="cat-count">4</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://www.aibyaakash.com/p/autoresearch-guide" target="_blank">
-        <h3>ChatGPT Helped Design a Cancer Vaccine That Shrank a Tumor 75%</h3>
-        <p class="desc">A tech entrepreneur in Sydney used ChatGPT and AlphaFold to design a custom mRNA cancer vaccine for his dog. He sequenced the tumor DNA for $3,000, ran mutations through AlphaFold, and produced a personalized vaccine in two months. The tumor shrank 75% — the same workflow Moderna is spending billions to scale for humans.</p>
-        <div class="item-meta"><span class="src">AI by Aakash (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>Humanoid Robot Returns Tennis Shots with 96% Accuracy</h3>
+        <p>A Unitree G1 robot demonstrated by Galbot Robotics successfully rallied tennis shots with humans, trained on just five hours of motion data and achieving up to 96% success rates in simulations. The demo showcases how quickly humanoid robots are acquiring physical skills.</p>
+        <div class="item-meta">
+          <span class="src">NeuralBuddies</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.aibyaakash.com/p/autoresearch-guide" target="_blank">
-        <h3>Travis Kalanick Reveals Secret Robotics Company "Atoms"</h3>
-        <p class="desc">After eight years of building what appeared to be a ghost kitchen company, Kalanick revealed he's been building a robotics company spanning food, mining, and autonomous transport. Thousands of employees, 110 cities, no one was allowed to put the company name on LinkedIn.</p>
-        <div class="item-meta"><span class="src">AI by Aakash (Substack)</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>MIT's AI System Sees Through Walls Using Wi-Fi Signals</h3>
+        <p>MIT researchers developed an AI system that reconstructs hidden 3D objects from reflected Wi-Fi signals, with potential applications for robotics and object manipulation. The technology could enable robots and autonomous systems to perceive objects they cannot directly see.</p>
+        <div class="item-meta">
+          <span class="src">MIT News</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://www.bloomberg.com/news/articles/2026-03-19/doordash-s-new-paid-tasks-turn-couriers-into-ai-and-robot-trainers" target="_blank">
-        <h3>DoorDash Paying Couriers to Train AI and Robots</h3>
-        <p class="desc">DoorDash launched a new 'Tasks' app paying delivery drivers to capture video and data from everyday tasks and conversations — creating training data for AI and robotics systems.</p>
-        <div class="item-meta"><span class="src">The Rundown AI</span> <span>Mar 20</span></div>
+      <a href="https://www.neuralbuddies.com/p/ai-news-recap-march-20-2026" class="article-item">
+        <h3>Memories.ai Builds Visual Memory for Wearables and Robotics</h3>
+        <p>Memories.ai partnered with NVIDIA to develop visual memory technology for physical AI applications, addressing a gap in visual data indexing for wearable devices. The technology gives machines the ability to recall and reference visual experiences over time.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://nvidianews.nvidia.com/news/nvidia-and-global-robotics-leaders-take-physical-ai-to-the-real-world" target="_blank">
-        <h3>Nvidia Wants to Be the OS of Every Robot</h3>
-        <p class="desc">At GTC, Nvidia pitched itself as the default computing backbone for physical AI — humanoid software stacks, robot brains (GR00T N1.7), simulation tools, and a deal with Uber to power Level 4 robotaxis starting in LA and SF by 2027.</p>
-        <div class="item-meta"><span class="src">The Rundown Robotics</span> <span>Mar 20</span></div>
+      <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" class="article-item">
+        <h3>AI-Driven Advertising Projected to Grow 63% in 2026</h3>
+        <p>AI-driven advertising is projected to reach $57 billion in 2026, growing 63% year-over-year and accounting for a rapidly increasing share of total ad spend. The growth signals that AI is no longer experimental in marketing but is becoming the dominant approach to digital advertising.</p>
+        <div class="item-meta">
+          <span class="src">NVIDIA Blog</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
     </div>
   </div>
 
-  <!-- DEVELOPER & RESEARCH -->
   <div class="category cat-dev" id="dev">
     <div class="cat-header">
       <div class="cat-dot"></div>
       <h2>Developer & Research</h2>
-      <span class="cat-count">4</span>
+      <div class="cat-count">3</div>
     </div>
     <div class="article-list">
-
-      <a class="article-item" href="https://links.tldrnewsletter.com/MLWPCx" target="_blank">
-        <h3>Stripe Launches Machine Payments Protocol for AI Agents</h3>
-        <p class="desc">Stripe announced programmable LLM support enabling machine-to-machine payments, letting businesses integrate AI models into payment processes for enhanced automation and agent commerce.</p>
-        <div class="item-meta"><span class="src">TLDR AI</span> <span>Mar 20</span></div>
+      <a href="https://www.news.aakashg.com/p/ankur-goyal-podcast" class="article-item">
+        <h3>Braintrust Raises Series B at $800M Valuation</h3>
+        <p>Braintrust, the eval platform behind Replit, Vercel, Airtable, Ramp, Zapier, and Notion, announced its Series B at an $800 million valuation. Users are running 10x more evals than this time last year, with daily data logging now exceeding what was logged in the entire first year of the product.</p>
+        <div class="item-meta">
+          <span class="src">Product Growth (Substack)</span>
+          <span>Mar 20</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://github.com/baidubce/Qianfan-VL" target="_blank">
-        <h3>Baidu Qianfan-VL — Enterprise Vision-Language Models</h3>
-        <p class="desc">A series of enterprise-focused vision-language models optimized for document parsing, OCR, and complex visual reasoning while maintaining general multimodal capabilities. Open source on GitHub.</p>
-        <div class="item-meta"><span class="src">TLDR AI</span> <span>Mar 20</span></div>
+      <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" class="article-item">
+        <h3>Enterprise AI Agent Adoption Surges: Telecom Leads at 48%</h3>
+        <p>NVIDIA's State of AI report reveals enterprise AI agent deployments have moved from experimentation to full-fledged production in early 2026. Telecommunications leads adoption at 48%, followed by retail and CPG at 47%, with 86% of respondents saying their AI budgets will increase this year.</p>
+        <div class="item-meta">
+          <span class="src">NVIDIA Blog</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://sahajgarg.github.io/blog/cognitive-labor/" target="_blank">
-        <h3>The Displacement of Cognitive Labor — What Comes After</h3>
-        <p class="desc">A deep analysis of AI's trajectory toward exceeding human capability across most cognitive domains. Intelligence is now a commodity on tap, with massive implications for jobs, governance, geopolitics, and human nature.</p>
-        <div class="item-meta"><span class="src">TLDR</span> <span>Mar 20</span></div>
+      <a href="https://www.eqs-news.com/news/corporate-news/gsma-launches-open-telco-ai-to-accelerate-development-of-telco-grade-ai/1bb9ebed-e7b9-419c-9be1-f3ea8a146d06_en" class="article-item">
+        <h3>GSMA Launches Open Telco AI at MWC</h3>
+        <p>The GSMA launched Open Telco AI to accelerate development of telecom-grade AI solutions, creating a shared framework for the telecommunications industry. The initiative aims to standardize how AI is deployed across networks and customer-facing services.</p>
+        <div class="item-meta">
+          <span class="src">GSMA</span>
+          <span>Mar 21</span>
+        </div>
       </a>
-
-      <a class="article-item" href="https://insights.euclid.vc/p/we-need-to-talk-about-agents" target="_blank">
-        <h3>"We Need to Talk About Agents"</h3>
-        <p class="desc">When everything becomes an 'agent,' buyers can't tell what products actually do, how they fit existing operations, or why they matter. A call for clarity in the increasingly muddled agent landscape.</p>
-        <div class="item-meta"><span class="src">TLDR</span> <span>Mar 20</span></div>
-      </a>
-
     </div>
   </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  <p><span class="footer-brand">Gary's Daily</span> &mdash; Curated from newsletters and the web by Claude</p>
-  <p style="margin-top:0.4rem;">Sources include The Rundown AI, TLDR, TLDR AI, Understanding AI, AI by Aakash, Excellent AI Prompts, GTM Strategist, and web search</p>
-  <p style="margin-top:0.4rem;">Generated March 20, 2026</p>
+  <p>
+    <span class="footer-brand">Gary's Daily</span><br>
+    Sources: NeuralBuddies, TechCrunch, Product Growth, Excellent AI Prompts, NVIDIA, CNBC, and web search<br>
+    Generated March 21, 2026
+  </p>
 </div>
 
-<!-- SCROLL TO TOP -->
-<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</div>
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
 
 <script>
-  // Archive toggle
   function toggleArchive() {
     const drawer = document.getElementById('archiveDrawer');
     const toggle = document.querySelector('.archive-toggle');
@@ -891,18 +874,15 @@
     toggle.classList.toggle('open');
   }
 
-  // Scroll to section
   function scrollToSection(id) {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    // Update active nav
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     event.target.classList.add('active');
   }
 
-  // Scroll-to-top button visibility
   window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollTop');
     if (window.scrollY > 600) {
@@ -912,7 +892,6 @@
     }
   });
 
-  // Active nav highlight on scroll
   const sections = ['top','models','industry','tools','howto','ideas','dev'];
   window.addEventListener('scroll', () => {
     let current = 'top';
