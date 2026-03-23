@@ -8,23 +8,30 @@ echo ""
 echo "=== Gary's Daily — Publishing ==="
 echo ""
 
-# Check if there are changes to commit
+# Check if there are uncommitted changes
 if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
-    echo "Nothing new to publish. Everything is up to date."
+    # No uncommitted changes — but check if there are unpushed commits
+    AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "0")
+    if [ "$AHEAD" = "0" ]; then
+        echo "Nothing new to publish. Everything is up to date."
+        echo ""
+        read -p "Press Enter to close..."
+        exit 0
+    else
+        echo "No new changes, but $AHEAD commit(s) haven't been pushed yet."
+        echo ""
+    fi
+else
+    # Show what's changed
+    echo "Changes to publish:"
+    git status --short
     echo ""
-    read -p "Press Enter to close..."
-    exit 0
+
+    # Stage and commit
+    git add .
+    git commit -m "Daily update: $(date +'%Y-%m-%d')"
+    echo ""
 fi
-
-# Show what's changed
-echo "Changes to publish:"
-git status --short
-echo ""
-
-# Stage, commit, and push
-git add .
-git commit -m "Daily update: $(date +'%Y-%m-%d')"
-echo ""
 
 echo "Pushing to GitHub..."
 git push origin main
