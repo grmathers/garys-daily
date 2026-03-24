@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gary's Daily</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090d;
+    --bg2: #0d0f14;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.06);
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.07);
+    --accent: #7c6aef;
+    --accent-soft: rgba(124,106,239,0.12);
+    --accent-glow: rgba(124,106,239,0.25);
+    --text: #eaeaf0;
+    --text-secondary: #8b8da3;
+    --text-dim: #555770;
+    --border: rgba(255,255,255,0.06);
+    --green: #34d399;
+    --amber: #fbbf24;
+    --rose: #f472b6;
+    --sky: #38bdf8;
+    --orange: #fb923c;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(8,9,13,0.8);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .nav-link {
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+  }
+  .nav-link:hover, .nav-link.active {
+    background: var(--surface-hover);
+    color: var(--text);
+  }
+  .nav-link.active { color: var(--accent); }
+
+  .hero {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2.5rem;
+    z-index: 1;
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .hero-label .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 0.8rem;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, #7c6aef, #a78bfa, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .hero .date-row {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .current-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.35rem 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .archive-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .archive-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    transition: all 0.25s;
+    backdrop-filter: blur(10px);
+  }
+  .archive-toggle:hover {
+    background: var(--glass-hover);
+    color: var(--text);
+  }
+  .archive-toggle .chevron {
+    transition: transform 0.3s;
+    font-size: 0.7rem;
+  }
+  .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+  .archive-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+    opacity: 0;
+  }
+  .archive-drawer.open {
+    max-height: 400px;
+    opacity: 1;
+    margin-top: 0.75rem;
+  }
+  .archive-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(10px);
+  }
+  .archive-day {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-xs);
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .archive-day:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .archive-day.today {
+    background: var(--accent-soft);
+    border-color: rgba(124,106,239,0.3);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .section-divider {
+    max-width: 1000px;
+    margin: 2.5rem auto 0;
+    padding: 0 2rem;
+  }
+  .divider-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  .top-stories {
+    max-width: 1000px;
+    margin: 2.5rem auto 0;
+    padding: 0 2rem;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .top-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .top-card {
+    position: relative;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+  .top-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--rose), var(--sky));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .top-card:hover {
+    border-color: rgba(255,255,255,0.12);
+    background: var(--glass-hover);
+    transform: translateY(-1px);
+  }
+  .top-card:hover::before { opacity: 1; }
+  .top-card .card-rank {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: var(--surface);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .top-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+    padding-right: 3rem;
+  }
+  .top-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .top-card .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .tag-accent {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: rgba(124,106,239,0.2);
+  }
+  .read-link {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.2s;
+  }
+  .read-link:hover { gap: 0.5rem; }
+
+  .main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  .category {
+    margin-top: 3rem;
+  }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .cat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cat-models .cat-dot { background: var(--accent); }
+  .cat-industry .cat-dot { background: var(--green); }
+  .cat-tools .cat-dot { background: var(--amber); }
+  .cat-howto .cat-dot { background: var(--sky); }
+  .cat-ideas .cat-dot { background: var(--rose); }
+  .cat-dev .cat-dot { background: var(--orange); }
+
+  .cat-header h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+  .cat-header .cat-count {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+
+  .article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .article-item {
+    display: block;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .article-item:hover {
+    background: var(--glass);
+    border-color: var(--glass-border);
+  }
+  .article-item h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .article-item:hover h3 { color: var(--accent); }
+  .article-item .desc {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .article-item .item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .item-meta .src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.12rem 0.4rem;
+    border-radius: 3px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .footer p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer .footer-brand {
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    z-index: 50;
+  }
+  .scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .scroll-top:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 2.5rem 1.25rem 1.5rem; }
+    .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
+    .nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .top-stories, .main, .archive-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .top-card { padding: 1.2rem; }
+    .top-card .card-rank { display: none; }
+    .article-item { padding: 0.8rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Gary's <span>Daily</span></div>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="scrollToSection('top')">Today</button>
+      <button class="nav-link" onclick="scrollToSection('models')">Models</button>
+      <button class="nav-link" onclick="scrollToSection('industry')">Industry</button>
+      <button class="nav-link" onclick="scrollToSection('tools')">Tools</button>
+      <button class="nav-link" onclick="scrollToSection('howto')">How-To</button>
+      <button class="nav-link" onclick="scrollToSection('ideas')">Ideas</button>
+      <button class="nav-link" onclick="scrollToSection('dev')">Dev</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">
+    <span class="dot"></span>
+    Updated today
+  </div>
+  <h1>Gary's <span class="highlight">Daily</span></h1>
+  <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me)</p>
+  <div class="date-row">
+    <div class="current-date">Monday, March 23, 2026</div>
+  </div>
+</div>
+
+<div class="archive-section">
+  <div class="archive-toggle" onclick="toggleArchive()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V21H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+    Archive
+    <span class="chevron">&#9662;</span>
+  </div>
+  <div class="archive-drawer" id="archiveDrawer">
+    <div class="archive-grid">
+      <a href="index.html" class="archive-day today">Mar 23</a>
+      <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+      <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+      <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+      <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+      <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+</div>
+
+<div class="top-stories" id="top">
+  <div class="section-label">Top Stories</div>
+  <div class="top-cards">
+    <a href="https://x.com/xai/status/2035520240684032012" class="top-card">
+      <div class="card-rank">#1</div>
+      <h3>Musk Unveils $25B "Terafab" to Produce 50x Global AI Compute</h3>
+      <p>Elon Musk announced Terafab, a joint Tesla-SpaceX-xAI chip fabrication facility in Austin, Texas that aims to produce a terawatt of AI compute per year — roughly 50 times the entire world's current output. The facility will manufacture two chip types: one for Tesla vehicles and Optimus robots, and a space-grade chip for solar-powered AI satellites launched via Starship. Musk expects space-based compute to undercut ground costs within 2-3 years, calling it "the first step toward a galactic civilization."</p>
+      <div class="card-footer">
+        <span class="tag">The Rundown AI</span>
+        <span class="tag">TLDR</span>
+        <span class="read-link">Read &rarr;</span>
+      </div>
+    </a>
+    <a href="https://techcrunch.com/2026/03/22/cursor-admits-its-new-coding-model-was-built-on-top-of-moonshot-ais-kimi/" class="top-card">
+      <div class="card-rank">#2</div>
+      <h3>Cursor Caught Using Kimi K2.5 Without Attribution — Sparking Open-Source Trust Crisis</h3>
+      <p>Cursor's new Composer 2 model was revealed to be built on top of Moonshot AI's open-weight Kimi K2.5, after a developer found the model identifier buried in API responses. Cursor initially marketed Composer 2 as its own creation, touting benchmark scores that beat Claude Opus 4.6 at one-tenth the cost. The company later admitted the omission, but the backlash has raised serious questions about transparency, licensing compliance, and the ethics of rebranding open-source models.</p>
+      <div class="card-footer">
+        <span class="tag">TechCrunch</span>
+        <span class="tag">TLDR</span>
+        <span class="read-link">Read &rarr;</span>
+      </div>
+    </a>
+    <a href="https://links.tldrnewsletter.com/as5asd" class="top-card">
+      <div class="card-rank">#3</div>
+      <h3>Zuckerberg Is Building a Personal "CEO Agent" — And Making AI a Factor in Performance Reviews</h3>
+      <p>Mark Zuckerberg revealed he's building an AI agent to help him run Meta as CEO, envisioning a future where everyone has their own personal AI agents. The tool currently helps him retrieve information faster. Meanwhile, AI usage is now a factor in Meta employees' performance reviews, with the company hosting AI tutorial meetings several times a week and frequent AI hackathons to drive adoption.</p>
+      <div class="card-footer">
+        <span class="tag">TLDR</span>
+        <span class="tag">Web</span>
+        <span class="read-link">Read &rarr;</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="category cat-models" id="models">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>Models & Releases</h2>
+      <div class="cat-count">4</div>
+    </div>
+    <div class="article-list">
+      <a href="https://www.japantimes.co.jp/business/2026/03/19/tech/mystery-ai-model-china-buzz/" class="article-item">
+        <h3>Xiaomi's "Hunter Alpha" Model Emerges as Mystery AI Contender</h3>
+        <p>A mystery free model called Hunter Alpha appeared on OpenRouter without attribution and quickly gained buzz. It was later revealed to be from Chinese smartphone and EV giant Xiaomi, marking the company's surprise entry into the frontier AI model race.</p>
+        <div class="item-meta">
+          <span class="src">Japan Times</span>
+          <span>Mar 19</span>
+        </div>
+      </a>
+      <a href="https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models" class="article-item">
+        <h3>Adobe Firefly Expands to 30+ Models Including Kling and Runway</h3>
+        <p>Adobe expanded Firefly to include over 30 industry-leading models from Google, OpenAI, Runway, and newcomer Kling. The platform now lets users create custom models trained on their own images, turning personal creative style into a reusable AI tool.</p>
+        <div class="item-meta">
+          <span class="src">Adobe</span>
+          <span>Mar 19</span>
+        </div>
+      </a>
+      <a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Expands-Open-Model-Families-to-Power-the-Next-Wave-of-Agentic-Physical-and-Healthcare-AI/default.aspx" class="article-item">
+        <h3>NVIDIA Expands Open Models for Agentic, Robotics, and Healthcare AI</h3>
+        <p>NVIDIA announced expanded open model families at GTC 2026 including Nemotron 3 omni-understanding models for AI agents, Isaac GR00T N1.7 for robotics, Alpamayo 1.5, and Cosmos 3. The focus: autonomous agents, physical AI, and healthcare applications.</p>
+        <div class="item-meta">
+          <span class="src">NVIDIA</span>
+          <span>Mar 20</span>
+        </div>
+      </a>
+      <a href="https://techcrunch.com/2026/03/22/cursor-admits-its-new-coding-model-was-built-on-top-of-moonshot-ais-kimi/" class="article-item">
+        <h3>Cursor's Composer 2 Scores 61.7% on Terminal-Bench — But the Base Model Is Kimi K2.5</h3>
+        <p>Cursor's Composer 2 model achieved impressive coding benchmarks at a fraction of the cost of frontier models, but the revelation that it's fine-tuned Kimi K2.5 with reinforcement learning raises questions about what "in-house" really means in the age of open-weight models.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 22</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category cat-industry" id="industry">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>Industry & Business</h2>
+      <div class="cat-count">5</div>
+    </div>
+    <div class="article-list">
+      <a href="https://threadreaderapp.com/thread/2035197183230709874.html" class="article-item">
+        <h3>Snowflake Lays Off Documentation Teams After Training AI on Their Work</h3>
+        <p>Snowflake confirmed "targeted workforce reductions" in technical writing and documentation teams. Reports indicate the company screen-recorded documentation sessions for 8 months, built training datasets from senior writers' workflows, and had them spend their final six weeks transferring knowledge to AI systems. Management is celebrating 300% efficiency gains.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://arstechnica.com/gadgets/2026/03/amazon-is-reportedly-developing-an-ai-centric-smartphone/" class="article-item">
+        <h3>Amazon Developing AI-First Smartphone Codenamed "Transformer"</h3>
+        <p>Amazon is reportedly building a new smartphone centered around AI and its own services. Codenamed Transformer, the phone will integrate Amazon shopping, Prime Video, and Prime Music, and may use AI in lieu of traditional app stores — a second attempt at mobile after the Fire Phone's failure.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://www.bloomberg.com/news/articles/2026-03-20/peter-thiel-s-founders-fund-backs-ai-cow-collar-startup-at-2-billion-valuation" class="article-item">
+        <h3>Halter's AI "Cowgorithm" Nears $2B Valuation with Thiel Backing</h3>
+        <p>New Zealand startup Halter is reportedly closing a round led by Peter Thiel's Founders Fund that would value the company at $2 billion. Its solar-powered AI collars create virtual fences, herd cattle remotely via app, and send 6,000+ data points per minute to its proprietary "Cowgorithm" AI for health tracking and grazing optimization.</p>
+        <div class="item-meta">
+          <span class="src">The Rundown AI</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://techcrunch.com/2026/03/22/an-exclusive-tour-of-amazons-trainium-lab-the-chip-thats-won-over-anthropic-openai-even-apple/" class="article-item">
+        <h3>Inside Amazon's Trainium Lab — The Chip That Won Over Anthropic, OpenAI, and Apple</h3>
+        <p>TechCrunch got an exclusive tour of AWS's Trainium chip lab. AWS is now the exclusive provider for OpenAI's new AI agent builder "Frontier," and has won over Anthropic and even Apple as Trainium customers — signaling Amazon's growing importance in AI infrastructure.</p>
+        <div class="item-meta">
+          <span class="src">TechCrunch</span>
+          <span>Mar 22</span>
+        </div>
+      </a>
+      <a href="https://www.ft.com/content/7ffea5b4-e8bc-47cd-adb4-257f84c8028b" class="article-item">
+        <h3>OpenAI Plans to Nearly Double Workforce to 8,000 by End of 2026</h3>
+        <p>OpenAI is reportedly planning to grow from 4,500 to 8,000 employees by year-end, driven by its increasing enterprise AI focus. The expansion comes as the company surpasses $25 billion in annualized revenue and takes early steps toward a potential public listing.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category cat-tools" id="tools">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>Tools & Products</h2>
+      <div class="cat-count">4</div>
+    </div>
+    <div class="article-list">
+      <a href="https://x.com/claudeai/status/2035025492617961704" class="article-item">
+        <h3>Anthropic Rolls Out Projects in Claude Cowork Desktop</h3>
+        <p>Anthropic launched Projects in its Claude Cowork desktop app, allowing users to import existing web-based Claude projects or create new ones directly on desktop. The feature brings persistent context and project-level organization to local AI workflows.</p>
+        <div class="item-meta">
+          <span class="src">The Rundown AI</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://stitch.withgoogle.com" class="article-item">
+        <h3>Google Stitch: Redesign Your Website by Uploading a Screenshot</h3>
+        <p>Google's Stitch tool lets you upload a screenshot of any web page and prompt it to improve layout, reduce dead space, and generate four design variations instantly. Export to Figma or download the code directly — or use Export > AI Studio to build a live prototype with Google's vibe coding tool.</p>
+        <div class="item-meta">
+          <span class="src">The Rundown AI</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://techcommunity.microsoft.com/blog/azuredevcommunityblog/🚀-ai-toolkit-for-vs-code-—-march-2026-update/4502517" class="article-item">
+        <h3>AI Toolkit for VS Code Gets Agent Builder and Copilot Integration</h3>
+        <p>Microsoft's AI Toolkit for VS Code v0.32.0 brings a unified tree view, Agent Builder enhancements, and streamlined GitHub Copilot integration. The update is designed to help developers ship production-ready AI agents directly from their IDE.</p>
+        <div class="item-meta">
+          <span class="src">Microsoft</span>
+          <span>Mar 19</span>
+        </div>
+      </a>
+      <a href="https://adapt.com/" class="article-item">
+        <h3>Adapt: Slack-Native AI Agent for Teams</h3>
+        <p>Adapt launched as a Slack-native AI assistant for teams, offering up to $500 in free credits for new users. The tool integrates directly into existing Slack workflows, letting teams query data, automate tasks, and get AI-powered insights without leaving their messaging app.</p>
+        <div class="item-meta">
+          <span class="src">The Rundown AI</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category cat-howto" id="howto">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>How-To & Tutorials</h2>
+      <div class="cat-count">4</div>
+    </div>
+    <div class="article-list">
+      <a href="https://excellentprompts.substack.com/p/claude-projects-ai-prompts-sales-pipeline-strategic-advisor" class="article-item">
+        <h3>7 Copy-Paste Prompts to Build Two Claude Projects for Your Business</h3>
+        <p>A step-by-step guide to building a sales pipeline Project that drafts proposals in 20 minutes and a strategic advisor Project that knows your goals, numbers, and business context. Both use Claude's free Projects feature and can be built in an afternoon.</p>
+        <div class="item-meta">
+          <span class="src">Excellent AI Prompts (Substack)</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://writewithai.substack.com/p/steal-my-youtube-thumbnail-maker" class="article-item">
+        <h3>How to Build a Custom YouTube Thumbnail Maker with Claude in 4 Steps</h3>
+        <p>A practical walkthrough of building a custom app with Claude Cowork that replaces Canva for YouTube thumbnails. The key insight: describe the problem, iterate one feature at a time, use screenshots for feedback, then apply your brand style guide. The same approach works for any repetitive creative task.</p>
+        <div class="item-meta">
+          <span class="src">Write With AI (Substack)</span>
+          <span>Mar 22</span>
+        </div>
+      </a>
+      <a href="https://newsletter.eng-leadership.com/p/how-to-do-ai-assisted-engineering" class="article-item">
+        <h3>How to Do AI-Assisted Engineering: Advice from 15 Senior Engineers</h3>
+        <p>A comprehensive guide to AI-assisted engineering based on real-world experiences from 15 experienced engineers and engineering leaders at companies of various sizes. Covers practical workflow improvements, common pitfalls, and strategies for integrating AI coding tools into professional development workflows.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://app.therundown.ai/guides/how-to-use-google-stitch-to-redesign-your-entire-website-for-free" class="article-item">
+        <h3>Step-by-Step: Redesign Any Web Page with Google Stitch for Free</h3>
+        <p>Screenshot a page you want to improve, upload it to Google Stitch, prompt it to fix layout issues, generate four variations, pick the best one, and export to Figma or download the code. Pro tip: click Export > AI Studio to build a live prototype.</p>
+        <div class="item-meta">
+          <span class="src">The Rundown AI</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category cat-ideas" id="ideas">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>Ideas & Inspiration</h2>
+      <div class="cat-count">4</div>
+    </div>
+    <div class="article-list">
+      <a href="https://danielmiessler.com/blog/exactly-why-and-how-ai-will-replace-knowledge-work" class="article-item">
+        <h3>Exactly Why and How AI Will Replace Knowledge Work</h3>
+        <p>Daniel Miessler argues that AI will allow humans to realize ideas without dealing with work that feels like a grind. Rather than full job replacement, the shift is toward AI handling the mechanical execution while humans focus on creative direction and judgment.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://www.strangeloopcanon.com/p/the-future-of-work-is-world-models" class="article-item">
+        <h3>The Future of Work Is World Models</h3>
+        <p>World models are engines that know the rules, track state, understand context, and predict consequences — not just chatbots that respond to prompts. This essay argues they represent the next paradigm shift in how AI transforms work, moving from pattern matching to genuine situational understanding.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://links.tldrnewsletter.com/wQYtCW" class="article-item">
+        <h3>The Visual Shift: Why Words Are Losing to Images in Communication</h3>
+        <p>The argument that words force clearer thinking than visuals is becoming outdated as the production cost of images collapses with AI. Communication keeps moving toward formats that match how the brain naturally processes information — the future looks like a canvas, not a document.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://tuananh.net/2026/03/18/why-your-next-mobile-app-is-probably-headless/" class="article-item">
+        <h3>Why Your Next Mobile App Is Probably "Headless"</h3>
+        <p>The concept of "headless" apps means users will no longer need to open a company's app or website to complete tasks — AI agents will handle it for them. This shift has profound implications for app design, user acquisition, and the entire concept of user interfaces.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category cat-dev" id="dev">
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <h2>Developer & Research</h2>
+      <div class="cat-count">4</div>
+    </div>
+    <div class="article-list">
+      <a href="https://tylerfolkman.substack.com/p/i-ran-claude-code-style-agents-for" class="article-item">
+        <h3>The 78x Token Tax Killing Local AI Agents — And the One Model That Survives</h3>
+        <p>A deep-dive into running LangChain's Deep Agents framework (a Claude Code-style toolkit) on local models. Testing revealed a 78x token overhead from agent scaffolding that's invisible with frontier models but devastating on consumer GPUs. Of four local models tested on an RTX 4080 SUPER, only one actually worked.</p>
+        <div class="item-meta">
+          <span class="src">The AI Architect (Substack)</span>
+          <span>Mar 22</span>
+        </div>
+      </a>
+      <a href="https://links.tldrnewsletter.com/zA29Ev" class="article-item">
+        <h3>AI Multiplies for Drug Discovery After AlphaFold 3 Restrictions</h3>
+        <p>DeepMind's decision to restrict AlphaFold 3 for drug discovery spawned numerous variants and advances from the scientific community. The resulting hybrid architectures built into AlphaFold-like engines may prove to be the path to more streamlined and accurate methods for drug discovery.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://links.tldrnewsletter.com/9IJLkY" class="article-item">
+        <h3>Against the Coasean Singularity: Why Companies Still Need to Exist</h3>
+        <p>A contrarian take on the popular argument that AI agents will make companies obsolete. While transaction costs are plummeting, the essay argues coordination, trust, and institutional knowledge still require organizational structures that pure agent networks can't yet replicate.</p>
+        <div class="item-meta">
+          <span class="src">TLDR</span>
+          <span>Mar 23</span>
+        </div>
+      </a>
+      <a href="https://www.aha.org/news/headline/2026-03-20-white-house-releases-national-ai-policy-framework" class="article-item">
+        <h3>White House Releases National AI Policy Framework for Congress</h3>
+        <p>The White House released its AI policy blueprint aimed at blocking states from writing their own AI laws while keeping federal oversight across existing agencies. The framework includes recommendations for regulatory sandboxes and making federal data more accessible to industry.</p>
+        <div class="item-meta">
+          <span class="src">Web</span>
+          <span>Mar 20</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>
+    <span class="footer-brand">Gary's Daily</span><br>
+    Sources: TLDR, The Rundown AI, Excellent AI Prompts, Write With AI, The AI Architect, TechCrunch, Adobe, NVIDIA, Microsoft, and web search<br>
+    Generated March 23, 2026
+  </p>
+</div>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+
+<script>
+  function toggleArchive() {
+    const drawer = document.getElementById('archiveDrawer');
+    const toggle = document.querySelector('.archive-toggle');
+    drawer.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scrollTop');
+    if (window.scrollY > 600) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  const sections = ['top','models','industry','tools','howto','ideas','dev'];
+  window.addEventListener('scroll', () => {
+    let current = 'top';
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 120) {
+        current = id;
+      }
+    }
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+      if (link.textContent.toLowerCase().includes(current === 'top' ? 'today' : current)) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
