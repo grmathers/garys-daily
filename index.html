@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gary's Daily AI — Your AI News Briefing</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #08090d;
@@ -518,17 +520,14 @@
   </style>
 </head>
 <body>
+
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-brand">Gary<span>'s Daily</span></div>
       <div class="nav-links">
-        <button class="nav-link active" onclick="scrollToSection('top')">Today</button>
-        <button class="nav-link" onclick="scrollToSection('models')">Models</button>
-        <button class="nav-link" onclick="scrollToSection('industry')">Industry</button>
-        <button class="nav-link" onclick="scrollToSection('tools')">Tools</button>
-        <button class="nav-link" onclick="scrollToSection('howto')">How-To</button>
-        <button class="nav-link" onclick="scrollToSection('ideas')">Ideas</button>
-        <button class="nav-link" onclick="scrollToSection('dev')">Dev</button>
+        <button class="nav-link active">Home</button>
+        <button class="nav-link">Latest</button>
+        <button class="nav-link">Archive</button>
       </div>
     </div>
   </nav>
@@ -536,23 +535,24 @@
   <div class="hero">
     <div class="hero-label">
       <span class="dot"></span>
-      TODAY'S BRIEFING
+      Updated Daily
     </div>
-    <h1>AI News That <span class="highlight">Matters</span></h1>
-    <p class="subtitle">Your daily curated briefing of the most important developments in AI, delivered fresh every morning.</p>
+    <h1>AI News Brief<span class="highlight">ing</span></h1>
+    <p class="subtitle">The most important AI stories, curated and delivered fresh every morning.</p>
     <div class="date-row">
-      <span class="current-date">Thursday, March 26, 2026</span>
+      <span class="current-date">Friday, March 27, 2026</span>
     </div>
   </div>
 
   <div class="archive-section">
-    <button class="archive-toggle" onclick="toggleArchive()">
-      <span>📅 Archive</span>
+    <button class="archive-toggle">
+      Archive
       <span class="chevron">▼</span>
     </button>
-    <div class="archive-drawer" id="archiveDrawer">
+    <div class="archive-drawer">
       <div class="archive-grid">
-        <a href="index.html" class="archive-day today">Mar 26</a>
+        <a href="index.html" class="archive-day today">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
         <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
         <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
         <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
@@ -569,176 +569,175 @@
     <div class="divider-line"></div>
   </div>
 
-  <div class="top-stories" id="top">
+  <div class="top-stories">
     <div class="section-label">Top Stories</div>
     <div class="top-cards">
-      <a href="https://arcprize.org/arc-agi/3" class="top-card" target="_blank">
+      <div class="top-card">
         <div class="card-rank">#1</div>
-        <h3>ARC-AGI-3 Resets Frontier AI Scoreboard</h3>
-        <p>François Chollet's ARC Prize Foundation released ARC-AGI-3, the newest version of its interactive reasoning benchmark where humans solve 100% of tasks but the best AI models can't even score above 1%. Google's Gemini Pro led at just 0.37%, followed by GPT 5.4 High (0.26%) and Opus 4.6 (0.25%). A $1M prize backs the challenge, and frontier labs are paying far more attention to V3 than earlier versions.</p>
+        <h3>Anthropic Considers October IPO — Could Raise Over $60 Billion</h3>
+        <p>Anthropic is in early discussions with Wall Street banks about an initial public offering as soon as October 2026. The listing could raise more than $60 billion, making it one of the largest tech IPOs in recent history. Deliberations are ongoing and no final decisions have been made, but the move signals growing confidence in the AI maker's commercial trajectory.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
-          <span class="read-link">Read →</span>
-        </div>
-      </a>
-
-      <a href="https://www.macrumors.com/2026/03/25/apple-google-gemini-distill-models/" class="top-card" target="_blank">
-        <div class="card-rank">#2</div>
-        <h3>Apple Can Create Smaller On-Device AI Models from Google's Gemini</h3>
-        <p>Apple has complete access to Google's Gemini model in its own data centers and can edit it as needed. The company can use answers and reasoning from Gemini to train smaller, cheaper models that run on-device without internet. This distillation process is a game-changer for Apple's on-device AI strategy, while the company continues developing its own separate AI models.</p>
-        <div class="card-footer">
-          <span class="tag tag-accent">TLDR</span>
-          <span class="tag tag-accent">The Rundown AI</span>
-          <span class="read-link">Read →</span>
-        </div>
-      </a>
-
-      <a href="https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/" class="top-card" target="_blank">
-        <div class="card-rank">#3</div>
-        <h3>Google's TurboQuant Compresses AI Memory 6x with Zero Accuracy Loss</h3>
-        <p>Google Research introduced TurboQuant, an algorithm that compresses AI model memory over 6x without retraining — while delivering up to 8x speed gains on Nvidia H100 chips and losing almost zero accuracy. Memory stocks dropped 3-5% on the news. The paper will be presented at ICLR 2026 in April and also topped rival methods in vector search benchmarks.</p>
-        <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
           <span class="tag tag-accent">TLDR AI</span>
-          <span class="read-link">Read →</span>
+          <a href="https://www.cnbc.com/2026/03/26/anthropic-pentagon-dod-claude-court-ruling.html" target="_blank" class="read-link">Read →</a>
         </div>
-      </a>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>Meta Open-Sources TRIBE v2 — AI That Reads Your Brain Better Than an MRI</h3>
+        <p>Meta released TRIBE v2, an open-source AI model trained on 1,000+ hours of brain data from 700+ people that simulates neural activity across vision, hearing, and language. Its synthetic predictions match population-level brain activity better than most real fMRI scans, and it replicated decades of neuroscience findings in software — potentially doing for brain research what AlphaFold did for protein structure.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <a href="https://ai.meta.com/research/publications/a-foundation-model-of-vision-audition-and-language-for-in-silico-neuroscience/" target="_blank" class="read-link">Read →</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Apple to Open Siri to Rival AI Assistants in iOS 27</h3>
+        <p>Apple plans to let users choose their preferred AI assistant through Siri starting with iOS 27, ending ChatGPT's exclusive integration. The move could generate new revenue through App Store AI subscriptions, while the Siri overhaul powered by Google's Gemini is expected to debut at WWDC in June.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">TLDR</span>
+          <a href="https://www.bloomberg.com/news/articles/2026-03-26/apple-plans-to-open-up-siri-to-rival-ai-assistants-beyond-chatgpt-in-ios-27" target="_blank" class="read-link">Read →</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="main">
-    <div class="category cat-models" id="models">
+    <div class="category cat-models">
       <div class="cat-header">
-        <div class="cat-dot"></div>
+        <span class="cat-dot"></span>
         <h2>Models & Releases</h2>
-        <div class="cat-count">4 articles</div>
+        <span class="cat-count">5 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://blog.google/innovation-and-ai/technology/ai/lyria-3-pro/" class="article-item" target="_blank">
-          <h3>Google Launches Lyria 3 Pro Music AI Model</h3>
-          <p class="desc">Google upgraded its music AI model to generate full 3-minute songs with intros, verses, and choruses. Lyria 3 Pro is rolling out across Gemini, Vertex AI, and Google Vids — a major step toward production-quality AI-generated music.</p>
+        <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/" target="_blank" class="article-item">
+          <h3>Gemini 3.1 Flash Live — Google's Real-Time Voice AI</h3>
+          <p class="desc">Google launched Gemini 3.1 Flash Live, a real-time voice model focused on low-latency, natural dialogue. It's available across Google's developer APIs, enterprise tools, and consumer products including Search and Gemini Live.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://cohere.com/blog/transcribe" target="_blank" class="article-item">
+          <h3>Cohere Releases Open-Source Transcription Model</h3>
+          <p class="desc">Cohere's Transcribe is an open-source ASR model that tops HuggingFace's Open ASR leaderboard across 14 languages. Optimized for low word error rate and production use, it's available for free.</p>
           <div class="item-meta">
             <span class="src">The Rundown AI</span>
           </div>
         </a>
 
-        <a href="https://www.rundown.ai/tools/uni-1" class="article-item" target="_blank">
-          <h3>Luma Releases Uni-1 — Unified Model for Text and Images</h3>
-          <p class="desc">Luma launched Uni-1, a unified model that reasons and generates across text and images in a single architecture. It represents a shift toward multimodal models that handle diverse tasks without switching between specialized systems.</p>
+        <a href="https://mistral.ai/news/voxtral-tts" target="_blank" class="article-item">
+          <h3>Mistral Launches Voxtral TTS — Multilingual Voice AI</h3>
+          <p class="desc">Mistral's Voxtral TTS is a 4B-parameter multilingual text-to-speech model that clones any speaker from a 3-second clip and generates natural-sounding speech across 9 languages — designed for low-latency voice agent deployment.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://suno.com/blog/v5-5" target="_blank" class="article-item">
+          <h3>Suno Launches v5.5 with Voice Cloning and Custom Models</h3>
+          <p class="desc">Suno released v5.5 of its AI music generator, adding voice cloning, custom model tuning, and personalized style learning for Pro subscribers — a significant step toward fully personalized AI music creation.</p>
           <div class="item-meta">
             <span class="src">The Rundown AI</span>
           </div>
         </a>
 
-        <a href="https://www.rundown.ai/tools/composer-2" class="article-item" target="_blank">
-          <h3>Cursor Ships Composer 2 — Powerful New Coding Model</h3>
-          <p class="desc">Cursor released Composer 2, a cost-effective coding model designed for its IDE. The model delivers strong performance on code generation and editing tasks while keeping inference costs low for developers.</p>
+        <a href="https://www.trychroma.com/research/context-1" target="_blank" class="article-item">
+          <h3>Chroma Context-1 — 20B Parameter Agentic Search Model</h3>
+          <p class="desc">Chroma's Context-1 is a 20B parameter search model that achieves retrieval performance comparable to frontier models at a fraction of the cost and with up to 10x the inference speed. It decomposes queries and iteratively searches a corpus across multiple turns.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
-          </div>
-        </a>
-
-        <a href="https://www.rundown.ai/tools/molmoweb" class="article-item" target="_blank">
-          <h3>Ai2 Releases MolmoWeb — Open-Source Web Browsing Agent</h3>
-          <p class="desc">The Allen Institute for AI (Ai2) released MolmoWeb, an open-source web browsing agent that can navigate and interact with websites autonomously. It joins a growing ecosystem of open-source agentic tools.</p>
-          <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">TLDR AI</span>
           </div>
         </a>
       </div>
     </div>
 
-    <div class="category cat-industry" id="industry">
+    <div class="category cat-industry">
       <div class="cat-header">
-        <div class="cat-dot"></div>
+        <span class="cat-dot"></span>
         <h2>Industry & Business</h2>
-        <div class="cat-count">6 articles</div>
+        <span class="cat-count">5 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.cnbc.com/2026/03/24/openai-secures-an-extra-10-billion-in-record-funding-round-cfo-friar-says.html" class="article-item" target="_blank">
-          <h3>OpenAI Raises Record $120 Billion With Fresh $10B Commitment</h3>
-          <p class="desc">OpenAI announced a new $10 billion commitment from a16z, DE Shaw Ventures, MGX, TPG, and T Rowe Price, bringing its record fundraise to over $120 billion. The company is targeting approximately $600 billion in total compute spend through 2030 and prioritizing profitable initiatives ahead of an IPO.</p>
+        <a href="https://www.cnbc.com/2026/03/26/anthropic-pentagon-dod-claude-court-ruling.html" target="_blank" class="article-item">
+          <h3>Anthropic Wins Preliminary Injunction in DoD Fight</h3>
+          <p class="desc">Anthropic won a preliminary injunction against the Department of War after a judge cited 'First Amendment retaliation.' The company was branded a supply chain risk after refusing to grant the Pentagon unfettered access to its models for uses like autonomous weapons and mass surveillance.</p>
           <div class="item-meta">
             <span class="src">TLDR AI</span>
           </div>
         </a>
 
-        <a href="https://links.tldrnewsletter.com/9e6YPc" class="article-item" target="_blank">
-          <h3>US Government's Ban on Anthropic Looks Like Punishment, Judge Says</h3>
-          <p class="desc">US District Judge Rita F. Lin expressed serious doubts about the Trump administration's ban on Anthropic during a court hearing, saying it appeared to be punishing the company. The action has already cost Anthropic hundreds of millions in canceled contracts and aborted customer agreements.</p>
-          <div class="item-meta">
-            <span class="src">TLDR AI</span>
-          </div>
-        </a>
-
-        <a href="https://links.tldrnewsletter.com/bTjiPI" class="article-item" target="_blank">
-          <h3>Meta and YouTube Lose Landmark Social-Media Addiction Trial</h3>
-          <p class="desc">Meta and YouTube have been found negligent for operating products that harmed kids and teens. The jury ordered $3 million in damages plus $3 million in punitive damages. Over 3,000 similar lawsuits are pending in California courts, and both companies plan to appeal.</p>
-          <div class="item-meta">
-            <span class="src">TLDR</span>
-          </div>
-        </a>
-
-        <a href="https://www.cnbc.com/2026/03/25/meta-layoffs-reality-labs-facebook.html" class="article-item" target="_blank">
-          <h3>Meta Cutting Several Hundred Jobs Across Multiple Departments</h3>
-          <p class="desc">Meta is laying off several hundred employees across Reality Labs, Facebook, and other departments. Some impacted employees are being offered new roles within the company, continuing a trend of tech workforce restructuring.</p>
-          <div class="item-meta">
-            <span class="src">TLDR</span>
-          </div>
-        </a>
-
-        <a href="https://x.com/btaylor/status/2036858449032863898" class="article-item" target="_blank">
-          <h3>Sierra Introduces Ghostwriter — AI Agent That Builds AI Agents</h3>
-          <p class="desc">Bret Taylor's Sierra introduced Ghostwriter, an AI agent that builds other AI agents — letting companies create customer service bots across voice, chat, and 30+ languages without manual configuration.</p>
+        <a href="https://en.wikipedia.org/wiki/Wikipedia:Writing_articles_with_large_language_models" target="_blank" class="article-item">
+          <h3>Wikipedia Bans AI From Writing Its Articles</h3>
+          <p class="desc">Wikipedia's English-language editors voted 40-2 to ban the use of AI for writing articles, a pushback against mounting AI-generated errors. Editors can still use AI for grammar fixes and translations with human review. StackOverflow and German Wikipedia have enacted similar bans.</p>
           <div class="item-meta">
             <span class="src">The Rundown AI</span>
           </div>
         </a>
 
-        <a href="https://techcrunch.com/2026/03/24/openais-sora-was-the-creepiest-app-on-your-phone-now-its-shutting-down/" class="article-item" target="_blank">
-          <h3>OpenAI's Sora Video Platform Shuts Down</h3>
-          <p class="desc">OpenAI is shutting down its Sora standalone video platform after it failed to gain traction. Designed as a TikTok-style feed powered by Sora 2, it drew early hype but quickly lost users as downloads declined after launch.</p>
+        <a href="https://links.tldrnewsletter.com/sswVhV" target="_blank" class="article-item">
+          <h3>X Restructures Ahead of SpaceX IPO</h3>
+          <p class="desc">X let go of its chief marketing officer and conducted layoffs of nontechnical staff as the company right-sizes ahead of SpaceX's potential $1 trillion-plus IPO. The company plans to launch X Money payments in early public access next month.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.ft.com/content/de9bf0af-b241-424f-8229-5870b1c0d93d" target="_blank" class="article-item">
+          <h3>OpenAI Shelves Erotic Chatbot Mode Indefinitely</h3>
+          <p class="desc">OpenAI has reportedly shelved its planned erotic chatbot mode indefinitely after pushback from staff and investors, choosing caution over the controversial feature that drew significant debate about appropriate AI use.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/VuHaJL" target="_blank" class="article-item">
+          <h3>Intercom's Fin Beats Frontier Models — The Age of Vertical AI</h3>
+          <p class="desc">Intercom's Fin customer service agent outperforms GPT-5.4 and Opus 4.5 while resolving nearly 2 million issues per week. The vertical AI model has grown to nearly $100 million in recurring revenue, proving that domain-specific models can beat general-purpose giants.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
           </div>
         </a>
       </div>
     </div>
 
-    <div class="category cat-tools" id="tools">
+    <div class="category cat-tools">
       <div class="cat-header">
-        <div class="cat-dot"></div>
+        <span class="cat-dot"></span>
         <h2>Tools & Products</h2>
-        <div class="cat-count">4 articles</div>
+        <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.klaviyo.com/blog/klaviyo-ai-for-autonomous-marketing-and-customer-service" class="article-item" target="_blank">
-          <h3>Klaviyo Ships Biggest AI Release — Composer Agent Builds Full Campaigns</h3>
-          <p class="desc">Klaviyo released Composer, an agent that builds complete marketing campaigns from a single prompt using performance data from 193,000+ brands. The release also includes personalized send times (35% lift in click rate), RCS messaging, and audience optimization that scores unsubscribe risk before send.</p>
+        <a href="https://links.tldrnewsletter.com/RrMlpG" target="_blank" class="article-item">
+          <h3>Stripe Projects — Production-Ready Dev Stack from Your Terminal</h3>
+          <p class="desc">Stripe Projects is a new CLI tool that provisions real services from the terminal, syncs agent-ready credentials safely, and keeps resources in provider accounts. Designed to make setups repeatable and deterministic enough for AI agents to operate safely.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">TLDR</span>
           </div>
         </a>
 
-        <a href="https://www.databricks.com/company/newsroom/press-releases/databricks-enters-security-market-launch-lakewatch-new-open-agentic" class="article-item" target="_blank">
-          <h3>Databricks Launches Lakewatch — AI-Powered Security Platform</h3>
-          <p class="desc">Lakewatch is a new SIEM platform from Databricks using AI agents for threat detection, alongside acquisitions of Antimatter and SiftD.ai to support secure agent deployment in enterprise environments.</p>
+        <a href="https://www.capcut.com/newsroom/dreamina-seedance-2" target="_blank" class="article-item">
+          <h3>Dreamina Seedance 2.0 Rolling Out in CapCut</h3>
+          <p class="desc">CapCut has begun rolling out Dreamina Seedance 2.0, a new video and audio generation model with built-in safety safeguards, initially to paid users in select global markets.</p>
           <div class="item-meta">
             <span class="src">TLDR AI</span>
           </div>
         </a>
 
-        <a href="https://www.reddit.com/user/spez/comments/1s3ezrc/humans_welcome_bots_must_wear_name_tags/" class="article-item" target="_blank">
-          <h3>Reddit Announces Bot Crackdown — Labels, Verification, Community Rules</h3>
-          <p class="desc">Reddit CEO Steve Huffman outlined a plan to separate humans from bots: automated accounts get an [App] label, suspicious users face verification via passkeys or World ID, and communities can set their own rules on AI-generated content. Cloudflare data shows bot traffic on pace to surpass humans by 2027.</p>
+        <a href="https://cline.bot/blog/announcing-kanban" target="_blank" class="article-item">
+          <h3>Cline Kanban — Multi-Agent Orchestration Board</h3>
+          <p class="desc">Cline Kanban is a kanban board for managing coding agents that streamlines workflows by displaying task statuses and dependencies at a glance — bringing project management to the multi-agent era.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">TLDR AI</span>
           </div>
         </a>
 
-        <a href="https://www.dol.gov/newsroom/releases/osec/osec20260324" class="article-item" target="_blank">
-          <h3>U.S. Department of Labor Launches Free AI Literacy Course via Text</h3>
-          <p class="desc">The U.S. Department of Labor launched "Make America AI-Ready," a free 7-day AI literacy course delivered entirely over text message to promote AI upskilling across the workforce.</p>
+        <a href="https://www.theinformation.com/newsletters/applied-ai/ozempic-maker-says-ai-agents-shortening-clinical-trials" target="_blank" class="article-item">
+          <h3>Novo Nordisk Deploys AI Agents to Shorten Clinical Trials</h3>
+          <p class="desc">The Ozempic maker is deploying AI agents across clinical trial operations, saying the technology is trimming approval timelines and reducing the need for external contractors.</p>
           <div class="item-meta">
             <span class="src">The Rundown AI</span>
           </div>
@@ -746,186 +745,165 @@
       </div>
     </div>
 
-    <div class="category cat-howto" id="howto">
+    <div class="category cat-howto">
       <div class="cat-header">
-        <div class="cat-dot"></div>
+        <span class="cat-dot"></span>
         <h2>How-To & Tutorials</h2>
-        <div class="cat-count">4 articles</div>
+        <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://excellentprompts.substack.com/p/memory-palace" class="article-item" target="_blank">
-          <h3>3 AI Prompts to Turn Claude Into Your Personal Memory Coach</h3>
-          <p class="desc">Use Claude to build a memory palace using the 2,500-year-old Method of Loci. Three copy-paste prompts for generating vivid imagery, spaced repetition, and automated review quizzes — leveraging Claude's creativity to handle the hardest part of the technique.</p>
+        <a href="https://excellentprompts.substack.com/p/local-apps-ai-can-build-for-you" target="_blank" class="article-item">
+          <h3>5 Local Apps AI Can Build for You That Add Value to Your Daily Life</h3>
+          <p class="desc">Five copy-paste prompts to build a personalized dashboard, meal planner, budget tracker, and more — apps that run locally in your browser with no accounts, cloud syncs, or subscription fees. Inspired by Andrej Karpathy's 30-minute vibe coding sessions.</p>
           <div class="item-meta">
             <span class="src">Excellent AI Prompts</span>
           </div>
         </a>
 
-        <a href="https://app.therundown.ai/guides/create-branded-reaction-gifs-for-your-company-slack" class="article-item" target="_blank">
-          <h3>Create Branded Reaction GIFs for Your Company Slack</h3>
-          <p class="desc">Step-by-step guide to making custom branded reaction GIFs using Higgsfield's image and video generator. Generate the starting frame, animate it, and convert to GIF. Pro tip: use Claude Code to batch-convert MP4s to GIFs on your desktop.</p>
+        <a href="https://excellentprompts.substack.com/p/janai-the-no-code-way-to-run-ai-on" target="_blank" class="article-item">
+          <h3>Jan.AI: The No-Code Way to Run AI on Your Own Machine</h3>
+          <p class="desc">A full walkthrough for running AI models locally using Jan.AI — a ChatGPT-like interface that requires no terminal, no commands, and no configuration. Everything you type stays on your machine, ideal for sensitive client data and strategy work.</p>
+          <div class="item-meta">
+            <span class="src">Excellent AI Prompts</span>
+          </div>
+        </a>
+
+        <a href="https://knowledge.gtmstrategist.com/p/how-to-build-gtm-campaigns-with-claude-code" target="_blank" class="article-item">
+          <h3>How to Build GTM Campaigns Your Prospects Would Pay to Receive</h3>
+          <p class="desc">Use Claude Code to build context-engineered outbound campaigns with deep ICP research, persistent memory, and data-rich 'permissionless value props' — messages so valuable prospects would pay to receive them. Includes a live 30-minute demo building a campaign for a roofing manufacturer.</p>
+          <div class="item-meta">
+            <span class="src">GTM Strategist</span>
+          </div>
+        </a>
+
+        <a href="https://app.therundown.ai/guides/use-perplexity-as-your-personal-shopper-perplexity-computer-walkthrough" target="_blank" class="article-item">
+          <h3>Use Perplexity Computer as a Personal Shopper</h3>
+          <p class="desc">Step-by-step guide to using Perplexity's Computer agent to shop for you — finding items, checking stock and sizing, and compiling comparison reports. Pro tip: switch the orchestrator model to Claude Sonnet to save on tokens.</p>
           <div class="item-meta">
             <span class="src">The Rundown AI</span>
           </div>
         </a>
-
-        <a href="https://blog.bytebytego.com/p/how-anthropics-claude-thinks" class="article-item" target="_blank">
-          <h3>How Anthropic's Claude Thinks — An Inside Look at AI Reasoning</h3>
-          <p class="desc">A deep dive into how Anthropic built tools to trace Claude's internal computational steps. Reviews multiple research papers from 2025 that reveal the strategies Claude developed on its own — strategies its own creators didn't anticipate.</p>
-          <div class="item-meta">
-            <span class="src">TLDR</span>
-          </div>
-        </a>
-
-        <a href="https://swizec.com/blog/software-engineer-interviews-for-the-age-of-ai/" class="article-item" target="_blank">
-          <h3>Software Engineer Interviews for the Age of AI</h3>
-          <p class="desc">AI may generate plausible code, but humans still verify it because people pay for reliable services. This guide shows how to hire great software engineers who get things done — sometimes with AI — arguing that the best engineers won't be replaced for decades.</p>
-          <div class="item-meta">
-            <span class="src">TLDR</span>
-          </div>
-        </a>
       </div>
     </div>
 
-    <div class="category cat-ideas" id="ideas">
+    <div class="category cat-ideas">
       <div class="cat-header">
-        <div class="cat-dot"></div>
+        <span class="cat-dot"></span>
         <h2>Ideas & Inspiration</h2>
-        <div class="cat-count">4 articles</div>
+        <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://robonomics.substack.com/p/app-store-age-of-agent" class="article-item" target="_blank">
-          <h3>The App Store vs. the Age of Agents — Distribution Changes Everything</h3>
-          <p class="desc">The App Store centralized distribution for mobile; the agent era needs a different answer. Agents need APIs, not app stores, and lack Apple's lock-in mechanics. The payment layer will likely be competitive and low-margin rather than monopolistic.</p>
+        <a href="https://links.tldrnewsletter.com/3UYIFT" target="_blank" class="article-item">
+          <h3>USV Built Internal AI Agents That Replaced Their CRM</h3>
+          <p class="desc">Union Square Ventures built internal AI agents that ingest meeting transcripts, emails, and calendars to create a continuously updated knowledge base. The system evolved from a simple recap email into a custom CRM after existing tools failed, with named agents embedded directly into email threads.</p>
           <div class="item-meta">
             <span class="src">TLDR AI</span>
           </div>
         </a>
 
-        <a href="https://links.tldrnewsletter.com/zxvXLe" class="article-item" target="_blank">
-          <h3>Notes from the SaaS Funeral — Reports of Death Are Exaggerated</h3>
-          <p class="desc">The moat around SaaS has weakened, but reduced margins aren't the same as being dead. Companies can't prompt their way to a full HR system or enterprise CRM anytime soon — software businesses are living systems requiring maintenance, verification, security, and ongoing refinement.</p>
+        <a href="https://links.tldrnewsletter.com/UnpErD" target="_blank" class="article-item">
+          <h3>The White Collar Revolution Is Here</h3>
+          <p class="desc">Software developers get rewarded for adopting new technologies, but white-collar workers get penalized for it. The winning businesses in the AI era will pair subject matter experts with AI researchers and build the machines that build the machines.</p>
           <div class="item-meta">
             <span class="src">TLDR</span>
           </div>
         </a>
 
-        <a href="https://saasintelligence.substack.com/p/openclaw-has-40000-exposed-instances" class="article-item" target="_blank">
-          <h3>OpenClaw Has 40,000 Exposed Instances — NVIDIA Wants You to Build on It Anyway</h3>
-          <p class="desc">SecurityScorecard found 63% of exposed OpenClaw deployments vulnerable to remote exploitation weeks before NVIDIA wrapped it in an enterprise governance layer at GTC. NemoClaw constrains agent scope for safety, but limits the autonomous capability that justifies deploying agents in the first place.</p>
+        <a href="https://epochai.substack.com/p/what-do-frontier-ai-companies-job" target="_blank" class="article-item">
+          <h3>What Frontier AI Companies' Job Postings Reveal About Their Plans</h3>
+          <p class="desc">While AI companies guard their strategies closely, their hiring pages are public. This analysis of open roles at leading foundation labs reveals clues about products under development, target markets, and anticipated bottlenecks.</p>
           <div class="item-meta">
-            <span class="src">SaaS Intelligence</span>
+            <span class="src">TLDR AI</span>
           </div>
         </a>
 
-        <a href="https://www.golocalprov.com/business/new-report-claims-ai-will-devastate-jobs-in-legal-architectural-and-admin-services-over-the-next-5-years" class="article-item" target="_blank">
-          <h3>Figure AI Robot Appears at White House Press Conference</h3>
-          <p class="desc">First Lady Melania Trump appeared alongside a Figure AI humanoid robot at a White House press conference, signaling growing government interest in robotics. Meanwhile, new reports suggest AI will most heavily impact jobs in legal, architectural, and administrative services over the next 5 years.</p>
+        <a href="https://threadreaderapp.com/thread/2037175238983622791.html" target="_blank" class="article-item">
+          <h3>AI Video Generation Traffic — Grok Takes the Lead</h3>
+          <p class="desc">Grok currently has the largest traffic share in the AI video generation space, overtaking earlier leaders. The shift reflects how quickly market dynamics change in generative AI, with new entrants rapidly capturing audience attention.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-dev">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer & Research</h2>
+        <span class="cat-count">4 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://cursor.com/blog/real-time-rl-for-composer" target="_blank" class="article-item">
+          <h3>Cursor's Real-Time Reinforcement Learning Ships Improvements Every 5 Hours</h3>
+          <p class="desc">Cursor created 'real-time RL,' a technique that uses actual inference tokens for training by serving model checkpoints to production, observing user responses, and aggregating them as reward signals. The approach lets them ship an improved version of Composer as often as every five hours.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://blog.tahababa.com/2026/03/march-27-2026-ai-news-roundup-new-tools.html" target="_blank" class="article-item">
+          <h3>GitHub Changing Copilot Data Policy Starting April 24</h3>
+          <p class="desc">Starting April 24, 2026, GitHub will use interaction data from Free, Pro, and Pro+ plan users to train AI models unless users actively opt out — a significant change in how developer code interactions feed back into model training.</p>
           <div class="item-meta">
             <span class="src">Web</span>
           </div>
         </a>
-      </div>
-    </div>
 
-    <div class="category cat-dev" id="dev">
-      <div class="cat-header">
-        <div class="cat-dot"></div>
-        <h2>Developer & Research</h2>
-        <div class="cat-count">5 articles</div>
-      </div>
-      <div class="article-list">
-        <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" class="article-item" target="_blank">
-          <h3>Anthropic: Harness Design for Long-Running Application Development</h3>
-          <p class="desc">Anthropic's Prithvi Rajasekaran developed a multi-agent architecture inspired by GANs using planner, generator, and evaluator agents for complex frontend and full-stack coding. Addresses coherence and self-evaluation challenges, with open problems in context management and evaluator tuning.</p>
+        <a href="https://links.tldrnewsletter.com/RrMlpG" target="_blank" class="article-item">
+          <h3>Trusting AI with Your Data — Building Reliable AI Systems</h3>
+          <p class="desc">AI is powerful but unreliable without context. Trust comes from systems that encode context, track changes, and continuously measure accuracy — a framework for building AI systems that organizations can actually depend on.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">TLDR Product</span>
           </div>
         </a>
 
-        <a href="https://arstechnica.com/security/2026/03/google-bumps-up-q-day-estimate-to-2029-far-sooner-than-previously-thought/" class="article-item" target="_blank">
-          <h3>Google Bumps Up Q Day Deadline to 2029</h3>
-          <p class="desc">Q Day — when quantum computers can break public-key cryptography — is now targeted by Google for 2029, far sooner than previously thought. Android 17 beta will add post-quantum cryptography support for app signing and verification.</p>
+        <a href="https://www.moderndescartes.com/essays/codebase_spec/" target="_blank" class="article-item">
+          <h3>What's in a Codebase — The Tribal Knowledge Problem</h3>
+          <p class="desc">Much of human knowledge is illegible tribal knowledge passed down through apprenticeship. Diagnosing and fixing system failures is hard enough for humans — reproducing them in an agent-testable way remains expensive and impractical, highlighting AI's limits in complex software systems.</p>
           <div class="item-meta">
             <span class="src">TLDR</span>
-          </div>
-        </a>
-
-        <a href="https://qwen-pilot.notion.site/rlvr-direction" class="article-item" target="_blank">
-          <h3>RLVR's Impact on Reasoning Performance</h3>
-          <p class="desc">New research shows directional updates in Reinforcement Learning from Verifiable Rewards better identify reasoning-critical tokens, enabling both test-time extrapolation and training-time reweighting to boost model accuracy.</p>
-          <div class="item-meta">
-            <span class="src">TLDR AI</span>
-          </div>
-        </a>
-
-        <a href="https://machinelearning.apple.com/research/trained-on-tokens" class="article-item" target="_blank">
-          <h3>Semantic Calibration Emerges in LLMs Without Explicit Training</h3>
-          <p class="desc">Apple researchers found that base language models are remarkably well-calibrated at assessing confidence in open-domain question-answering tasks — a capability that emerges as a byproduct of next-token prediction without explicit training.</p>
-          <div class="item-meta">
-            <span class="src">TLDR AI</span>
-          </div>
-        </a>
-
-        <a href="https://www.anyscale.com/blog/ray-data-llm-2x-throughput-vs-vllm" class="article-item" target="_blank">
-          <h3>Ray Data LLM: 2x Throughput Over vLLM for Batch Inference</h3>
-          <p class="desc">Ray Data LLM is a new library for large-scale LLM batch inference providing scalable execution, high throughput, and fault tolerance. Achieves 2x throughput over vLLM's synchronous engine with production-scale resiliency.</p>
-          <div class="item-meta">
-            <span class="src">TLDR AI</span>
           </div>
         </a>
       </div>
     </div>
   </div>
 
-  <footer class="footer">
-    <p><span class="footer-brand">Gary's Daily</span> — Your daily briefing of important AI news. Curated from <strong>TLDR</strong>, <strong>TLDR AI</strong>, <strong>TLDR Marketing</strong>, <strong>The Rundown AI</strong>, <strong>Excellent AI Prompts</strong>, <strong>SaaS Intelligence</strong>, <strong>ByteByteGo</strong>, and other web sources.</p>
-  </footer>
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is hand-curated from
+      <strong>TLDR</strong>, <strong>TLDR AI</strong>, <strong>TLDR Marketing</strong>, <strong>TLDR Product</strong>,
+      <strong>The Rundown AI</strong>, <strong>Excellent AI Prompts</strong>, <strong>GTM Strategist</strong>,
+      and curated web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
 
-  <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+  <div class="scroll-top" id="scrollTop">↑</div>
 
   <script>
-    function toggleArchive() {
-      const drawer = document.getElementById('archiveDrawer');
-      const toggle = document.querySelector('.archive-toggle');
-      drawer.classList.toggle('open');
-      toggle.classList.toggle('open');
-    }
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
 
-    function scrollToSection(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-      event.target.classList.add('active');
-    }
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
 
     window.addEventListener('scroll', () => {
-      const btn = document.getElementById('scrollTop');
-      if (window.scrollY > 600) {
-        btn.classList.add('visible');
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
       } else {
-        btn.classList.remove('visible');
+        scrollTop.classList.remove('visible');
       }
     });
 
-    const sections = ['top','models','industry','tools','howto','ideas','dev'];
-    window.addEventListener('scroll', () => {
-      let current = 'top';
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= 120) {
-          current = id;
-        }
-      }
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.textContent.toLowerCase().includes(current === 'top' ? 'today' : current)) {
-          link.classList.add('active');
-        }
-      });
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
+
 </body>
 </html>
