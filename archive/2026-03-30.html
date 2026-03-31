@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active { color: var(--accent); }
+
+    .hero {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2.5rem;
+      z-index: 1;
+    }
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, #7c6aef, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--rose), var(--sky));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .top-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: var(--glass-hover);
+      transform: translateY(-1px);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: var(--surface);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .top-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+      padding-right: 3rem;
+    }
+    .top-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: rgba(124,106,239,0.2);
+    }
+    .read-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+    .read-link:hover { gap: 0.5rem; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .category {
+      margin-top: 3rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cat-models .cat-dot { background: var(--accent); }
+    .cat-industry .cat-dot { background: var(--green); }
+    .cat-tools .cat-dot { background: var(--amber); }
+    .cat-howto .cat-dot { background: var(--sky); }
+    .cat-ideas .cat-dot { background: var(--rose); }
+    .cat-dev .cat-dot { background: var(--orange); }
+
+    .cat-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .cat-header .cat-count {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .article-item {
+      display: block;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .article-item:hover {
+      background: var(--glass);
+      border-color: var(--glass-border);
+    }
+    .article-item h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+    .article-item:hover h3 { color: var(--accent); }
+    .article-item .desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .article-item .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .item-meta .src {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.12rem 0.4rem;
+      border-radius: 3px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .footer .footer-brand {
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      z-index: 50;
+    }
+    .scroll-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .scroll-top:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 2.5rem 1.25rem 1.5rem; }
+      .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
+      .nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .top-stories, .main, .archive-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .article-item { padding: 0.8rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary<span>'s Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Home</button>
+        <button class="nav-link">Latest</button>
+        <button class="nav-link">Archive</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-label">
+      <span class="dot"></span>
+      Updated Daily
+    </div>
+    <h1>AI News Brief<span class="highlight">ing</span></h1>
+    <p class="subtitle">The most important AI stories, curated and delivered fresh every morning.</p>
+    <div class="date-row">
+      <span class="current-date">Monday, March 30, 2026</span>
+    </div>
+  </div>
+
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>Anthropic's 'Mythos' Model Leaked via CMS Error</h3>
+        <p>A configuration error in Anthropic's content management system exposed a draft blog post describing Claude Mythos — a new model in a "Capybara" tier above Opus. The leaked draft calls it "a step change" in capabilities and warns it is "currently far ahead of any other AI model in cyber capabilities," posing unprecedented cybersecurity risks. Anthropic confirmed to Fortune that a new general-purpose model with meaningful advances in reasoning, coding, and cybersecurity is being tested, with a cautious rollout planned starting with cybersecurity defenders.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">TLDR</span>
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">Fortune</span>
+          <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>The Decade-Long Feud Between Altman and Amodei</h3>
+        <p>The WSJ published an in-depth account of the personal grudges and power struggles between Sam Altman and Dario Amodei dating back to 2016. Key revelations include Greg Brockman allegedly proposing to sell AGI to UN nuclear powers, Altman accusing the Amodeis of plotting against him to the board, and Amodei privately comparing Altman to historical dictators. The rivalry continues to shape the trajectory of OpenAI and Anthropic as both race toward IPOs.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">TLDR</span>
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">WSJ</span>
+          <a href="https://www.wsj.com/tech/ai/the-decadelong-feud-shaping-the-future-of-ai-7075acde" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Eli Lilly Signs $2.75B AI Drug Discovery Deal with Insilico Medicine</h3>
+        <p>Pharma giant Eli Lilly entered a $2.75 billion deal with Hong Kong-based Insilico Medicine to license its AI-discovered drug pipeline, with 28 compounds already in development. The deal signals growing confidence in AI-driven drug discovery and represents one of the largest AI pharmaceutical partnerships to date.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">CNBC</span>
+          <span class="tag tag-accent">The Rundown AI</span>
+          <a href="https://www.cnbc.com/2026/03/29/eli-lilly-reaches-deal-to-bring-ai-developed-drugs-to-global-market.html" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="category cat-models">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.wsj.com/politics/policy/anthropic-wins-injunction-in-court-battle-with-trump-administration-4cc93351" target="_blank" class="article-item">
+          <h3>Anthropic Wins Injunction Against Trump Administration</h3>
+          <p class="desc">Anthropic won a federal injunction blocking the Trump administration's supply-chain-risk designation, with the judge calling it "classic illegal First Amendment retaliation." The ruling shields Anthropic from restrictions that could have limited its ability to operate and deploy AI systems.</p>
+          <div class="item-meta">
+            <span class="src">WSJ</span>
+          </div>
+        </a>
+
+        <a href="https://www.digitalapplied.com/blog/march-2026-ai-roundup-month-that-changed-everything" target="_blank" class="article-item">
+          <h3>MCP Crosses 97 Million Installs — Now Foundational Infrastructure</h3>
+          <p class="desc">The Model Context Protocol (MCP) surpassed 97 million installs in March 2026, cementing its transition from experimental standard to foundational agentic infrastructure. Every major AI provider — OpenAI, Google, xAI, Mistral, and Cohere — now supports MCP natively.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+
+        <a href="http://blog.google/products-and-platforms/products/translate/live-translate-with-headphones/" target="_blank" class="article-item">
+          <h3>Google Rolls Out Live Translate to iOS — 70+ Languages via Any Headphones</h3>
+          <p class="desc">Google expanded its Live Translate feature to iOS, turning any pair of headphones into a real-time interpreter across 70+ languages. The feature works passively in the background, providing instant translation during in-person conversations.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-industry">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">4 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://bitcoinworld.co.in/openai-sora-shutdown-reality/" target="_blank" class="article-item">
+          <h3>OpenAI Shuts Down Sora — $1M/Day Burn Unsustainable</h3>
+          <p class="desc">OpenAI discontinued its Sora video generation platform just six months after launch, citing unsustainable inference costs of approximately $1 million daily while serving fewer than 500,000 active users. The shutdown signals the economic challenges of scaling video generation AI.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+
+        <a href="https://www.businessinsider.com/xai-cofounder-ross-nordeen-leaves-musk-preps-spacex-ipo-2026-3" target="_blank" class="article-item">
+          <h3>xAI Co-Founder Ross Nordeen Departs, Last Original Co-Founder Besides Musk</h3>
+          <p class="desc">Ross Nordeen, the last remaining of xAI's original 11 co-founders besides Elon Musk, departed the company this week. The departure comes as Musk prepares for a SpaceX IPO and amid questions about xAI's direction.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" class="article-item">
+          <h3>Shopify Merchants Can Now Sell Inside ChatGPT, Gemini, and Copilot</h3>
+          <p class="desc">Shopify launched Agentic Storefronts, allowing merchants to sell directly inside ChatGPT, Google's AI Mode, Microsoft Copilot, and the Gemini app. The integration marks a major shift in how AI-powered commerce could work at scale.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+
+        <a href="https://www.axios.com/2026/03/26/sam-altman-openai-anthropic-pentagon" target="_blank" class="article-item">
+          <h3>Sam Altman Says He Tried to "Save" Anthropic During Pentagon Standoff</h3>
+          <p class="desc">Sam Altman reportedly told OpenAI staff via Slack that he tried to "save" Anthropic during its Pentagon standoff, per messages seen by Axios — even as OpenAI locked in its own government deal. The claim adds another chapter to the ongoing rivalry between the two companies.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-tools">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://app.therundown.ai/guides/want-to-create-skills-in-chatgpt-use-this-workaround-codex-guide" target="_blank" class="article-item">
+          <h3>Create Skills in ChatGPT Using Codex Desktop</h3>
+          <p class="desc">The Rundown AI shared a step-by-step guide for creating repeatable "skill"-style workflows in ChatGPT using the Codex Desktop app. Install Codex, create a skills playground folder, and ask it to build reusable skills that you can invoke on demand with the / command.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.rundown.ai/tools/cohere-transcribe" target="_blank" class="article-item">
+          <h3>Cohere Transcribe: New SOTA Open-Source Speech Recognition</h3>
+          <p class="desc">Cohere released Transcribe, a state-of-the-art open-source speech recognition model. The model is available immediately and represents a new benchmark in transcription accuracy for open-source solutions.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://simonwillison.net/2026/Mar/29/pretext/" target="_blank" class="article-item">
+          <h3>Pretext: Browser Library for Text Height Without DOM</h3>
+          <p class="desc">Pretext is a new browser library that calculates the height of line-wrapped text without touching the DOM, enabling faster text rendering effects. It supports all languages including Korean, RTL Arabic, and platform-specific emojis.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-howto">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://excellentprompts.substack.com/p/ai-prompts-sunday-ceo-os-claude-cowork" target="_blank" class="article-item">
+          <h3>5 AI Prompts to Build Your Sunday CEO OS in Claude Cowork</h3>
+          <p class="desc">A detailed guide for building a five-piece Sunday planning system inside Claude Cowork using Skills, Projects, and Scheduled Tasks. The system scans your industry, builds weekly plans, pre-decides outfits, maps health actions, and stages Monday preparation — all running automatically each Sunday.</p>
+          <div class="item-meta">
+            <span class="src">Excellent AI Prompts</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/DX3LGy" target="_blank" class="article-item">
+          <h3>How to Solve Problems of Long-Running Autonomous Agentic Workflows</h3>
+          <p class="desc">An in-depth article describing all the problems developers face when using AI agents in long-running autonomous projects — from agents cutting corners to confusion loops. The guide helps developers create custom harnesses that directly address these failure modes.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://tylerfolkman.substack.com/p/i-tracked-my-life-in-markdown-for" target="_blank" class="article-item">
+          <h3>Open-Source 'daylog': Track Your Life in Markdown with a Rust TUI</h3>
+          <p class="desc">Tyler Folkman open-sourced daylog, a single Rust binary that turns daily markdown notes into a live terminal dashboard. Track sleep, weight, mood, training, and any custom metric with YAML frontmatter files synced to SQLite — designed as an AI-native tool that agents can read and write to directly.</p>
+          <div class="item-meta">
+            <span class="src">The AI Architect</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-ideas">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://danielmiessler.com/blog/the-most-important-ideas-in-ai" target="_blank" class="article-item">
+          <h3>The Most Important Ideas in AI Right Now</h3>
+          <p class="desc">Daniel Miessler argues the most important AI ideas are: autonomous component improvement, the transition to intent-based engineering, the move from opacity to transparency, the realization that most work is scaffolding, and expertise getting diffused into public knowledge. The new bottleneck is being able to articulate what you actually want.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://danielmiessler.com/blog/ai-unmasked-our-work-as-scaffolding" target="_blank" class="article-item">
+          <h3>AI Unmasked Our Work as Scaffolding</h3>
+          <p class="desc">A companion piece arguing that AIs with Agent Skills can now execute tasks as well as or better than most professionals, revealing that much of what we call "work" is really scaffolding — repetitive execution that masks the truly valuable parts of expertise: judgment, taste, and strategic thinking.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://www.therundown.ai/p/anthropic-secret-mythos-model" target="_blank" class="article-item">
+          <h3>Community Workflow: Building a Family History Archive from Handwritten Letters</h3>
+          <p class="desc">A reader used Claude Code to photograph, transcribe, and build a family history website from a box of handwritten letters from the 1950s-60s. The AI read cursive handwriting, transcribed everything, and organized it alongside original photos into a searchable family archive.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-dev">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://github.com/glommer/pgmicro" target="_blank" class="article-item">
+          <h3>pgmicro: In-Process PostgreSQL Reimplementation on SQLite</h3>
+          <p class="desc">pgmicro is a new open-source project reimplementing PostgreSQL as an in-process library backed by a SQLite-compatible storage engine. It provides PostgreSQL compatibility without the overhead of running a separate database server.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://micahkepe.com/blog/jsongrep/" target="_blank" class="article-item">
+          <h3>jsongrep Outperforms jq, JMESPath, JSONPath in Benchmarks</h3>
+          <p class="desc">jsongrep, a new JSON querying tool, demonstrated significantly faster performance than jq, JMESPath, jsonpath-rust, and JQL in comprehensive benchmarks. The tool takes a query and JSON input, printing every value whose path matches the query.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/z9GBAr" target="_blank" class="article-item">
+          <h3>Buying DeepMind: The Inside Story of Google's $650M Acquisition</h3>
+          <p class="desc">A detailed account of how Google acquired DeepMind for $650 million at the end of January 2014, the billions poured into its research, and how a decade passed before the quest for superintelligence accelerated. The article reveals specific terms of the deal and the internal dynamics.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is hand-curated from
+      <strong>The Rundown AI</strong>, <strong>TLDR</strong>,
+      <strong>The AI Architect</strong>, <strong>Excellent AI Prompts</strong>,
+      and curated web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
+
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
+
+  <script>
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
+
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
