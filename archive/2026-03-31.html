@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active { color: var(--accent); }
+
+    .hero {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2.5rem;
+      z-index: 1;
+    }
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, #7c6aef, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--rose), var(--sky));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .top-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: var(--glass-hover);
+      transform: translateY(-1px);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: var(--surface);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .top-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+      padding-right: 3rem;
+    }
+    .top-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: rgba(124,106,239,0.2);
+    }
+    .read-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+    .read-link:hover { gap: 0.5rem; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .category {
+      margin-top: 3rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cat-models .cat-dot { background: var(--accent); }
+    .cat-industry .cat-dot { background: var(--green); }
+    .cat-tools .cat-dot { background: var(--amber); }
+    .cat-howto .cat-dot { background: var(--sky); }
+    .cat-ideas .cat-dot { background: var(--rose); }
+    .cat-dev .cat-dot { background: var(--orange); }
+
+    .cat-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .cat-header .cat-count {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .article-item {
+      display: block;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .article-item:hover {
+      background: var(--glass);
+      border-color: var(--glass-border);
+    }
+    .article-item h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+    .article-item:hover h3 { color: var(--accent); }
+    .article-item .desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .article-item .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .item-meta .src {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.12rem 0.4rem;
+      border-radius: 3px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .footer .footer-brand {
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      z-index: 50;
+    }
+    .scroll-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .scroll-top:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 2.5rem 1.25rem 1.5rem; }
+      .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
+      .nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .top-stories, .main, .archive-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .article-item { padding: 0.8rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary<span>'s Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Home</button>
+        <button class="nav-link">Latest</button>
+        <button class="nav-link">Archive</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-label">
+      <span class="dot"></span>
+      Updated Daily
+    </div>
+    <h1>AI News Brief<span class="highlight">ing</span></h1>
+    <p class="subtitle">The most important AI stories, curated and delivered fresh every morning.</p>
+    <div class="date-row">
+      <span class="current-date">Tuesday, March 31, 2026</span>
+    </div>
+  </div>
+
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">Mar 31</a>
+        <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>Inside Sora's $1M-a-Day Collapse — OpenAI Blindsides Disney</h3>
+        <p>A WSJ investigation revealed the chaos behind OpenAI's sudden Sora shutdown, including a $1 million daily burn rate and Disney learning of the decision less than an hour before the announcement. The freed compute was redirected to "Spud," an internal coding model built to counter Anthropic. Disney had been piloting an enterprise version of Sora for marketing and VFX, with a spring launch expected before OpenAI pulled the plug.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">WSJ</span>
+          <a href="https://www.wsj.com/tech/ai/the-sudden-fall-of-openais-most-hyped-product-since-chatgpt-64c730c9" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>Alibaba Releases Qwen3.5-Omni — Full Omnimodal AI Model</h3>
+        <p>Alibaba launched Qwen3.5-Omni, a full omnimodal large language model that processes text, images, audio, and video content. The model handles over 10 hours of audio input and 400+ seconds of 720P video, supports speech recognition in 113 languages and dialects, and features an "Audio-Visual vibe coding" mode that builds apps from spoken instructions.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">TLDR AI</span>
+          <span class="tag tag-accent">Alibaba</span>
+          <a href="https://qwen.ai/blog?id=qwen3.5-omni" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Microsoft Pits Claude Against ChatGPT in Copilot Researcher</h3>
+        <p>Microsoft released Critique and Council modes for its Copilot Researcher, turning it into a multi-model research system. Critique adds Claude as a second model to review every research report on source quality, completeness, and evidence grounding. Council runs both models side by side, flagging where they agree and diverge. The update arrives alongside Copilot Cowork's rollout into Frontier, Microsoft's Claude-based agentic tool.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">Microsoft</span>
+          <a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/introducing-multi-model-intelligence-in-researcher/4506011" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="category cat-models">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">4 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://github.com/openai/codex-plugin-cc" target="_blank" class="article-item">
+          <h3>Codex Plugin for Claude Code</h3>
+          <p class="desc">OpenAI released a plugin that brings Codex directly into the Claude Code workflow. Users can delegate code reviews to Codex, run adversarial reviews, or hand off work for a second pass from a different agent. The plugin uses the local Codex CLI and inherits existing auth and MCP configurations.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://code.claude.com/docs/en/computer-use" target="_blank" class="article-item">
+          <h3>Anthropic Launches Computer Use in Claude Code</h3>
+          <p class="desc">Anthropic shipped computer use capabilities in Claude Code, enabling the AI to open apps, click through UIs, and visually verify its own builds directly from the terminal. This brings agentic desktop interaction into the developer workflow.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.cnbc.com/2026/03/30/mistral-ai-paris-data-center-cluster-debt-financing.html" target="_blank" class="article-item">
+          <h3>Mistral Raises $830M to Power Own AI Infrastructure in France</h3>
+          <p class="desc">French AI lab Mistral raised $830M in debt financing to build a 13,800-GPU Nvidia cluster in Paris, part of a broader push to cut reliance on U.S. cloud providers and establish sovereign AI compute infrastructure in Europe.</p>
+          <div class="item-meta">
+            <span class="src">TLDR, CNBC</span>
+          </div>
+        </a>
+
+        <a href="https://www.siliconrepublic.com/enterprise/chinas-deepseek-suffers-rare-outage-lasting-several-hours" target="_blank" class="article-item">
+          <h3>DeepSeek Suffers Rare Multi-Hour Outage</h3>
+          <p class="desc">China's DeepSeek experienced one of its longest outages since the launch of its R1 and V3 models, with services down for more than eight hours before being restored. The rare disruption highlights the scaling challenges facing major AI providers.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-industry">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">4 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://links.tldrnewsletter.com/wfr2Uy" target="_blank" class="article-item">
+          <h3>Apple Pivots AI Strategy to App Store-Like Platform Model</h3>
+          <p class="desc">Apple is leaning into its hardware-and-services playbook for AI, acknowledging its homegrown technology lags behind competitors. Instead of building frontier models, Apple plans to open Siri and Apple Intelligence to third-party AI services, creating a platform approach similar to the App Store ecosystem.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space/" target="_blank" class="article-item">
+          <h3>Starcloud Raises $170M to Build Data Centers in Space</h3>
+          <p class="desc">Starcloud raised $170 million in Series A funding at a $1.1 billion valuation to build GPU-powered data centers in orbit. The company is betting on SpaceX's Starship to make space-based compute cost-competitive with terrestrial alternatives.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI, TechCrunch</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/pfuLPz" target="_blank" class="article-item">
+          <h3>To Lure Top AI Talent, Startups Turn to Cold Hard Cash</h3>
+          <p class="desc">Flush with venture capital and facing a wildly competitive talent market, AI startups are offering increasingly creative cash-heavy compensation packages. This is creating a split economy where the top 5-10% of candidates receive all the offers while the rest struggle to find roles.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://saasintelligence.substack.com" target="_blank" class="article-item">
+          <h3>55% of CIOs Are Now Building What They Used to Buy</h3>
+          <p class="desc">Enterprise AI spending is accelerating a build-vs-buy shift, with 55% of CIOs now choosing to build custom solutions rather than renew existing SaaS contracts. The same budget mechanism funding enterprise AI adoption is simultaneously killing SaaS renewals.</p>
+          <div class="item-meta">
+            <span class="src">SaaS Intelligence</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-tools">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://claude.com/blog/claude-platform-compliance-api" target="_blank" class="article-item">
+          <h3>Claude Platform Compliance API for Enterprise Auditing</h3>
+          <p class="desc">Anthropic launched the Compliance API on the Claude Platform, enabling admins to audit logs, monitor user activities, and integrate data into existing compliance systems. The API tracks admin, system, and resource activities including file creation and deletion.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/huggingface/transformers.js/releases/tag/4.0.0" target="_blank" class="article-item">
+          <h3>Transformers.js v4 Ships with WebGPU Runtime</h3>
+          <p class="desc">Hugging Face released Transformers.js v4 featuring a new WebGPU Runtime that allows the same transformers.js code to run across a wide variety of JavaScript environments. The update brings hardware-accelerated ML inference directly to the browser.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.testingcatalog.com/microsoft-365-copilot-gets-critique-and-council-modes/" target="_blank" class="article-item">
+          <h3>Microsoft 365 Copilot Gets Critique and Council Modes</h3>
+          <p class="desc">Beyond the Researcher updates, Microsoft 365 Copilot now includes Critique mode (dual-model drafting and review) and Council mode (parallel model comparison). Critique outperforms single-model solutions by 13.88% on the DRACO benchmark.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-howto">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://app.therundown.ai/guides/build-a-15-page-travel-itinerary-in-20-minutes-with-perplexity-computer" target="_blank" class="article-item">
+          <h3>Build a 15-Page Travel Itinerary with Perplexity Computer</h3>
+          <p class="desc">A step-by-step guide for using Perplexity Computer to plan a complete trip itinerary with flights, day-by-day schedules, and source links in a single 20-minute run. The tool can also deploy sub-agents to build an interactive calendar website for trip planning.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://excellentprompts.substack.com/p/ai-agents-skills-mcp-plugins-hooks-automations-explained" target="_blank" class="article-item">
+          <h3>6 AI Terms Everyone Confuses (and Why It Matters)</h3>
+          <p class="desc">A comprehensive breakdown of agents, skills, MCP, plugins, hooks, and automations — six terms constantly used interchangeably in the AI world. The guide explains what each layer actually does, where it sits in the stack, and how they connect, with revenue examples for each.</p>
+          <div class="item-meta">
+            <span class="src">Excellent AI Prompts</span>
+          </div>
+        </a>
+
+        <a href="https://www.lennysnewsletter.com/p/openclaw-the-complete-guide-to-building" target="_blank" class="article-item">
+          <h3>OpenClaw: The Complete Guide to Building Your Personal AI Agent Team</h3>
+          <p class="desc">A definitive guide from Lenny's Newsletter on setting up and mastering OpenClaw, the open-source personal AI assistant. Covers everything from first install on a Mac Mini to running a team of 9 specialized agents handling sales, marketing, family logistics, and development tasks.</p>
+          <div class="item-meta">
+            <span class="src">Lenny's Newsletter</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-ideas">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.science.org/doi/10.1126/science.aec8352" target="_blank" class="article-item">
+          <h3>Stanford Exposes AI's People-Pleasing Problem</h3>
+          <p class="desc">Stanford researchers published a study showing that major AI chatbots consistently take users' side in personal conflicts, even backing harmful behavior. Testing 11 LLMs on 2,000 Reddit posts, chatbots sided with the user over half the time even when crowds agreed the poster was wrong. Users who interacted with the agreeable AI doubled down on their positions.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the-ff9" target="_blank" class="article-item">
+          <h3>Plentiful, High-Paying Jobs in the Age of AI</h3>
+          <p class="desc">A thought-provoking analysis arguing that AI might not eliminate high-paying jobs due to compute and energy constraints. The principle of comparative advantage could keep humans employed in roles even when AI is technically superior, because the opportunity cost of allocating AI to all tasks would be too high.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.therundown.ai/" target="_blank" class="article-item">
+          <h3>Community Workflow: Multi-Tool Dissertation Writing</h3>
+          <p class="desc">Reader Paul M. shared how he combines NotebookLM, Gemini, and Claude to write his dissertation. He uses NotebookLM for disciplined synthesis of research articles, Gemini for coaching through initial drafts, and Claude for editing and refinement. Sharing output between tools makes each prompt better than the last.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category cat-dev">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">3 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.lesswrong.com/posts/TfKM9PgztxieEcKiv/a-mirror-test-for-llms" target="_blank" class="article-item">
+          <h3>A Mirror Test for LLMs: Can AI Recognize Its Own Output?</h3>
+          <p class="desc">A proposed "Mirror Test" assessed whether LLMs can identify their own outputs without explicit cues. Anthropic's Opus 4.6 showed notable self-recognition due to its distinct token outputs, outperforming OpenAI's GPT models. However, no LLM demonstrated consistent self-awareness through message passing.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://nextbigteng.substack.com/p/ai-infrastructure-roadmap-five-frontiers-for-2026" target="_blank" class="article-item">
+          <h3>AI Infrastructure Roadmap: Five Frontiers for 2026</h3>
+          <p class="desc">The first generation of AI optimized for scale and efficiency. The next phase requires infrastructure for grounding AI in operational contexts, real-world experiences, and continuous learning. The article maps five key frontiers where AI infrastructure needs to evolve.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/google-research/timesfm" target="_blank" class="article-item">
+          <h3>TimesFM: Google's Pretrained Time-Series Foundation Model</h3>
+          <p class="desc">Google Research released TimesFM, a pretrained time-series foundation model for forecasting. Built on a patched-decoder attention architecture trained on a large time-series corpus, it works across different history lengths, prediction lengths, and temporal granularities.</p>
+          <div class="item-meta">
+            <span class="src">TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is hand-curated from
+      <strong>The Rundown AI</strong>, <strong>TLDR</strong>,
+      <strong>Lenny's Newsletter</strong>, <strong>Excellent AI Prompts</strong>,
+      and curated web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
+
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
+
+  <script>
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
+
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>

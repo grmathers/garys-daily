@@ -99,35 +99,39 @@
       border: none;
       background: none;
     }
-    .nav-link:hover, .nav-link.active {
+    .nav-link:hover {
       background: var(--surface-hover);
       color: var(--text);
     }
-    .nav-link.active { color: var(--accent); }
+    .nav-link.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
 
     .hero {
-      position: relative;
       max-width: 1000px;
       margin: 0 auto;
-      padding: 4rem 2rem 2.5rem;
-      z-index: 1;
+      padding: 3.5rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
     }
     .hero-label {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 0.5rem;
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
     }
     .hero-label .dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--green);
+      background: var(--accent);
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
@@ -135,17 +139,13 @@
       50% { opacity: 0.4; }
     }
     .hero h1 {
-      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-size: 3.5rem;
       font-weight: 900;
-      letter-spacing: -2px;
-      line-height: 1.05;
-      margin-bottom: 0.8rem;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
     }
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, #7c6aef, #a78bfa, #f472b6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .hero h1 .highlight { color: var(--accent); }
     .hero .subtitle {
       font-size: 1.05rem;
       color: var(--text-secondary);
@@ -300,181 +300,163 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--rose), var(--sky));
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(124,106,239,0.1) 0%, transparent 100%);
       opacity: 0;
       transition: opacity 0.3s;
+      pointer-events: none;
     }
     .top-card:hover {
-      border-color: rgba(255,255,255,0.12);
       background: var(--glass-hover);
-      transform: translateY(-1px);
+      border-color: var(--glass-border);
     }
     .top-card:hover::before { opacity: 1; }
     .top-card .card-rank {
       position: absolute;
-      top: 1.5rem;
-      right: 1.75rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--text-dim);
-      background: var(--surface);
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.5;
     }
     .top-card h3 {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      letter-spacing: -0.3px;
+      margin-bottom: 0.75rem;
       line-height: 1.35;
-      margin-bottom: 0.6rem;
-      padding-right: 3rem;
+      padding-right: 2rem;
     }
     .top-card p {
-      font-size: 0.88rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
-      line-height: 1.6;
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 1rem;
     }
     .top-card .card-footer {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.9rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
     }
     .tag {
       font-size: 0.7rem;
-      font-weight: 500;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
       background: var(--surface);
-      color: var(--text-secondary);
       border: 1px solid var(--border);
+      color: var(--text-secondary);
     }
     .tag-accent {
       background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
       color: var(--accent);
-      border-color: rgba(124,106,239,0.2);
     }
     .read-link {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--accent);
       margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: gap 0.2s;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: all 0.2s;
     }
-    .read-link:hover { gap: 0.5rem; }
+    .read-link:hover { opacity: 0.7; }
 
     .main {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 0 2rem 4rem;
+      padding: 2.5rem 2rem;
     }
 
     .category {
-      margin-top: 3rem;
+      margin-bottom: 2.5rem;
     }
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      margin-bottom: 1rem;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
     }
     .cat-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      flex-shrink: 0;
+      background: var(--accent);
     }
-    .cat-models .cat-dot { background: var(--accent); }
-    .cat-industry .cat-dot { background: var(--green); }
-    .cat-tools .cat-dot { background: var(--amber); }
-    .cat-howto .cat-dot { background: var(--sky); }
-    .cat-ideas .cat-dot { background: var(--rose); }
-    .cat-dev .cat-dot { background: var(--orange); }
-
     .cat-header h2 {
-      font-size: 1rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      letter-spacing: -0.2px;
+      letter-spacing: -0.5px;
     }
-    .cat-header .cat-count {
-      font-size: 0.72rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-dim);
+    .cat-count {
       margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
     }
 
     .article-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+      display: grid;
+      gap: 1rem;
     }
     .article-item {
       display: block;
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius-sm);
-      background: transparent;
-      border: 1px solid transparent;
-      transition: all 0.25s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
-    .article-item:hover {
-      background: var(--glass);
-      border-color: var(--glass-border);
-    }
-    .article-item h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      margin-bottom: 0.3rem;
-      line-height: 1.4;
-      transition: color 0.2s;
-    }
-    .article-item:hover h3 { color: var(--accent); }
-    .article-item .desc {
-      font-size: 0.84rem;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-    .article-item .item-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.5rem;
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      flex-wrap: wrap;
-    }
-    .item-meta .src {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      padding: 0.12rem 0.4rem;
-      border-radius: 3px;
       background: var(--surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .article-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .article-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .article-item .desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .item-meta .src {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
     }
 
     .footer {
-      border-top: 1px solid var(--border);
+      max-width: 1000px;
+      margin: 3rem auto 0;
       padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
       text-align: center;
-    }
-    .footer p {
-      font-size: 0.78rem;
-      color: var(--text-dim);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
       line-height: 1.7;
     }
-    .footer .footer-brand {
+    .footer-brand {
       font-weight: 700;
-      color: var(--text-secondary);
+      color: var(--text);
     }
+    .footer strong { color: var(--accent); }
 
     .scroll-top {
       position: fixed;
@@ -482,40 +464,39 @@
       right: 2rem;
       width: 40px;
       height: 40px;
-      border-radius: 12px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       opacity: 0;
-      transform: translateY(10px);
       transition: all 0.3s;
-      color: var(--text-secondary);
-      font-size: 1rem;
+      font-weight: 700;
       z-index: 50;
+      font-size: 1.2rem;
     }
     .scroll-top.visible {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 0.7;
     }
     .scroll-top:hover {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      color: var(--accent);
+      opacity: 1;
+      transform: scale(1.1);
     }
 
-    @media (max-width: 640px) {
-      .hero { padding: 2.5rem 1.25rem 1.5rem; }
-      .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
-      .nav { padding: 0 1.25rem; }
-      .nav-links { display: none; }
-      .top-stories, .main, .archive-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2.5rem 1.5rem 1.5rem; }
+      .nav { padding: 0 1rem; }
+      .nav-inner { height: 50px; }
+      .archive-section, .section-divider, .top-stories, .main, .footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
       .top-card { padding: 1.2rem; }
       .top-card .card-rank { display: none; }
-      .article-item { padding: 0.8rem 1rem; }
+      .top-card h3 { padding-right: 0; }
     }
   </style>
 </head>
@@ -540,7 +521,7 @@
     <h1>AI News Brief<span class="highlight">ing</span></h1>
     <p class="subtitle">The most important AI stories, curated and delivered fresh every morning.</p>
     <div class="date-row">
-      <span class="current-date">Tuesday, March 31, 2026</span>
+      <span class="current-date">Sunday, April 5, 2026</span>
     </div>
   </div>
 
@@ -551,7 +532,9 @@
     </button>
     <div class="archive-drawer">
       <div class="archive-grid">
-        <a href="index.html" class="archive-day today">Mar 31</a>
+        <a href="index.html" class="archive-day today">Apr 5</a>
+        <a href="archive/2026-04-04.html" class="archive-day">Apr 4</a>
+        <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
         <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
         <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
         <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
@@ -578,34 +561,34 @@
     <div class="top-cards">
       <div class="top-card">
         <div class="card-rank">#1</div>
-        <h3>Inside Sora's $1M-a-Day Collapse — OpenAI Blindsides Disney</h3>
-        <p>A WSJ investigation revealed the chaos behind OpenAI's sudden Sora shutdown, including a $1 million daily burn rate and Disney learning of the decision less than an hour before the announcement. The freed compute was redirected to "Spud," an internal coding model built to counter Anthropic. Disney had been piloting an enterprise version of Sora for marketing and VFX, with a spring launch expected before OpenAI pulled the plug.</p>
+        <h3>Anthropic's $1B to $19B Growth Run Revealed</h3>
+        <p>Anthropic's Head of Growth Amol Avasare appeared on Lenny's Newsletter podcast revealing the company scaled from $1B to over $19B ARR in just 14 months. Key insights include their internal AI tool "CASH" (Claude Accelerates Sustainable Hypergrowth) that automates growth experiments, a 70/30 big bets ratio (opposite of most growth teams), and the revelation that a five engineer team with Claude Code now produces the output of 15 to 20 engineers.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
-          <span class="tag tag-accent">WSJ</span>
-          <a href="https://www.wsj.com/tech/ai/the-sudden-fall-of-openais-most-hyped-product-since-chatgpt-64c730c9" target="_blank" class="read-link">Read &rarr;</a>
+          <span class="tag tag-accent">Lenny's Newsletter</span>
+          <span class="tag tag-accent">Anthropic</span>
+          <a href="https://www.lennysnewsletter.com/p/anthropics-1b-to-19b-growth-run" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
 
       <div class="top-card">
         <div class="card-rank">#2</div>
-        <h3>Alibaba Releases Qwen3.5-Omni — Full Omnimodal AI Model</h3>
-        <p>Alibaba launched Qwen3.5-Omni, a full omnimodal large language model that processes text, images, audio, and video content. The model handles over 10 hours of audio input and 400+ seconds of 720P video, supports speech recognition in 113 languages and dialects, and features an "Audio-Visual vibe coding" mode that builds apps from spoken instructions.</p>
+        <h3>OpenAI Leadership Shakeup Ahead of $852B IPO</h3>
+        <p>OpenAI's executive bench is collapsing ahead of its planned IPO. COO Brad Lightcap has been reassigned to special projects, CMO Kate Rouch is stepping down for cancer recovery, and AGI head Fidji Simo is taking medical leave for a neuroimmune condition. The reshuffling comes as the company, valued at $852B after raising $122B, prepares for what could be the largest tech IPO in history.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">TLDR AI</span>
-          <span class="tag tag-accent">Alibaba</span>
-          <a href="https://qwen.ai/blog?id=qwen3.5-omni" target="_blank" class="read-link">Read &rarr;</a>
+          <span class="tag tag-accent">Bloomberg</span>
+          <span class="tag tag-accent">Web</span>
+          <a href="https://www.bloomberg.com/news/articles/2026-04-03/openai-coo-shifts-out-of-role-agi-ceo-taking-medical-leave" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
 
       <div class="top-card">
         <div class="card-rank">#3</div>
-        <h3>Microsoft Pits Claude Against ChatGPT in Copilot Researcher</h3>
-        <p>Microsoft released Critique and Council modes for its Copilot Researcher, turning it into a multi-model research system. Critique adds Claude as a second model to review every research report on source quality, completeness, and evidence grounding. Council runs both models side by side, flagging where they agree and diverge. The update arrives alongside Copilot Cowork's rollout into Frontier, Microsoft's Claude-based agentic tool.</p>
+        <h3>Anthropic Acquires Biotech Startup Coefficient Bio for $400M</h3>
+        <p>Anthropic paid $400M in stock for Coefficient Bio, an eight month old stealth biotech startup with fewer than 10 employees. The acquisition signals a major push into AI driven drug discovery, with Coefficient Bio's platform enabling AI to draft drug R&D plans, manage clinical regulatory strategies, and discover new drug candidates.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
-          <span class="tag tag-accent">Microsoft</span>
-          <a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/introducing-multi-model-intelligence-in-researcher/4506011" target="_blank" class="read-link">Read &rarr;</a>
+          <span class="tag tag-accent">TechCrunch</span>
+          <span class="tag tag-accent">Anthropic</span>
+          <a href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
     </div>
@@ -619,35 +602,35 @@
         <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://github.com/openai/codex-plugin-cc" target="_blank" class="article-item">
-          <h3>Codex Plugin for Claude Code</h3>
-          <p class="desc">OpenAI released a plugin that brings Codex directly into the Claude Code workflow. Users can delegate code reviews to Codex, run adversarial reviews, or hand off work for a second pass from a different agent. The plugin uses the local Codex CLI and inherits existing auth and MCP configurations.</p>
+        <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" class="article-item">
+          <h3>Claude Mythos 5: Anthropic's Most Powerful Model Yet</h3>
+          <p class="desc">Anthropic completed training on Claude Mythos 5, described internally as "by far the most powerful AI model we've ever developed." The ten trillion parameter model was revealed after a data leak exposed a draft blog post warning of unprecedented cybersecurity risks. The model is engineered for high stakes environments.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://code.claude.com/docs/en/computer-use" target="_blank" class="article-item">
-          <h3>Anthropic Launches Computer Use in Claude Code</h3>
-          <p class="desc">Anthropic shipped computer use capabilities in Claude Code, enabling the AI to open apps, click through UIs, and visually verify its own builds directly from the terminal. This brings agentic desktop interaction into the developer workflow.</p>
+        <a href="https://www.nxcode.io/resources/news/deepseek-v4-release-specs-benchmarks-2026" target="_blank" class="article-item">
+          <h3>DeepSeek V4 Expected to Drop with Full Open Weights</h3>
+          <p class="desc">DeepSeek V4, a one trillion parameter Mixture of Experts model with only ~37B active parameters per token, is expected to officially debut this month under the Apache 2.0 license. Leaked benchmarks suggest 90% HumanEval and 80%+ SWE bench scores that would match Claude Opus 4.6.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.cnbc.com/2026/03/30/mistral-ai-paris-data-center-cluster-debt-financing.html" target="_blank" class="article-item">
-          <h3>Mistral Raises $830M to Power Own AI Infrastructure in France</h3>
-          <p class="desc">French AI lab Mistral raised $830M in debt financing to build a 13,800-GPU Nvidia cluster in Paris, part of a broader push to cut reliance on U.S. cloud providers and establish sovereign AI compute infrastructure in Europe.</p>
+        <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" class="article-item">
+          <h3>OpenAI GPT-5.4 Ships with 1M Token Context and Autonomous Workflows</h3>
+          <p class="desc">OpenAI unveiled GPT-5.4 featuring a one million token context window and the ability to autonomously execute multi step workflows. The model scores 75% on OSWorld V benchmark and matches or exceeds professional performance on knowledge work scenarios.</p>
           <div class="item-meta">
-            <span class="src">TLDR, CNBC</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.siliconrepublic.com/enterprise/chinas-deepseek-suffers-rare-outage-lasting-several-hours" target="_blank" class="article-item">
-          <h3>DeepSeek Suffers Rare Multi-Hour Outage</h3>
-          <p class="desc">China's DeepSeek experienced one of its longest outages since the launch of its R1 and V3 models, with services down for more than eight hours before being restored. The rare disruption highlights the scaling challenges facing major AI providers.</p>
+        <a href="https://llm-stats.com/ai-news" target="_blank" class="article-item">
+          <h3>Google's TurboQuant Slashes AI Memory Overhead at ICLR 2026</h3>
+          <p class="desc">Google's research team unveiled TurboQuant, an algorithm that significantly reduces memory overhead caused by the KV cache, allowing models with massive context windows to run far more efficiently. Presented at ICLR 2026, the breakthrough could make long context inference dramatically cheaper.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
@@ -660,35 +643,35 @@
         <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://links.tldrnewsletter.com/wfr2Uy" target="_blank" class="article-item">
-          <h3>Apple Pivots AI Strategy to App Store-Like Platform Model</h3>
-          <p class="desc">Apple is leaning into its hardware-and-services playbook for AI, acknowledging its homegrown technology lags behind competitors. Instead of building frontier models, Apple plans to open Siri and Apple Intelligence to third-party AI services, creating a platform approach similar to the App Store ecosystem.</p>
+        <a href="https://www.cfodive.com/news/ai-tied-a-quarter-us-layoffs-march/816519/" target="_blank" class="article-item">
+          <h3>AI Linked to 25% of U.S. Job Cuts in March</h3>
+          <p class="desc">AI was tied to roughly a quarter of all U.S. layoffs announced in March, with employers cutting over 60,000 jobs. Tech companies including Dell represented a large share. The numbers highlight the accelerating impact of automation on the workforce.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">CFO Dive</span>
           </div>
         </a>
 
-        <a href="https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space/" target="_blank" class="article-item">
-          <h3>Starcloud Raises $170M to Build Data Centers in Space</h3>
-          <p class="desc">Starcloud raised $170 million in Series A funding at a $1.1 billion valuation to build GPU-powered data centers in orbit. The company is betting on SpaceX's Starship to make space-based compute cost-competitive with terrestrial alternatives.</p>
+        <a href="https://www.weforum.org/stories/2026/04/ai-infrastructure-critical-infrastructure/" target="_blank" class="article-item">
+          <h3>UK Regulators Define Agentic AI with Five Level Autonomy Spectrum</h3>
+          <p class="desc">UK regulators released a joint foresight paper defining agentic AI and outlining a five level autonomy spectrum ranging from simple tools to fully autonomous actors. The framework aims to provide clarity for businesses and developers navigating the regulatory landscape around AI agents.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI, TechCrunch</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://links.tldrnewsletter.com/pfuLPz" target="_blank" class="article-item">
-          <h3>To Lure Top AI Talent, Startups Turn to Cold Hard Cash</h3>
-          <p class="desc">Flush with venture capital and facing a wildly competitive talent market, AI startups are offering increasingly creative cash-heavy compensation packages. This is creating a split economy where the top 5-10% of candidates receive all the offers while the rest struggle to find roles.</p>
+        <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" class="article-item">
+          <h3>Meta Deploys Custom MTIA Chips to Cut Nvidia Dependence</h3>
+          <p class="desc">Meta announced it is deploying its MTIA (Meta Training and Inference Accelerator) chips across data centers to reduce reliance on Nvidia, with the next generation MTIA 400 currently in testing. The move signals a broader push by hyperscalers to build custom AI silicon.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://saasintelligence.substack.com" target="_blank" class="article-item">
-          <h3>55% of CIOs Are Now Building What They Used to Buy</h3>
-          <p class="desc">Enterprise AI spending is accelerating a build-vs-buy shift, with 55% of CIOs now choosing to build custom solutions rather than renew existing SaaS contracts. The same budget mechanism funding enterprise AI adoption is simultaneously killing SaaS renewals.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>College Professor: Why I May 'Hire' AI Instead of a Graduate Student</h3>
+          <p class="desc">A provocative essay from a college professor who has started replacing graduate student hires with AI tools. AI provides "instant execution" without the learning curves, but the piece raises critical questions about how this impacts the pipeline of future academic and industry talent.</p>
           <div class="item-meta">
-            <span class="src">SaaS Intelligence</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
       </div>
@@ -701,27 +684,27 @@
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://claude.com/blog/claude-platform-compliance-api" target="_blank" class="article-item">
-          <h3>Claude Platform Compliance API for Enterprise Auditing</h3>
-          <p class="desc">Anthropic launched the Compliance API on the Claude Platform, enabling admins to audit logs, monitor user activities, and integrate data into existing compliance systems. The API tracks admin, system, and resource activities including file creation and deletion.</p>
+        <a href="https://www.aitechboss.com/trending-ai-tools-right-now-2026/" target="_blank" class="article-item">
+          <h3>Cursor 3 Launches Agent First Interface for Developers</h3>
+          <p class="desc">Cursor introduced Cursor 3, a fully redesigned agent first interface that lets developers assign coding tasks to AI agents rather than writing code directly. Users can run multiple agents simultaneously, monitor their progress, and review outputs within an integrated development environment.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://github.com/huggingface/transformers.js/releases/tag/4.0.0" target="_blank" class="article-item">
-          <h3>Transformers.js v4 Ships with WebGPU Runtime</h3>
-          <p class="desc">Hugging Face released Transformers.js v4 featuring a new WebGPU Runtime that allows the same transformers.js code to run across a wide variety of JavaScript environments. The update brings hardware-accelerated ML inference directly to the browser.</p>
+        <a href="https://www.yahooinc.com/press/introducing-yahoo-scout-a-new-ai-answer-engine" target="_blank" class="article-item">
+          <h3>Yahoo Launches Scout AI Search Engine Powered by Anthropic</h3>
+          <p class="desc">Yahoo launched Scout, an AI powered answer engine built on Anthropic's Claude, designed to deliver personalized responses across its network of 250 million U.S. users. Scout integrates Yahoo News, Finance, Mail, and Bing's API to serve answers from authoritative sources.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.testingcatalog.com/microsoft-365-copilot-gets-critique-and-council-modes/" target="_blank" class="article-item">
-          <h3>Microsoft 365 Copilot Gets Critique and Council Modes</h3>
-          <p class="desc">Beyond the Researcher updates, Microsoft 365 Copilot now includes Critique mode (dual-model drafting and review) and Council mode (parallel model comparison). Critique outperforms single-model solutions by 13.88% on the DRACO benchmark.</p>
+        <a href="https://www.aitechboss.com/trending-ai-tools-right-now-2026/" target="_blank" class="article-item">
+          <h3>ByteDance Ships Dreamina Seedance 2.0 in CapCut</h3>
+          <p class="desc">ByteDance introduced Dreamina Seedance 2.0, an AI video generation model integrated into CapCut that enables users to create and edit video content using prompts, images, or reference clips. The model supports realistic rendering of motion, lighting, and textures.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
@@ -734,27 +717,27 @@
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://app.therundown.ai/guides/build-a-15-page-travel-itinerary-in-20-minutes-with-perplexity-computer" target="_blank" class="article-item">
-          <h3>Build a 15-Page Travel Itinerary with Perplexity Computer</h3>
-          <p class="desc">A step-by-step guide for using Perplexity Computer to plan a complete trip itinerary with flights, day-by-day schedules, and source links in a single 20-minute run. The tool can also deploy sub-agents to build an interactive calendar website for trip planning.</p>
+        <a href="https://tylerfolkman.substack.com/p/i-read-the-claude-code-source-leak" target="_blank" class="article-item">
+          <h3>The Claude Code Leak: 5 Configuration Mistakes You're Making</h3>
+          <p class="desc">Tyler Folkman of The AI Architect spent days reading through the leaked Claude Code source and found five key misconfigurations most users make. The biggest insight: stop putting enforcement rules in CLAUDE.md and use hooks instead, because CLAUDE.md is probabilistic while hooks are deterministic. He also covers memory taxonomy, context economics, and skill frontmatter.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">The AI Architect</span>
           </div>
         </a>
 
-        <a href="https://excellentprompts.substack.com/p/ai-agents-skills-mcp-plugins-hooks-automations-explained" target="_blank" class="article-item">
-          <h3>6 AI Terms Everyone Confuses (and Why It Matters)</h3>
-          <p class="desc">A comprehensive breakdown of agents, skills, MCP, plugins, hooks, and automations — six terms constantly used interchangeably in the AI world. The guide explains what each layer actually does, where it sits in the stack, and how they connect, with revenue examples for each.</p>
+        <a href="https://excellentprompts.substack.com/p/ai-solopreneur-playbook" target="_blank" class="article-item">
+          <h3>The $401M AI Solopreneur Playbook with 4 Prompts</h3>
+          <p class="desc">Matthew Gallagher, age 41, launched telehealth company Medvi from his house with $20,000 and a dozen AI tools. First full year: $401 million in revenue, 250,000 customers, 16.2% net profit margin, and only one hire (his brother). Now tracking toward $1.8 billion in 2026. Excellent AI Prompts breaks down the playbook with four prompts to start building your own version.</p>
           <div class="item-meta">
             <span class="src">Excellent AI Prompts</span>
           </div>
         </a>
 
-        <a href="https://www.lennysnewsletter.com/p/openclaw-the-complete-guide-to-building" target="_blank" class="article-item">
-          <h3>OpenClaw: The Complete Guide to Building Your Personal AI Agent Team</h3>
-          <p class="desc">A definitive guide from Lenny's Newsletter on setting up and mastering OpenClaw, the open-source personal AI assistant. Covers everything from first install on a Mac Mini to running a team of 9 specialized agents handling sales, marketing, family logistics, and development tasks.</p>
+        <a href="https://writewithai.substack.com/p/free-computer-organizer-skill" target="_blank" class="article-item">
+          <h3>Why Prompts Aren't Enough: The Case for Cowork Skills</h3>
+          <p class="desc">Write With AI explains the fundamental ceiling of chat based AI: it thinks about your files but never touches them. Using a file organization example, the piece shows how Cowork skills transform AI from a chatbot into an actual computer operator, and includes a free "Computer Organizer" skill using the GTD framework.</p>
           <div class="item-meta">
-            <span class="src">Lenny's Newsletter</span>
+            <span class="src">Write With AI</span>
           </div>
         </a>
       </div>
@@ -767,27 +750,27 @@
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.science.org/doi/10.1126/science.aec8352" target="_blank" class="article-item">
-          <h3>Stanford Exposes AI's People-Pleasing Problem</h3>
-          <p class="desc">Stanford researchers published a study showing that major AI chatbots consistently take users' side in personal conflicts, even backing harmful behavior. Testing 11 LLMs on 2,000 Reddit posts, chatbots sided with the user over half the time even when crowds agreed the poster was wrong. Users who interacted with the agreeable AI doubled down on their positions.</p>
+        <a href="https://ruben.substack.com/p/i-love-to-be-right" target="_blank" class="article-item">
+          <h3>Ruben Hassid: The AI Sycophancy Trap (and How to Escape It)</h3>
+          <p class="desc">Ruben Hassid shares how Andrej Karpathy spent 4 hours refining a blog post with an LLM, only to have the AI demolish his entire argument when asked to argue the opposite. Ruben then fell into the same trap while writing about the trap itself. The takeaway: when AI pushes back and you feel the urge to fold, step away and ask yourself if you actually think you were wrong, or if you just got out argued by something that doesn't care what's true.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Ruben Hassid</span>
           </div>
         </a>
 
-        <a href="https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the-ff9" target="_blank" class="article-item">
-          <h3>Plentiful, High-Paying Jobs in the Age of AI</h3>
-          <p class="desc">A thought-provoking analysis arguing that AI might not eliminate high-paying jobs due to compute and energy constraints. The principle of comparative advantage could keep humans employed in roles even when AI is technically superior, because the opportunity cost of allocating AI to all tasks would be too high.</p>
+        <a href="https://byteiota.com/claude-ai-writes-freebsd-kernel-exploit-in-8-hours/" target="_blank" class="article-item">
+          <h3>Claude AI Writes FreeBSD Kernel Exploit in 8 Hours</h3>
+          <p class="desc">Security researcher Calif.io published research showing Claude AI autonomously developed a complete FreeBSD kernel remote code execution exploit in just 8 hours, performing the entire exploit chain from lab setup to working root shell. Part of the MAD Bugs initiative, Claude Opus 4.6 has now identified over 500 high severity zero days in production open source software.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.therundown.ai/" target="_blank" class="article-item">
-          <h3>Community Workflow: Multi-Tool Dissertation Writing</h3>
-          <p class="desc">Reader Paul M. shared how he combines NotebookLM, Gemini, and Claude to write his dissertation. He uses NotebookLM for disciplined synthesis of research articles, Gemini for coaching through initial drafts, and Claude for editing and refinement. Sharing output between tools makes each prompt better than the last.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>Ethan Mollick: The IT Department Is Where AI Goes to Die</h3>
+          <p class="desc">Penn professor Ethan Mollick argues that traditional IT departments are stifling AI innovation through risk mitigation gatekeeping. Instead, he advocates a three part model covering leaders, employees, and a dedicated lab to allow faster AI adoption while maintaining oversight.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
       </div>
@@ -800,27 +783,27 @@
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.lesswrong.com/posts/TfKM9PgztxieEcKiv/a-mirror-test-for-llms" target="_blank" class="article-item">
-          <h3>A Mirror Test for LLMs: Can AI Recognize Its Own Output?</h3>
-          <p class="desc">A proposed "Mirror Test" assessed whether LLMs can identify their own outputs without explicit cues. Anthropic's Opus 4.6 showed notable self-recognition due to its distinct token outputs, outperforming OpenAI's GPT models. However, no LLM demonstrated consistent self-awareness through message passing.</p>
+        <a href="https://www.bvp.com/atlas/securing-ai-agents-the-defining-cybersecurity-challenge-of-2026" target="_blank" class="article-item">
+          <h3>AI Agent Cybersecurity: The Defining Challenge of 2026</h3>
+          <p class="desc">Bessemer Venture Partners published a comprehensive analysis of AI agent security, arguing that agents have created a fundamental asymmetry in cybersecurity where offense accelerates while defense lags. AI vulnerability discovery takes hours while human patching and deployment takes days to weeks.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://nextbigteng.substack.com/p/ai-infrastructure-roadmap-five-frontiers-for-2026" target="_blank" class="article-item">
-          <h3>AI Infrastructure Roadmap: Five Frontiers for 2026</h3>
-          <p class="desc">The first generation of AI optimized for scale and efficiency. The next phase requires infrastructure for grounding AI in operational contexts, real-world experiences, and continuous learning. The article maps five key frontiers where AI infrastructure needs to evolve.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>USV's AI Agents: Arthur, Ellie, Sally, and Friends</h3>
+          <p class="desc">Venture firm Union Square Ventures shared four lessons from building their own internal AI agents, offering practical insights on how organizations can start deploying purpose built agents for real business workflows rather than relying on general purpose chatbots.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
 
-        <a href="https://github.com/google-research/timesfm" target="_blank" class="article-item">
-          <h3>TimesFM: Google's Pretrained Time-Series Foundation Model</h3>
-          <p class="desc">Google Research released TimesFM, a pretrained time-series foundation model for forecasting. Built on a patched-decoder attention architecture trained on a large time-series corpus, it works across different history lengths, prediction lengths, and temporal granularities.</p>
+        <a href="https://blog.mean.ceo/ai-product-launches-news-april-2026/" target="_blank" class="article-item">
+          <h3>Huawei 950PR Chip Targets AI Inference Workloads</h3>
+          <p class="desc">Huawei rolled out its 950PR AI chip designed specifically for fast inference computing, representing a practical advancement for startups and SMEs looking for alternatives to Nvidia hardware. The chip arrives amid growing global demand for inference optimized silicon.</p>
           <div class="item-meta">
-            <span class="src">TLDR AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
@@ -830,8 +813,9 @@
   <div class="footer">
     <p>
       <span class="footer-brand">Gary's Daily</span> is hand-curated from
-      <strong>The Rundown AI</strong>, <strong>TLDR</strong>,
-      <strong>Lenny's Newsletter</strong>, <strong>Excellent AI Prompts</strong>,
+      <strong>Ruben Hassid</strong>, <strong>Lenny's Newsletter</strong>,
+      <strong>The AI Architect</strong>, <strong>Khe Hy</strong>,
+      <strong>Excellent AI Prompts</strong>, <strong>Write With AI</strong>,
       and curated web sources.
       <br><br>
       Updated every morning. Built with focus and love.
