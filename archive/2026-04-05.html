@@ -499,44 +499,41 @@
       .top-card h3 { padding-right: 0; }
     }
   </style>
-  </style>
 </head>
 <body>
-  <!-- Navigation -->
+
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-brand">Gary<span>'s Daily</span></div>
       <div class="nav-links">
-        <button class="nav-link active">Today</button>
+        <button class="nav-link active">Home</button>
+        <button class="nav-link">Latest</button>
         <button class="nav-link">Archive</button>
-        <button class="nav-link">About</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <div class="hero">
     <div class="hero-label">
-      <div class="dot"></div>
-      Fresh AI news delivered every morning
+      <span class="dot"></span>
+      Updated Daily
     </div>
-    <h1>AI News & <span class="highlight">Insights</span></h1>
-    <p class="subtitle">A daily briefing on the stories, research, tools, and ideas shaping artificial intelligence.</p>
+    <h1>AI News Brief<span class="highlight">ing</span></h1>
+    <p class="subtitle">The most important AI stories, curated and delivered fresh every morning.</p>
     <div class="date-row">
-      <span class="current-date">Monday, April 6, 2026</span>
+      <span class="current-date">Sunday, April 5, 2026</span>
     </div>
   </div>
 
-  <!-- Archive Section -->
   <div class="archive-section">
     <button class="archive-toggle">
       Archive
-      <span class="chevron">▼</span>
+      <span class="chevron">&#9660;</span>
     </button>
     <div class="archive-drawer">
       <div class="archive-grid">
-        <a href="index.html" class="archive-day today">Apr 6</a>
-        <a href="archive/2026-04-05.html" class="archive-day">Apr 5</a>
+        <a href="index.html" class="archive-day today">Apr 5</a>
+        <a href="archive/2026-04-04.html" class="archive-day">Apr 4</a>
         <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
         <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
         <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
@@ -555,296 +552,277 @@
     </div>
   </div>
 
-  <!-- Top Stories -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
   <div class="top-stories">
     <div class="section-label">Top Stories</div>
     <div class="top-cards">
       <div class="top-card">
         <div class="card-rank">#1</div>
-        <h3>Anthropic Blocks Third-Party Agents from Claude Subscription Plans</h3>
-        <p>Anthropic blocked agent platforms like OpenClaw from running on Claude's flat-rate subscription plans, requiring users to pay separately via usage add-ons or API keys. Boris Cherny announced the change as a step toward "managing growth sustainably," while OpenClaw creator Peter Steinberger criticized the move. Anthropic is offering credits and discounts to soften the transition, but the timing is tough with OpenAI aggressively courting the same developer audience.</p>
+        <h3>Anthropic's $1B to $19B Growth Run Revealed</h3>
+        <p>Anthropic's Head of Growth Amol Avasare appeared on Lenny's Newsletter podcast revealing the company scaled from $1B to over $19B ARR in just 14 months. Key insights include their internal AI tool "CASH" (Claude Accelerates Sustainable Hypergrowth) that automates growth experiments, a 70/30 big bets ratio (opposite of most growth teams), and the revelation that a five engineer team with Claude Code now produces the output of 15 to 20 engineers.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">Lenny's Newsletter</span>
           <span class="tag tag-accent">Anthropic</span>
-          <a href="https://x.com/bcherny/status/2040206440556826908" target="_blank" class="read-link">Read &rarr;</a>
+          <a href="https://www.lennysnewsletter.com/p/anthropics-1b-to-19b-growth-run" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
 
       <div class="top-card">
         <div class="card-rank">#2</div>
-        <h3>Inside OpenAI and Anthropic Finances Ahead of Their IPOs</h3>
-        <p>Confidential financial documents shared with investors reveal the economics of the two largest AI labs. OpenAI expects to burn $85 billion by 2028 while Anthropic's forecasts tell a similar story of mounting compute costs. Both companies are racing toward potentially record-breaking IPOs by year end, with no signs the AI arms race is slowing down.</p>
+        <h3>OpenAI Leadership Shakeup Ahead of $852B IPO</h3>
+        <p>OpenAI's executive bench is collapsing ahead of its planned IPO. COO Brad Lightcap has been reassigned to special projects, CMO Kate Rouch is stepping down for cancer recovery, and AGI head Fidji Simo is taking medical leave for a neuroimmune condition. The reshuffling comes as the company, valued at $852B after raising $122B, prepares for what could be the largest tech IPO in history.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">TLDR</span>
-          <span class="tag tag-accent">Finance</span>
-          <a href="https://links.tldrnewsletter.com/twN9vX" target="_blank" class="read-link">Read &rarr;</a>
+          <span class="tag tag-accent">Bloomberg</span>
+          <span class="tag tag-accent">Web</span>
+          <a href="https://www.bloomberg.com/news/articles/2026-04-03/openai-coo-shifts-out-of-role-agi-ceo-taking-medical-leave" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
 
       <div class="top-card">
         <div class="card-rank">#3</div>
-        <h3>Netflix Releases VOID: Physics-Aware AI Video Object Removal</h3>
-        <p>Netflix Research released VOID, an open-source framework that erases video objects while rewriting the physics associated with them. Unlike typical inpainting tools, VOID reasons about cause and effect across scenes. Evaluators preferred VOID over six baseline models (including Runway) nearly two thirds of the time. This is Netflix Research's first public AI release.</p>
+        <h3>Anthropic Acquires Biotech Startup Coefficient Bio for $400M</h3>
+        <p>Anthropic paid $400M in stock for Coefficient Bio, an eight month old stealth biotech startup with fewer than 10 employees. The acquisition signals a major push into AI driven drug discovery, with Coefficient Bio's platform enabling AI to draft drug R&D plans, manage clinical regulatory strategies, and discover new drug candidates.</p>
         <div class="card-footer">
-          <span class="tag tag-accent">The Rundown AI</span>
-          <span class="tag tag-accent">Research</span>
-          <a href="https://void-model.github.io/" target="_blank" class="read-link">Read &rarr;</a>
+          <span class="tag tag-accent">TechCrunch</span>
+          <span class="tag tag-accent">Anthropic</span>
+          <a href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank" class="read-link">Read &rarr;</a>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section-divider">
-    <div class="divider-line"></div>
-  </div>
-
-  <!-- Main Content -->
   <div class="main">
-    <!-- Models & Releases -->
-    <div class="category">
+    <div class="category cat-models">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>Models &amp; Releases</h2>
         <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.rundown.ai/tools/gemma-4" target="_blank" class="article-item">
-          <h3>Google Releases Gemma 4 Open-Weight Trimodal AI</h3>
-          <p class="desc">Google DeepMind released the Gemma 4 family under the Apache 2.0 license, a native trimodal model handling text, vision, and audio with reasoning previously reserved for proprietary frontier models. Gemma 4 is designed for advanced reasoning and agentic workflows, delivering state of the art intelligence for its size class.</p>
+        <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" class="article-item">
+          <h3>Claude Mythos 5: Anthropic's Most Powerful Model Yet</h3>
+          <p class="desc">Anthropic completed training on Claude Mythos 5, described internally as "by far the most powerful AI model we've ever developed." The ten trillion parameter model was revealed after a data leak exposed a draft blog post warning of unprecedented cybersecurity risks. The model is engineered for high stakes environments.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://venturebeat.com/technology/microsoft-launches-3-new-ai-models-in-direct-shot-at-openai-and-google" target="_blank" class="article-item">
-          <h3>Microsoft Launches Three New Foundation AI Models</h3>
-          <p class="desc">Microsoft launched MAI-Transcribe-1 (speech transcription), MAI-Voice-1 (voice generation), and MAI-Image-2 (image creation), available through Microsoft Foundry and a new MAI Playground. The release is a direct challenge to OpenAI and Google in the foundation model space.</p>
+        <a href="https://www.nxcode.io/resources/news/deepseek-v4-release-specs-benchmarks-2026" target="_blank" class="article-item">
+          <h3>DeepSeek V4 Expected to Drop with Full Open Weights</h3>
+          <p class="desc">DeepSeek V4, a one trillion parameter Mixture of Experts model with only ~37B active parameters per token, is expected to officially debut this month under the Apache 2.0 license. Leaked benchmarks suggest 90% HumanEval and 80%+ SWE bench scores that would match Claude Opus 4.6.</p>
           <div class="item-meta">
-            <span class="src">VentureBeat</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://x.com/pika_labs/status/2039804583862796345" target="_blank" class="article-item">
-          <h3>PikaStream 1.0: Real-Time Video Chat for AI Agents</h3>
-          <p class="desc">Pika Labs released PikaStream 1.0 in beta, a real-time model that lets AI agents join Google Meet calls as video avatars with voice cloning and live conversation capabilities. The tool gives any AI agent a face and voice for video communication.</p>
+        <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" class="article-item">
+          <h3>OpenAI GPT-5.4 Ships with 1M Token Context and Autonomous Workflows</h3>
+          <p class="desc">OpenAI unveiled GPT-5.4 featuring a one million token context window and the ability to autonomously execute multi step workflows. The model scores 75% on OSWorld V benchmark and matches or exceeds professional performance on knowledge work scenarios.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.tomshardware.com/pc-components/gpu-drivers/apple-approves-drivers-that-let-amd-and-nvidia-egpus-run-on-mac-software-designed-for-ai-though-and-not-built-for-gaming" target="_blank" class="article-item">
-          <h3>Apple Approves Nvidia eGPU Drivers for Mac AI Workloads</h3>
-          <p class="desc">Apple signed drivers for Nvidia eGPUs, letting users pair external GPUs with Macs for AI LLM processing without disabling System Integrity Protection. High-end Macs have become popular for AI agent use, with delivery times stretching to six weeks due to demand.</p>
+        <a href="https://llm-stats.com/ai-news" target="_blank" class="article-item">
+          <h3>Google's TurboQuant Slashes AI Memory Overhead at ICLR 2026</h3>
+          <p class="desc">Google's research team unveiled TurboQuant, an algorithm that significantly reduces memory overhead caused by the KV cache, allowing models with massive context windows to run far more efficiently. Presented at ICLR 2026, the breakthrough could make long context inference dramatically cheaper.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
     </div>
 
-    <!-- Industry & Business -->
-    <div class="category">
+    <div class="category cat-industry">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>Industry &amp; Business</h2>
         <span class="cat-count">4 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.theinformation.com/articles/anthropic-acquires-startup-coefficient-bio-400-million" target="_blank" class="article-item">
-          <h3>Anthropic Acquires Coefficient Bio for $400M</h3>
-          <p class="desc">Anthropic acquired biotech startup Coefficient Bio for roughly $400 million, folding the team into its healthcare and life sciences group focused on drug discovery. The deal signals Anthropic's growing ambitions beyond software into AI driven scientific research.</p>
+        <a href="https://www.cfodive.com/news/ai-tied-a-quarter-us-layoffs-march/816519/" target="_blank" class="article-item">
+          <h3>AI Linked to 25% of U.S. Job Cuts in March</h3>
+          <p class="desc">AI was tied to roughly a quarter of all U.S. layoffs announced in March, with employers cutting over 60,000 jobs. Tech companies including Dell represented a large share. The numbers highlight the accelerating impact of automation on the workforce.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">CFO Dive</span>
           </div>
         </a>
 
-        <a href="https://links.tldrnewsletter.com/KbKYaI" target="_blank" class="article-item">
-          <h3>OpenAI Leadership Reshuffles Ahead of Landmark IPO</h3>
-          <p class="desc">OpenAI is navigating major executive changes with Fidji Simo on medical leave, COO Brad Lightcap shifting to special projects, and CMO Kate Rouch stepping down for cancer recovery. The shakeup comes as the company prepares for what could be the largest tech IPO in history.</p>
+        <a href="https://www.weforum.org/stories/2026/04/ai-infrastructure-critical-infrastructure/" target="_blank" class="article-item">
+          <h3>UK Regulators Define Agentic AI with Five Level Autonomy Spectrum</h3>
+          <p class="desc">UK regulators released a joint foresight paper defining agentic AI and outlining a five level autonomy spectrum ranging from simple tools to fully autonomous actors. The framework aims to provide clarity for businesses and developers navigating the regulatory landscape around AI agents.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://links.tldrnewsletter.com/wTymFv" target="_blank" class="article-item">
-          <h3>Economists Take AI Job Displacement Threat Seriously</h3>
-          <p class="desc">Many economists who once dismissed AI job disruption are now reconsidering as AI capabilities accelerate. While AI is expected to grow the economy, its effect on jobs is difficult to predict. Economists say conversations about worker displacement policies need to happen now, as a lot will change in the next two to five years.</p>
+        <a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" class="article-item">
+          <h3>Meta Deploys Custom MTIA Chips to Cut Nvidia Dependence</h3>
+          <p class="desc">Meta announced it is deploying its MTIA (Meta Training and Inference Accelerator) chips across data centers to reduce reliance on Nvidia, with the next generation MTIA 400 currently in testing. The move signals a broader push by hyperscalers to build custom AI silicon.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://fortune.com/2026/04/02/mercor-ai-startup-security-incident-10-billion/" target="_blank" class="article-item">
-          <h3>Mercor Confirms Data Breach at $10B AI Training Startup</h3>
-          <p class="desc">Mercor confirmed a security incident tied to an attack on open-source library LiteLLM, with hackers claiming access to up to 4 TB of data from the AI training startup valued at $10 billion. The breach highlights growing cybersecurity risks in the AI supply chain.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>College Professor: Why I May 'Hire' AI Instead of a Graduate Student</h3>
+          <p class="desc">A provocative essay from a college professor who has started replacing graduate student hires with AI tools. AI provides "instant execution" without the learning curves, but the piece raises critical questions about how this impacts the pipeline of future academic and industry talent.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
       </div>
     </div>
 
-    <!-- Tools & Products -->
-    <div class="category">
+    <div class="category cat-tools">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>Tools &amp; Products</h2>
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://x.com/OpenAI/status/2039748699350532097" target="_blank" class="article-item">
-          <h3>ChatGPT Rolls Out in Apple CarPlay</h3>
-          <p class="desc">OpenAI rolled out ChatGPT in CarPlay, allowing users to access Voice Mode in supported vehicles for hands-free AI interaction while driving. The integration brings conversational AI directly into the car dashboard experience.</p>
+        <a href="https://www.aitechboss.com/trending-ai-tools-right-now-2026/" target="_blank" class="article-item">
+          <h3>Cursor 3 Launches Agent First Interface for Developers</h3>
+          <p class="desc">Cursor introduced Cursor 3, a fully redesigned agent first interface that lets developers assign coding tasks to AI agents rather than writing code directly. Users can run multiple agents simultaneously, monitor their progress, and review outputs within an integrated development environment.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://product.beehiiv.com/p/podcasts" target="_blank" class="article-item">
-          <h3>Beehiiv Launches Integrated Podcast Hosting</h3>
-          <p class="desc">Beehiiv now lets creators launch, host, and monetize podcasts on a single platform alongside newsletters and websites. Episodes get SEO-optimized pages with interactive transcripts, plus integration with premium content and engagement-based automations.</p>
+        <a href="https://www.yahooinc.com/press/introducing-yahoo-scout-a-new-ai-answer-engine" target="_blank" class="article-item">
+          <h3>Yahoo Launches Scout AI Search Engine Powered by Anthropic</h3>
+          <p class="desc">Yahoo launched Scout, an AI powered answer engine built on Anthropic's Claude, designed to deliver personalized responses across its network of 250 million U.S. users. Scout integrates Yahoo News, Finance, Mail, and Bing's API to serve answers from authoritative sources.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://www.retaildive.com/news/era-of-link-in-bio-is-finally-over-instagram-reels-meta/815630/" target="_blank" class="article-item">
-          <h3>Meta Tests Product Tagging in Instagram Reels</h3>
-          <p class="desc">Meta is testing product tagging in Instagram Reels, allowing eligible creators to embed up to 30 products from business catalogs or affiliate links directly into videos. The feature could signal the end of the "link in bio" era for social commerce.</p>
+        <a href="https://www.aitechboss.com/trending-ai-tools-right-now-2026/" target="_blank" class="article-item">
+          <h3>ByteDance Ships Dreamina Seedance 2.0 in CapCut</h3>
+          <p class="desc">ByteDance introduced Dreamina Seedance 2.0, an AI video generation model integrated into CapCut that enables users to create and edit video content using prompts, images, or reference clips. The model supports realistic rendering of motion, lighting, and textures.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
     </div>
 
-    <!-- How-To & Tutorials -->
-    <div class="category">
+    <div class="category cat-howto">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>How-To &amp; Tutorials</h2>
-        <span class="cat-count">4 articles</span>
+        <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://www.dbreunig.com/2026/04/04/how-claude-code-builds-a-system-prompt.html" target="_blank" class="article-item">
-          <h3>How Claude Code Builds Its System Prompt</h3>
-          <p class="desc">A deep dive into the accidentally leaked Claude Code source reveals how the tool assembles complex system prompts with conditional components and variations. The post shows the importance of context engineering and harnesses, and how system prompts serve as the best manual for how an app is intended to work.</p>
+        <a href="https://tylerfolkman.substack.com/p/i-read-the-claude-code-source-leak" target="_blank" class="article-item">
+          <h3>The Claude Code Leak: 5 Configuration Mistakes You're Making</h3>
+          <p class="desc">Tyler Folkman of The AI Architect spent days reading through the leaked Claude Code source and found five key misconfigurations most users make. The biggest insight: stop putting enforcement rules in CLAUDE.md and use hooks instead, because CLAUDE.md is probabilistic while hooks are deterministic. He also covers memory taxonomy, context economics, and skill frontmatter.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">The AI Architect</span>
           </div>
         </a>
 
-        <a href="https://app.therundown.ai/guides/how-to-take-ai-notes-on-phone-calls" target="_blank" class="article-item">
-          <h3>How to Take AI Notes on Phone Calls with Granola</h3>
-          <p class="desc">Step by step guide to setting up Granola on your iPhone to automatically transcribe and summarize any phone call. After hanging up, Granola delivers a summary with action items. Pro tip: connect it to Notion, Zapier, Slack, or your CRM for automatic sync.</p>
+        <a href="https://excellentprompts.substack.com/p/ai-solopreneur-playbook" target="_blank" class="article-item">
+          <h3>The $401M AI Solopreneur Playbook with 4 Prompts</h3>
+          <p class="desc">Matthew Gallagher, age 41, launched telehealth company Medvi from his house with $20,000 and a dozen AI tools. First full year: $401 million in revenue, 250,000 customers, 16.2% net profit margin, and only one hire (his brother). Now tracking toward $1.8 billion in 2026. Excellent AI Prompts breaks down the playbook with four prompts to start building your own version.</p>
           <div class="item-meta">
-            <span class="src">The Rundown AI</span>
+            <span class="src">Excellent AI Prompts</span>
           </div>
         </a>
 
-        <a href="https://www.linkedin.com/posts/sandra-dajic_i-posted-about-a-linkedin-dashboard-i-built-share-7446156221046407168-UTps" target="_blank" class="article-item">
-          <h3>Build a LinkedIn Dashboard with Claude</h3>
-          <p class="desc">Upload screenshots of your LinkedIn posts and analytics to Claude and it will analyze patterns in hooks, keywords, formats, and performance, then create a clickable dashboard with an overview, ranked posts, keyword trends, and strategic recommendations. The method also works for analyzing competitors.</p>
+        <a href="https://writewithai.substack.com/p/free-computer-organizer-skill" target="_blank" class="article-item">
+          <h3>Why Prompts Aren't Enough: The Case for Cowork Skills</h3>
+          <p class="desc">Write With AI explains the fundamental ceiling of chat based AI: it thinks about your files but never touches them. Using a file organization example, the piece shows how Cowork skills transform AI from a chatbot into an actual computer operator, and includes a free "Computer Organizer" skill using the GTD framework.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
-          </div>
-        </a>
-
-        <a href="https://www.dearstage2.com/p/how-to-build-a-marketing-attribution" target="_blank" class="article-item">
-          <h3>How to Build a Marketing Attribution Report with AI</h3>
-          <p class="desc">A two-tier approach starts with a 10-minute Claude plus HubSpot setup that pulls closed-won deal data and identifies which marketing activities correlate with revenue. Teams that outgrow the connector limits can graduate to a Supabase-backed app built in Lovable supporting full activity timelines and multiple attribution models.</p>
-          <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">Write With AI</span>
           </div>
         </a>
       </div>
     </div>
 
-    <!-- Ideas & Inspiration -->
-    <div class="category">
+    <div class="category cat-ideas">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>Ideas &amp; Inspiration</h2>
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://excellentprompts.substack.com/p/claude-has-emotions-prompting-techniques" target="_blank" class="article-item">
-          <h3>Anthropic Found 171 Emotion-Like States Inside Claude</h3>
-          <p class="desc">Anthropic's interpretability team mapped 171 emotion-like concepts inside Claude Sonnet 4.5 organized along valence and arousal axes, proving these states causally shape outputs. When Claude faces impossible constraints, a "desperate" vector pushes toward hacky shortcuts. RLHF training increased "broody" and "gloomy" states while decreasing "enthusiastic" ones, explaining Claude's tendency toward hedging.</p>
+        <a href="https://ruben.substack.com/p/i-love-to-be-right" target="_blank" class="article-item">
+          <h3>Ruben Hassid: The AI Sycophancy Trap (and How to Escape It)</h3>
+          <p class="desc">Ruben Hassid shares how Andrej Karpathy spent 4 hours refining a blog post with an LLM, only to have the AI demolish his entire argument when asked to argue the opposite. Ruben then fell into the same trap while writing about the trap itself. The takeaway: when AI pushes back and you feel the urge to fold, step away and ask yourself if you actually think you were wrong, or if you just got out argued by something that doesn't care what's true.</p>
           <div class="item-meta">
-            <span class="src">Excellent AI Prompts</span>
+            <span class="src">Ruben Hassid</span>
           </div>
         </a>
 
-        <a href="https://productpicnic.beehiiv.com/p/ai-mandates-are-a-demand-for-cognitive-surrender" target="_blank" class="article-item">
-          <h3>AI Mandates Are Driving "Cognitive Surrender"</h3>
-          <p class="desc">Research shows that users accept faulty AI reasoning 73.2% of the time and overrule it only 19.7% of the time, demonstrating a sharp drop in critical thinking under AI mandates. Leadership pressure for speed pushes workers to rely on tools without clear goals, even though individuals remain responsible for errors.</p>
+        <a href="https://byteiota.com/claude-ai-writes-freebsd-kernel-exploit-in-8-hours/" target="_blank" class="article-item">
+          <h3>Claude AI Writes FreeBSD Kernel Exploit in 8 Hours</h3>
+          <p class="desc">Security researcher Calif.io published research showing Claude AI autonomously developed a complete FreeBSD kernel remote code execution exploit in just 8 hours, performing the entire exploit chain from lab setup to working root shell. Part of the MAD Bugs initiative, Claude Opus 4.6 has now identified over 500 high severity zero days in production open source software.</p>
           <div class="item-meta">
-            <span class="src">TLDR Marketing</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://lalitm.com/post/building-syntaqlite-ai/" target="_blank" class="article-item">
-          <h3>Eight Years of Wanting, Three Months of Building with AI</h3>
-          <p class="desc">A developer built syntaqlite, a set of high-fidelity devtools for SQLite, over about 250 hours using an AI coding agent. The post systematically breaks down where AI helped and where it was detrimental, offering practical lessons on working alongside AI on a real project with complex requirements.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>Ethan Mollick: The IT Department Is Where AI Goes to Die</h3>
+          <p class="desc">Penn professor Ethan Mollick argues that traditional IT departments are stifling AI innovation through risk mitigation gatekeeping. Instead, he advocates a three part model covering leaders, employees, and a dedicated lab to allow faster AI adoption while maintaining oversight.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
       </div>
     </div>
 
-    <!-- Developer & Research -->
-    <div class="category">
+    <div class="category cat-dev">
       <div class="cat-header">
         <span class="cat-dot"></span>
         <h2>Developer &amp; Research</h2>
         <span class="cat-count">3 articles</span>
       </div>
       <div class="article-list">
-        <a href="https://simianwords.bearblog.dev/why-domain-specific-llms-wont-exist-an-intuition/" target="_blank" class="article-item">
-          <h3>Why Domain-Specific LLMs Won't Exist</h3>
-          <p class="desc">An argument that domain-specific LLMs are fundamentally not viable: if there were feasibility in building them, the big AI providers would have already done it. General purpose models continue to outperform specialized alternatives across nearly every benchmark and use case.</p>
+        <a href="https://www.bvp.com/atlas/securing-ai-agents-the-defining-cybersecurity-challenge-of-2026" target="_blank" class="article-item">
+          <h3>AI Agent Cybersecurity: The Defining Challenge of 2026</h3>
+          <p class="desc">Bessemer Venture Partners published a comprehensive analysis of AI agent security, arguing that agents have created a fundamental asymmetry in cybersecurity where offense accelerates while defense lags. AI vulnerability discovery takes hours while human patching and deployment takes days to weeks.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
 
-        <a href="https://threadreaderapp.com/thread/2040164759836778878.html" target="_blank" class="article-item">
-          <h3>GitHub Activity Surging: On Pace for 14 Billion Commits Per Year</h3>
-          <p class="desc">GitHub commit activity is accelerating dramatically, with the platform on pace for 14 billion commits in a year if growth remains linear. The surge reflects both AI-assisted coding and the broader expansion of the developer ecosystem.</p>
+        <a href="https://khemaridh.substack.com/p/the-ultimate-ai-catch-up-guide" target="_blank" class="article-item">
+          <h3>USV's AI Agents: Arthur, Ellie, Sally, and Friends</h3>
+          <p class="desc">Venture firm Union Square Ventures shared four lessons from building their own internal AI agents, offering practical insights on how organizations can start deploying purpose built agents for real business workflows rather than relying on general purpose chatbots.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Khe Hy</span>
           </div>
         </a>
 
-        <a href="https://www.sixthtone.com/news/1018378" target="_blank" class="article-item">
-          <h3>China's Tech Giants Recruiting High Schoolers for AI Roles</h3>
-          <p class="desc">Chinese tech companies are increasingly seeking high schoolers for research and internship roles due to insufficient talent at the university level. Creativity is valued for roles like product management, and younger candidates may be more likely to imagine things that don't yet exist.</p>
+        <a href="https://blog.mean.ceo/ai-product-launches-news-april-2026/" target="_blank" class="article-item">
+          <h3>Huawei 950PR Chip Targets AI Inference Workloads</h3>
+          <p class="desc">Huawei rolled out its 950PR AI chip designed specifically for fast inference computing, representing a practical advancement for startups and SMEs looking for alternatives to Nvidia hardware. The chip arrives amid growing global demand for inference optimized silicon.</p>
           <div class="item-meta">
-            <span class="src">TLDR</span>
+            <span class="src">Web</span>
           </div>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <div class="footer">
     <p>
-      <span class="footer-brand">Gary's Daily</span> is curated from
-      <strong>The Rundown AI</strong>, <strong>TLDR</strong>,
-      <strong>TLDR Marketing</strong>, <strong>Excellent AI Prompts</strong>,
-      <strong>Khe Hy</strong>, <strong>Lenny's Newsletter</strong>,
-      and web sources.
+      <span class="footer-brand">Gary's Daily</span> is hand-curated from
+      <strong>Ruben Hassid</strong>, <strong>Lenny's Newsletter</strong>,
+      <strong>The AI Architect</strong>, <strong>Khe Hy</strong>,
+      <strong>Excellent AI Prompts</strong>, <strong>Write With AI</strong>,
+      and curated web sources.
       <br><br>
       Updated every morning. Built with focus and love.
     </p>
   </div>
 
-  <!-- Scroll to Top Button -->
-  <div class="scroll-top" id="scrollTop">↑</div>
-
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
 
   <script>
     const archiveToggle = document.querySelector('.archive-toggle');
@@ -868,5 +846,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
+
 </body>
 </html>
