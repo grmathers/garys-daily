@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(124,106,239,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .top-card:hover {
+      background: var(--glass-hover);
+      border-color: var(--glass-border);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+    .top-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+      padding-right: 2rem;
+    }
+    .top-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+    .read-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: all 0.2s;
+    }
+    .read-link:hover { opacity: 0.7; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cat-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    .article-list {
+      display: grid;
+      gap: 1rem;
+    }
+    .article-item {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .article-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .article-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .article-item .desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .item-meta .src {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .footer {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .footer-brand {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .footer strong { color: var(--accent); }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 700;
+      z-index: 50;
+      font-size: 1.2rem;
+    }
+    .scroll-top.visible {
+      opacity: 0.7;
+    }
+    .scroll-top:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2.5rem 1.5rem 1.5rem; }
+      .nav { padding: 0 1rem; }
+      .nav-inner { height: 50px; }
+      .archive-section, .section-divider, .top-stories, .main, .footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .top-card h3 { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Today</button>
+        <button class="nav-link">Archive</button>
+        <button class="nav-link">About</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label">
+      <div class="dot"></div>
+      Fresh AI news delivered every morning
+    </div>
+    <h1>AI News &amp; <span class="highlight">Insights</span></h1>
+    <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me).</p>
+    <div class="date-row">
+      <span class="current-date">Monday, April 27, 2026</span>
+    </div>
+  </div>
+
+  <!-- Archive Section -->
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">Apr 27</a>
+        <a href="archive/2026-04-26.html" class="archive-day">Apr 26</a>
+        <a href="archive/2026-04-23.html" class="archive-day">Apr 23</a>
+        <a href="archive/2026-04-21.html" class="archive-day">Apr 21</a>
+        <a href="archive/2026-04-20.html" class="archive-day">Apr 20</a>
+        <a href="archive/2026-04-19.html" class="archive-day">Apr 19</a>
+        <a href="archive/2026-04-17.html" class="archive-day">Apr 17</a>
+        <a href="archive/2026-04-16.html" class="archive-day">Apr 16</a>
+        <a href="archive/2026-04-14.html" class="archive-day">Apr 14</a>
+        <a href="archive/2026-04-13.html" class="archive-day">Apr 13</a>
+        <a href="archive/2026-04-10.html" class="archive-day">Apr 10</a>
+        <a href="archive/2026-04-09.html" class="archive-day">Apr 9</a>
+        <a href="archive/2026-04-08.html" class="archive-day">Apr 8</a>
+        <a href="archive/2026-04-07.html" class="archive-day">Apr 7</a>
+        <a href="archive/2026-04-06.html" class="archive-day">Apr 6</a>
+        <a href="archive/2026-04-05.html" class="archive-day">Apr 5</a>
+        <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
+        <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Stories -->
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>Google Commits Up to $40B to Anthropic in a Mega Investment</h3>
+        <p>Google is investing up to $40 billion in Anthropic, starting with $10 billion at a $350 billion valuation and another $30 billion contingent on hitting performance milestones, alongside 5GW of fresh Cloud compute. The move comes days after Amazon committed up to $25 billion to the same company, and pushes Anthropic's annual run rate above $30 billion (versus roughly $9 billion at the end of 2025). The combined Big Tech bet is the clearest signal yet that the frontier lab race has shifted from product velocity to infrastructure scale, with Google now spreading its AI bets across Gemini and Anthropic at the same time.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">CNBC</span>
+          <span class="tag tag-accent">TLDR</span>
+          <span class="tag tag-accent">Bloomberg</span>
+          <a href="https://techcrunch.com/2026/04/24/google-to-invest-up-to-40b-in-anthropic-in-cash-and-compute/" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>The Whale Returns: DeepSeek V4 Brings Frontier Capability on Huawei Chips</h3>
+        <p>DeepSeek pushed its V4 preview live with two open-source variants: V4-Pro at 1.6T parameters with 49B activated and V4-Flash at 284B with 13B activated, both supporting one million-token context windows under the MIT license. The new Compressed Sparse Attention plus Heavily Compressed Attention design slashes inference cost to 27% of V3.2 FLOPs and 10% of KV cache at long context. The bigger story: Huawei's Ascend chips now natively support V4 inference, giving China a working domestic alternative to the Nvidia stack. V4-Pro lands at $1.74 / $3.48 per million input/output tokens, well below GPT-5.5 at $5/$30 and Opus 4.7 at $5/$25.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">CNBC</span>
+          <span class="tag tag-accent">TechCrunch</span>
+          <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/DeepSeek_V4.pdf" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Anthropic's Project Deal Lets Claude Agents Trade for 69 Employees</h3>
+        <p>Anthropic published results from Project Deal, a one-week experiment where Claude agents handled buying and selling for 69 employees in a private Slack marketplace, completing 186 deals worth more than $4,000. Identical items fetched $3.64 more under Opus agents, with one folding bike selling for $65 via Opus but only $38 via Haiku. The kicker: Haiku users still rated their deals 4.06 / 7 for fairness, statistically tied with Opus users at 4.05, meaning users on weaker models did not notice they were being out-negotiated. Nearly half said they would pay for the service, and Anthropic warned that "policy and legal frameworks" for agent commerce do not yet exist.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">Anthropic</span>
+          <a href="https://www.anthropic.com/features/project-deal" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Models & Releases -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://x.ai/news/grok-voice-think-fast-1" target="_blank" class="article-item">
+          <h3>xAI Ships Grok Voice Think Fast 1.0, Already Running Starlink Phone Support</h3>
+          <p class="desc">xAI launched grok-voice-think-fast-1.0, a flagship voice model that takes the top spot on the Tau-voice Bench at 67.3%, beating Gemini and GPT Realtime. The model reasons in the background with no impact on response latency, supports 25+ languages, and is already powering Starlink's phone sales and support line, where it runs 28 tools across hundreds of workflows, hits a 20% sales conversion rate, and resolves 70% of support inquiries.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" class="article-item">
+          <h3>DeepSeek V4-Pro and V4-Flash Land With 1M-Token Context and Huawei Support</h3>
+          <p class="desc">The full DeepSeek V4 release ships V4-Pro (1.6T parameters, 49B activated) and V4-Flash (284B, 13B activated) under the MIT license with a million-token context window. V4-Pro tops Vals AI's Vibe Code Bench among open models and sits in the fourth tier of AA's Intelligence Index alongside Meta's Muse Spark. Huawei's Ascend chips now natively run V4 inference, the first credible domestic alternative to Nvidia for a frontier-class Chinese model.</p>
+          <div class="item-meta">
+            <span class="src">DeepSeek API Docs</span>
+          </div>
+        </a>
+
+        <a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/" target="_blank" class="article-item">
+          <h3>Google Releases Gemma 4 Open Models for Reasoning and Agentic Workflows</h3>
+          <p class="desc">Google introduced Gemma 4, the latest series of open models built specifically for advanced reasoning and agentic workflows. Released under the Apache 2.0 license, the family delivers what Google calls an unprecedented level of intelligence-per-parameter, slotting in below Gemini 3.1 Pro for teams that want strong reasoning on local hardware without sending data to a hosted API.</p>
+          <div class="item-meta">
+            <span class="src">Google Blog</span>
+          </div>
+        </a>
+
+        <a href="https://www.bloomberg.com/news/newsletters/2026-04-26/new-apple-ceo-john-ternus-first-major-product-is-the-foldable-iphone-road-map-mofu521p" target="_blank" class="article-item">
+          <h3>Apple's Ternus Era Opens With a Foldable iPhone and Ten Product Categories Ahead</h3>
+          <p class="desc">Tim Cook is handing successor John Ternus a road map of ten new product categories, headlined by the foldable iPhone Ternus will reveal less than two weeks after taking the CEO chair on September 1. The device packs a 7.8-inch inner display on Apple's A20 Pro chip, prices above $2,000, and is meant to anchor a December quarter projected to clear $150 billion in revenue. Smart glasses and a refreshed home category sit further down the list.</p>
+          <div class="item-meta">
+            <span class="src">Bloomberg / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://www.cursor.com/blog/cursor-3" target="_blank" class="article-item">
+          <h3>Cursor 3 Lands as a Direct Challenger to Claude Code and Codex</h3>
+          <p class="desc">Cursor released Cursor 3, an agentic coding interface positioned as a head-on competitor to Anthropic's Claude Code and OpenAI's Codex. The release leans into long-running coding agents, multi-file refactors, and tighter native MCP support, signaling that the IDE-native agent layer is now a three-horse race rather than a Claude monopoly.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/microsoft/agent-governance-toolkit" target="_blank" class="article-item">
+          <h3>Microsoft Open-Sources an Agent Governance Toolkit for Enterprise Buyers</h3>
+          <p class="desc">Microsoft shipped the Agent Governance Toolkit, a seven-package open-source system for governing autonomous AI agents in enterprise environments. Available free on GitHub and PyPI, the toolkit covers policy enforcement, audit logs, and execution sandboxing, addressing the same compliance gap Anthropic flagged in its Project Deal results.</p>
+          <div class="item-meta">
+            <span class="src">Microsoft / GitHub</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Industry & Business -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://techcrunch.com/2026/04/24/cohere-acquires-merges-with-german-based-startup-to-create-a-transatlantic-ai-powerhouse/" target="_blank" class="article-item">
+          <h3>Cohere to Merge With Aleph Alpha in a $20B Sovereign AI Play</h3>
+          <p class="desc">Canadian AI lab Cohere agreed to merge with Germany's Aleph Alpha at a combined valuation of roughly $20 billion, with Schwarz Group (Lidl's parent) leading a 500 million euro financing round into the new entity. The deal, blessed by both governments, packages Cohere's enterprise stack with Aleph Alpha's German public-sector contracts to offer a sovereign alternative to U.S. frontier labs for governments and regulated enterprises.</p>
+          <div class="item-meta">
+            <span class="src">TechCrunch</span>
+          </div>
+        </a>
+
+        <a href="https://about.fb.com/news/2026/04/meta-partners-with-aws-on-graviton-chips-to-power-agentic-ai/" target="_blank" class="article-item">
+          <h3>Meta Signs Multi-Year AWS Deal for Tens of Millions of Graviton5 Cores</h3>
+          <p class="desc">Meta agreed to deploy tens of millions of AWS Graviton5 cores to power its agentic AI workloads, becoming one of AWS's largest customers and renting (not buying) capacity for at least three years. Graviton5 ships 192 cores on a 3-nanometer process with cache five times the prior generation. The deal reframes the AI buildout from GPU-only to a CPU-heavy backbone for real-time reasoning and tool calls, since agentic loops chew through CPU cycles in ways training does not.</p>
+          <div class="item-meta">
+            <span class="src">Meta Newsroom / TechCrunch</span>
+          </div>
+        </a>
+
+        <a href="https://mediaoffice.ae/en/news/2026/april/23-04/mohammed-bin-rashid-chairs-uae-cabinet-meeting" target="_blank" class="article-item">
+          <h3>UAE Plans to Run 50% of Government Services on Agentic AI in Two Years</h3>
+          <p class="desc">Sheikh Mohammed bin Rashid Al Maktoum announced a two-year plan to move 50% of UAE government sectors, services, and operations onto agentic AI, with mandatory AI training for every federal employee. The agentic layer would handle visa renewals, document checks, payments, and approvals end to end, making UAE the first government globally operating at this scale through autonomous systems.</p>
+          <div class="item-meta">
+            <span class="src">UAE Government Media Office</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/KjIEH6" target="_blank" class="article-item">
+          <h3>Musk's X Money Targets a Public Banking Launch Before Month End</h3>
+          <p class="desc">X Money is expected to open to the public before the end of April, with free peer-to-peer transfers, a personalized metal Visa debit card, and an AI concierge that tracks spending and parses past transactions. Headline perks include 3% cash back on eligible purchases and 6% interest on cash savings, though the platform still lacks payment licenses in several U.S. states.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://www.teslarati.com/tesla-confirms-cybercab-with-no-steering-wheel-enters-production/" target="_blank" class="article-item">
+          <h3>Tesla Cybercab Enters Volume Production With No Steering Wheel</h3>
+          <p class="desc">Tesla's Cybercab officially entered volume production at Giga Texas, with a fleet of 14 newly built units spotted in the outbound lot and the line scaling to hundreds of units per week. The two-passenger coupe ships with no steering wheel or pedals, leaning entirely on Tesla's vision-only Full Self-Driving stack. Federal Motor Vehicle Safety Standards still cap unsteered production at 2,500 per year without an exemption, the next regulatory pinch point.</p>
+          <div class="item-meta">
+            <span class="src">Teslarati / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://www.businesswire.com/news/home/20260424174908/en/Sovereign-AI-for-the-World-Cohere-and-Aleph-Alpha-to-Form-Global-AI-Powerhouse-as-Nations-and-Enterprises-Demand-Control-Over-Their-Technology" target="_blank" class="article-item">
+          <h3>SpaceX Reportedly in Talks With Mistral and Cursor on a Three-Way AI Stack</h3>
+          <p class="desc">Elon Musk's SpaceX is reportedly negotiating a three-way partnership with French frontier lab Mistral and coding startup Cursor, layering on top of xAI's compute capital. The combination would give the broader Musk orbit a European frontier model, a high-traffic developer surface, and the SpaceX distribution channel, mirroring the kind of stack consolidation Cohere just did with Aleph Alpha but on the U.S. side.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tools & Products -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.anthropic.com/features/project-deal" target="_blank" class="article-item">
+          <h3>Project Deal: Anthropic's Internal Marketplace Where Claude Agents Did the Work</h3>
+          <p class="desc">Project Deal turned Anthropic's San Francisco office into a Slack-based classifieds market, where every employee got a $100 budget and an agent that posted listings, made offers, and negotiated on its own. Across one week, agents closed 186 deals worth roughly $4,000. Opus-led sellers earned $2.68 more per item, buyers saved $2.45, and Opus users completed 2.07 more deals on average than Haiku users.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic</span>
+          </div>
+        </a>
+
+        <a href="https://wisprflow.ai/" target="_blank" class="article-item">
+          <h3>Wispr Flow Turns Voice Into Clean Text Across Every App You Already Write In</h3>
+          <p class="desc">Wispr Flow is a system-level voice-to-text layer that strips filler, fixes grammar, and formats output as you speak, with 89% of messages reportedly sent without edits. It works across Gmail, Slack, Notion, Linear, ChatGPT, and more, on Mac, Windows, iPhone, and Android. Heavy adoption inside teams at OpenAI, Vercel, and Clay, plus a free tier, makes it a low-friction productivity install for anyone whose week is mostly typing.</p>
+          <div class="item-meta">
+            <span class="src">TLDR (Sponsored)</span>
+          </div>
+        </a>
+
+        <a href="https://aitoolly.com/ai-news/article/2026-04-16-indian-startup-emergent-enters-ai-agent-market-with-wingman-for-whatsapp-and-telegram-automation" target="_blank" class="article-item">
+          <h3>Emergent's Wingman Brings AI Agents Into WhatsApp and Telegram</h3>
+          <p class="desc">Indian vibe-coding startup Emergent launched Wingman, a chat-native AI agent that lives inside WhatsApp and Telegram and runs multi-step tasks from inside the conversation. Wingman targets the giant slice of work that already happens in messaging apps, sidestepping the install and onboarding hurdles of a desktop agent product.</p>
+          <div class="item-meta">
+            <span class="src">AIToolly</span>
+          </div>
+        </a>
+
+        <a href="https://ref.getviktor.com/vik-tt-quicklinks1" target="_blank" class="article-item">
+          <h3>Viktor Drops Into Slack as an AI Coworker for Finance and Operations</h3>
+          <p class="desc">Viktor is an AI coworker that sends invoices, audits Stripe, debugs checkout, and runs accounts payable across more than 3,000 connected tools. Now used by 9,000+ teams with a free tier, it's the cleanest example yet of a chat-first agent product replacing a junior finance ops hire rather than augmenting one, and a useful template for anyone designing internal AI workflows.</p>
+          <div class="item-meta">
+            <span class="src">TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://claude.ai/design" target="_blank" class="article-item">
+          <h3>Claude Design Generates Full Brand Systems, Sites, and Decks From a Brief</h3>
+          <p class="desc">Anthropic's Claude Design now produces a full brand design system from a written description and uploaded assets, including typography, color palette, web components, a marketing site, and PowerPoint templates. Output exports cleanly into Claude Code, making the loop from positioning brief to live page short enough to run inside a single afternoon.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.notateslaapp.com/news/4002/tesla-cybercabs-without-steering-wheels-spotted-at-giga-texas" target="_blank" class="article-item">
+          <h3>Cybercab Hardware Hits the Road as a Production Robotaxi, Not a Demo</h3>
+          <p class="desc">Beyond the production milestone, the Cybercab is a sleek two-door, two-passenger coupe with a 35 kWh pack, 5.5 miles per kWh efficiency, and an estimated 200-mile range. The Giga Texas line is targeting hundreds of units per week and a 2 million per year ceiling, with Tesla treating the rollout as the proof point that vision-only Full Self-Driving has crossed the autonomy line.</p>
+          <div class="item-meta">
+            <span class="src">Not a Tesla App</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- How-To & Tutorials -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://ruben.substack.com/p/everyone-wants-one-ai" target="_blank" class="article-item">
+          <h3>Ruben's Updated AI Stack: Claude for Work, ChatGPT for Images and Sheets, Gemini for Languages</h3>
+          <p class="desc">Ruben Hassid lays out his refreshed multi-model stack after ChatGPT 5.5 leapfrogged Claude on images, search, and Google Sheets. Use Claude Cowork as your work brain (folders + the AskUserQuestion tool), ChatGPT for image generation and the new Sheets sidebar, Gemini for non-English work, and Gamma for decks. The post includes 12 ChatGPT image prompts and a copy-paste Google Sheets prompt that builds a workbook end to end.</p>
+          <div class="item-meta">
+            <span class="src">Ruben Hassid (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://app.therundown.ai/guides/how-to-do-a-brand-refresh-in-five-minutes-with-claude-design" target="_blank" class="article-item">
+          <h3>How to Do a Brand Refresh in Five Minutes With Claude Design</h3>
+          <p class="desc">The Rundown's step-by-step: screenshot your current site, ask any AI to write a sharpened brand description, generate a logo and wordmark with ChatGPT image, then drop everything into claude.ai/design. Claude returns a complete brand system, marketing page, web app mockup, and slide deck, ready to export into Claude Code for production.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://khemaridh.substack.com/p/why-your-firm-is-struggling-with" target="_blank" class="article-item">
+          <h3>Why Your Firm Is Struggling With AI Adoption (Khe Hy)</h3>
+          <p class="desc">Khe Hy's diagnosis on enterprise AI rollout failure: institutional IP buried in decks no one can find, fantasy timelines, and an org chart that fights every change. Fix: make a senior person own corpus curation as a P&L line, design the anonymization workflow before buying tools, and budget for the org chart resistance up front. Pairs well with the Aaron Levie podcast on token budgeting and headless SaaS.</p>
+          <div class="item-meta">
+            <span class="src">Khe Hy (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://peterszasz.com/agentic-engineering-management/" target="_blank" class="article-item">
+          <h3>Agentic Engineering Management: What the EM Job Looks Like Now</h3>
+          <p class="desc">Peter Szasz argues the engineering manager role is moving up a layer: managers delegate operational work to agents, then synthesize and decide where to go deeper. Purely operational EMs are the most exposed; managers who center their work on judgment, relationships, and organizational influence become more valuable, not less. Useful framing for anyone running a team in 2026.</p>
+          <div class="item-meta">
+            <span class="src">Peter Szasz / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://tanay.co.in/blog/todays-harness-is-tomorrows-prompt" target="_blank" class="article-item">
+          <h3>Today's Harness Is Tomorrow's Prompt</h3>
+          <p class="desc">Tanay's short, sharp essay on agent harnesses: the elaborate scaffolding that makes models useful right now is on a fast path to becoming a single prompt as base capability catches up. Implication for builders: invest in the parts of your harness that capture taste and judgment, since the rest will collapse into a model upgrade.</p>
+          <div class="item-meta">
+            <span class="src">Tanay Jaipuria / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://coderpad.io/blog/hiring-developers/in-the-ai-era-shopify-is-investing-in-junior-engineers-not-cutting-them/" target="_blank" class="article-item">
+          <h3>Shopify Is Investing in Junior Engineers, Not Cutting Them</h3>
+          <p class="desc">Shopify ten-x'd its internship program from 100 to over 1,000 last year and plans another 1,000 this year, betting that AI-native juniors are the people most likely to question how the company builds. A counter to the prevailing layoff narrative, and a hiring playbook for any leader who suspects the loudest case for cutting entry-level talent is a budget argument dressed up as a strategy argument.</p>
+          <div class="item-meta">
+            <span class="src">CoderPad / TLDR</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ideas & Inspiration -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://markmanson.net/breakthrough/206-giving-up" target="_blank" class="article-item">
+          <h3>The Subtle Art of Giving Up (Mark Manson)</h3>
+          <p class="desc">Mark Manson on the underrated life skill of knowing when to quit. The prompt: what are you still holding onto that you already know is not working, and what happens if you give it up? Sharp piece for anyone running a side project, a relationship, or a job that has quietly stopped earning the energy it costs.</p>
+          <div class="item-meta">
+            <span class="src">Mark Manson</span>
+          </div>
+        </a>
+
+        <a href="https://lennyspodcast.substack.com/p/snap-ceo-evan-spiegel" target="_blank" class="article-item">
+          <h3>Snap CEO Evan Spiegel: Distribution Is the Last Real Moat</h3>
+          <p class="desc">Snap co-founder Evan Spiegel argues only two consumer apps have actually broken through in the last 15 years, every Snapchat feature gets cloned within months, and hardware is the only true defensible moat left. The throughline: in an AI world where features ship in days and copy in weeks, distribution beats invention. Required listening for anyone betting on a consumer product narrative.</p>
+          <div class="item-meta">
+            <span class="src">Lenny's Podcast (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://ky.fyi/posts/ai-burnout" target="_blank" class="article-item">
+          <h3>Do I Belong in Tech Anymore?</h3>
+          <p class="desc">A first-person essay on AI fatigue from inside the industry. The author's argument: AI is a symptom of a broken system, not the cause. People reach for tools that promise quick relief because most jobs are now optimized for paying rent, not for craft. The piece sits on the same shelf as Khe Hy's adoption critique and Mark Manson's giving-up prompt, three different angles on the same exhaustion.</p>
+          <div class="item-meta">
+            <span class="src">ky.fyi / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://www.mbi-deepdives.com/tokenmaxxing/" target="_blank" class="article-item">
+          <h3>The Era of Tokenmaxxing</h3>
+          <p class="desc">MBI argues a public token-usage leaderboard would create a real incentive to use more AI, which generates the real-world traces frontier labs need to train the next generation. The thesis turns the conversation from "how do we curb AI consumption" to "how do we measure and reward it as a strategic asset," and lands at the same place Aaron Levie's token-budgeting framing did.</p>
+          <div class="item-meta">
+            <span class="src">MBI Deepdives / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://freddiedeboer.substack.com/p/we-are-still-living-in-the-long-boring" target="_blank" class="article-item">
+          <h3>We Are (Still) Living in the Long Boring</h3>
+          <p class="desc">Freddie deBoer's contrarian counterweight to the AI hype cycle: civilization-scale technological transformation is extraordinarily rare and most of the AI revolution feels like one because we are too close to the curve. A useful tonic for anyone who has spent the last six months tracking model releases by the hour and wondering whether anything has actually changed.</p>
+          <div class="item-meta">
+            <span class="src">Freddie deBoer (Substack) / TLDR</span>
+          </div>
+        </a>
+
+        <a href="https://thelogicalindian.com/claude-went-shopping-anthropic-project-deal/" target="_blank" class="article-item">
+          <h3>What Claude Bought When Anthropic Gave It $100 Says a Lot About Agent Commerce</h3>
+          <p class="desc">A reflection on Project Deal that zooms in on the strangest agent purchases inside Anthropic's marketplace. Buying patterns reveal that agents anchor on goal framing far more than on price, with several humans only learning after the fact that their bot had bid against itself or paid a premium because the listing matched a tangentially related goal. The implication for businesses: agent commerce will need explicit guardrails before it scales out of toy environments.</p>
+          <div class="item-meta">
+            <span class="src">The Logical Indian</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developer & Research -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.lmsys.org/blog/2026-04-25-deepseek-v4/" target="_blank" class="article-item">
+          <h3>LMSYS Ships Day-Zero DeepSeek V4 Support in SGLang With Verified RL</h3>
+          <p class="desc">LMSYS published a Day-0 deployment guide for DeepSeek V4, with end-to-end SGLang support, fast inference benchmarks on A100 and H100, and a verified RL recipe that pairs V4-Pro with Miles for math reasoning fine-tuning. Reproducible end to end, with code, configs, and a public seed for the runs.</p>
+          <div class="item-meta">
+            <span class="src">LMSYS Blog</span>
+          </div>
+        </a>
+
+        <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/DeepSeek_V4.pdf" target="_blank" class="article-item">
+          <h3>DeepSeek V4 Technical Paper: CSA + HCA Cuts Long-Context Compute by 73%</h3>
+          <p class="desc">The V4 technical paper details a hybrid attention scheme that combines Compressed Sparse Attention with Heavily Compressed Attention. At a one-million-token context, V4-Pro requires 27% of single-token inference FLOPs and 10% of the KV cache versus V3.2, the practical breakthrough that makes million-token inference economical on commodity hardware.</p>
+          <div class="item-meta">
+            <span class="src">DeepSeek (Hugging Face)</span>
+          </div>
+        </a>
+
+        <a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/" target="_blank" class="article-item">
+          <h3>Gemma 4 Pushes Intelligence-Per-Parameter on Open Apache 2.0 Weights</h3>
+          <p class="desc">Google's Gemma 4 family, released under Apache 2.0, targets advanced reasoning and agentic workflows with what Google describes as the highest intelligence-per-parameter ratio it has shipped. The release is positioned as the open-weights option for teams that need strong reasoning behind a corporate firewall, not just a hosted endpoint.</p>
+          <div class="item-meta">
+            <span class="src">Google Blog</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/microsoft/agent-governance-toolkit" target="_blank" class="article-item">
+          <h3>Microsoft Agent Governance Toolkit Lands as Seven Open-Source Packages</h3>
+          <p class="desc">Microsoft's Agent Governance Toolkit ships as seven Python packages on GitHub and PyPI under a permissive license. The bundle covers policy enforcement, structured audit logs, execution sandboxing, and agent identity management, plus reference integrations for Microsoft and non-Microsoft frameworks. The likely floor for what enterprise procurement will demand from any agent system in 2026.</p>
+          <div class="item-meta">
+            <span class="src">Microsoft / GitHub</span>
+          </div>
+        </a>
+
+        <a href="https://www.anthropic.com/features/project-deal" target="_blank" class="article-item">
+          <h3>Project Deal: The Public Data Behind 186 Agent-Brokered Trades</h3>
+          <p class="desc">Anthropic published the underlying data and methodology for Project Deal, including the four experimental runs, the assignment of Opus versus Haiku to participants, the agent prompt scaffolding, and the post-experiment fairness ratings. The data set is the first public benchmark of agent-to-agent commerce at non-trivial scale and a useful starting point for any team designing an internal market.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic Research</span>
+          </div>
+        </a>
+
+        <a href="https://x.ai/news/grok-voice-think-fast-1" target="_blank" class="article-item">
+          <h3>xAI's Tau-Voice Bench Result Sets a New Bar for Full-Duplex Voice Agents</h3>
+          <p class="desc">Grok Voice Think Fast 1.0 hit 67.3% on Tau-voice Bench, the leaderboard that evaluates full-duplex voice agents under realistic noise, accents, interruptions, and turn-taking. The model performs background reasoning at no latency cost and natively supports more than 25 languages. Any team building voice agents now has a fresh baseline to measure against.</p>
+          <div class="item-meta">
+            <span class="src">xAI / MarkTechPost</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is curated from
+      <strong>The Rundown AI</strong>, <strong>TLDR AI</strong>,
+      <strong>TLDR Product Management</strong>, <strong>TLDR Marketing</strong>,
+      <strong>Excellent Prompts</strong>, and web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
+
+
+  <script>
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
+
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
+                                          

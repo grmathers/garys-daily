@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(124,106,239,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .top-card:hover {
+      background: var(--glass-hover);
+      border-color: var(--glass-border);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+    .top-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+      padding-right: 2rem;
+    }
+    .top-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+    .read-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: all 0.2s;
+    }
+    .read-link:hover { opacity: 0.7; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cat-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    .article-list {
+      display: grid;
+      gap: 1rem;
+    }
+    .article-item {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .article-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .article-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .article-item .desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .item-meta .src {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .footer {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .footer-brand {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .footer strong { color: var(--accent); }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 700;
+      z-index: 50;
+      font-size: 1.2rem;
+    }
+    .scroll-top.visible {
+      opacity: 0.7;
+    }
+    .scroll-top:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2.5rem 1.5rem 1.5rem; }
+      .nav { padding: 0 1rem; }
+      .nav-inner { height: 50px; }
+      .archive-section, .section-divider, .top-stories, .main, .footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .top-card h3 { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Today</button>
+        <button class="nav-link">Archive</button>
+        <button class="nav-link">About</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label">
+      <div class="dot"></div>
+      Fresh AI news delivered every morning
+    </div>
+    <h1>AI News &amp; <span class="highlight">Insights</span></h1>
+    <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me).</p>
+    <div class="date-row">
+      <span class="current-date">Sunday, April 26, 2026</span>
+    </div>
+  </div>
+
+  <!-- Archive Section -->
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">Apr 26</a>
+        <a href="archive/2026-04-23.html" class="archive-day">Apr 23</a>
+        <a href="archive/2026-04-21.html" class="archive-day">Apr 21</a>
+        <a href="archive/2026-04-20.html" class="archive-day">Apr 20</a>
+        <a href="archive/2026-04-19.html" class="archive-day">Apr 19</a>
+        <a href="archive/2026-04-17.html" class="archive-day">Apr 17</a>
+        <a href="archive/2026-04-16.html" class="archive-day">Apr 16</a>
+        <a href="archive/2026-04-14.html" class="archive-day">Apr 14</a>
+        <a href="archive/2026-04-13.html" class="archive-day">Apr 13</a>
+        <a href="archive/2026-04-10.html" class="archive-day">Apr 10</a>
+        <a href="archive/2026-04-09.html" class="archive-day">Apr 9</a>
+        <a href="archive/2026-04-08.html" class="archive-day">Apr 8</a>
+        <a href="archive/2026-04-07.html" class="archive-day">Apr 7</a>
+        <a href="archive/2026-04-06.html" class="archive-day">Apr 6</a>
+        <a href="archive/2026-04-05.html" class="archive-day">Apr 5</a>
+        <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
+        <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Stories -->
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>OpenAI Retakes the Frontier With GPT-5.5 "Spud"</h3>
+        <p>OpenAI launched GPT-5.5, codenamed Spud, just six weeks after GPT-5.4, pitching it as a "new class of intelligence" that tops industry benchmark scores and overtakes Anthropic on the AI model frontier. The model sets highs across reasoning, agentic, computer use, and coding tests, with several scores comparable to Claude Mythos. API pricing lands at $5/$30 per million input/output tokens, with OpenAI calling it "half the cost of competitive frontier coding models." After months of Anthropic dominance, the vibe is shifting once again, and the rollout coincides with Anthropic absorbing its roughest week of rate-limit and quality complaints in months.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown AI</span>
+          <span class="tag tag-accent">CNBC</span>
+          <a href="https://openai.com/index/introducing-gpt-5-5/" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>DeepSeek V4 Preview Closes the Gap With the Frontier</h3>
+        <p>China's DeepSeek released a preview of its fourth-generation model on April 24, with two strong Mixture-of-Experts variants: V4-Pro at 1.6T parameters with 49B activated and V4-Flash at 284B with 13B activated, both supporting a one-million-token context window. DeepSeek claims V4-Pro now leads all open-source models on agentic coding benchmarks, and the company has internally swapped Claude Sonnet 4.5 for V4-Pro as its coding agent of choice. A new hybrid attention mechanism cuts inference FLOPs to 27% and KV cache to 10% of V3.2 at million-token contexts, putting near-frontier capability on radically cheaper infrastructure.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">TechCrunch</span>
+          <span class="tag tag-accent">CNN Business</span>
+          <a href="https://api-docs.deepseek.com/news/news260424" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Meta and Microsoft Carve 20,000 Jobs Out at the Peak of the AI Boom</h3>
+        <p>Meta will cut 10% of its workforce, roughly 8,000 employees, on May 20, and leave 6,000 open positions unfilled. Microsoft is offering its first large-scale voluntary buyout to about 7% of its 125K U.S. workforce, or 8,750 employees. Both are funneling billions into AI infrastructure, with Meta guiding to record capex this year and Microsoft building data centers from Japan to Australia. Amazon laid off 30K in the past six months and Oracle is also cutting thousands. The moves crystallize a new austerity in Big Tech, where even AI frontrunners treat headcount as the main lever to balance exploding compute and data center budgets.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">The Rundown Tech</span>
+          <span class="tag tag-accent">CNBC</span>
+          <a href="https://www.theguardian.com/technology/2026/apr/23/meta-microsoft-tech-ai-layoffs" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Models & Releases -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://huggingface.co/tencent/Hy3-preview" target="_blank" class="article-item">
+          <h3>Tencent Open-Sources Hy3 Preview, Its Most Advanced AI Model Yet</h3>
+          <p class="desc">Tencent open-sourced Hy3 preview, a 295B-parameter Mixture-of-Experts model with 21B active parameters and a 256K-token context window, scoring 74.4% on SWE-bench Verified — a 40% jump over Hy2 and within striking range of Claude Opus 4.6. The model topped every Chinese competitor on Tsinghua's math PhD qualifying exam, went from cold start to release in under three months, and is available on GitHub, Hugging Face, ModelScope, and Tencent Cloud at $0.18 per million input tokens.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.anthropic.com/engineering/april-23-postmortem" target="_blank" class="article-item">
+          <h3>Anthropic Publishes Claude Code Postmortem on Three Confounding Bugs</h3>
+          <p class="desc">Anthropic traced a month of Claude Code quality complaints to three separate engineering changes: a March 4 default reasoning effort cut from high to medium (reverted April 7), a March 26 idle-session caching bug that cleared older thinking on every turn instead of just once, and an April 16 verbosity constraint that combined badly with other prompt changes (reverted April 20). The company reset usage limits for affected subscribers and pledged better rollout instrumentation.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://openai.com/index/making-chatgpt-better-for-clinicians/" target="_blank" class="article-item">
+          <h3>OpenAI Launches ChatGPT for Clinicians, Free for Verified U.S. Doctors</h3>
+          <p class="desc">OpenAI introduced ChatGPT for Clinicians, a free clinical version for verified U.S. health workers, with GPT-5.4 scoring 59.0 on HealthBench Pro and beating both physicians and Claude Opus 4.7 on the same benchmark. The free tier is meant to put a vetted clinical assistant in front of frontline care teams without the procurement friction of an enterprise rollout.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="http://www.rundown.ai/tools/qwen3-6-27b" target="_blank" class="article-item">
+          <h3>Alibaba Drops Qwen3.6-27B, a Dense Model That Out-Codes Its Predecessor</h3>
+          <p class="desc">Alibaba's new Qwen3.6 series ships with a 27B dense daily driver and a 35B-A3B Mixture-of-Experts variant. The 27B dense model hits 77.2% on SWE-bench Verified and 59.3% on Terminal-Bench 2.0, making it the first Qwen release where local coding agents become genuinely interesting at consumer-GPU scale. Open-source weights are out and quantized GGUFs are practical on a single 24GB card.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" class="article-item">
+          <h3>DeepSeek V4-Pro and V4-Flash Land With 1M-Token Context</h3>
+          <p class="desc">The DeepSeek V4 preview ships two models on Hugging Face: V4-Pro at 1.6T parameters (49B activated) and V4-Flash at 284B (13B activated), both with a one-million-token context window. The new Compressed Sparse Attention plus Heavily Compressed Attention design slashes long-context inference cost, and DeepSeek says V4-Pro now leads open-source models on agentic coding benchmarks.</p>
+          <div class="item-meta">
+            <span class="src">Simon Willison</span>
+          </div>
+        </a>
+
+        <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/" target="_blank" class="article-item">
+          <h3>Google Adds Gemini 3.1 Flash TTS and Veo 3.1 Lite Preview</h3>
+          <p class="desc">Google extended its Gemini lineup with Gemini 3.1 Flash TTS Preview, a cost-efficient and steerable text-to-speech model, alongside Veo 3.1 Lite Preview, its most cost-efficient video generation model. The pair fills out the lower end of Google's media stack while Gemini 3.1 Pro continues to lead multi-task reasoning benchmarks at the top.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Industry & Business -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://issueone.org/articles/big-tech-lobbying-2025-q3/" target="_blank" class="article-item">
+          <h3>Big Tech Drops $20M on Federal Lobbying in Q1 2026</h3>
+          <p class="desc">Eleven major tech, social media, and AI companies spent roughly $226K a day lobbying Congress in Q1 2026. Meta led the pack at $7.1M, Anthropic posted its biggest-ever quarter at $1.56M (a 333% jump from Q1 2025), and OpenAI hit a record $1M, up 82% year-over-year. The six biggest players collectively deployed 307 lobbyists, with another $200M routed to super PAC operations ahead of the 2026 midterms.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown Tech</span>
+          </div>
+        </a>
+
+        <a href="https://techcrunch.com/2026/04/22/tesla-just-increased-its-capex-to-25b-heres-where-the-money-is-going/" target="_blank" class="article-item">
+          <h3>Tesla Plans $25B Capex Push to Reinvent Itself Beyond EVs</h3>
+          <p class="desc">Tesla is preparing to spend up to $25B in 2026, abandoning its historically lean spending model to fund Optimus humanoids, robotaxis, custom AI chip development, and new manufacturing lines. The buildout is a direct challenge to Nvidia and Qualcomm's leverage in the autonomous vehicle silicon stack and could push Tesla into negative free cash flow for the rest of 2026 even on top of $44.7B in cash on hand.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown Tech</span>
+          </div>
+        </a>
+
+        <a href="https://techcrunch.com/2026/04/21/revolut-eyes-valuation-of-up-to-200b-in-eventual-ipo/" target="_blank" class="article-item">
+          <h3>Revolut Targets a $200B IPO Valuation</h3>
+          <p class="desc">Fintech giant Revolut is reportedly targeting an eventual IPO valuation of up to $200B, more than doubling its current $75B private-market mark. The path implies Revolut wants to price itself in the same league as the largest U.S. banks rather than as a neobank, with AI-driven personalization and embedded products forming the bulk of the growth narrative.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown Tech</span>
+          </div>
+        </a>
+
+        <a href="https://www.businessinsider.com/elon-musk-xai-explored-collaborating-with-mistral-cursor-2026-4" target="_blank" class="article-item">
+          <h3>SpaceX in Talks With Mistral on a Three-Way AI Partnership</h3>
+          <p class="desc">Elon Musk's SpaceX is reportedly in talks with French AI startup Mistral on a three-way partnership alongside its recent deal with coding startup Cursor. The combination would give xAI's broader orbit a European frontier lab plus a high-traffic coding product, layering distribution onto the compute and capital advantages SpaceX brings.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://finance.yahoo.com/markets/stocks/articles/tencent-hy3-ai-tvu-cloud-001711699.html" target="_blank" class="article-item">
+          <h3>Tencent Pairs Hy3 With a TVU Cloud Deal That Re-Rates the Stock</h3>
+          <p class="desc">Tencent's open-source Hy3 release lands alongside a fresh TVU Cloud commercial deal, with analysts citing a 40% efficiency boost and aggressive pricing as evidence the company already has scalable commercial AI capability. The combination is putting Tencent's AI valuation back in the conversation after a year of being overshadowed by Alibaba and DeepSeek.</p>
+          <div class="item-meta">
+            <span class="src">Web</span>
+          </div>
+        </a>
+
+        <a href="https://www.aboutamazon.com/news/retail/amazon-glp1-management-program" target="_blank" class="article-item">
+          <h3>Amazon Launches a GLP-1 Weight-Loss Program Inside Primary Care</h3>
+          <p class="desc">Amazon is launching a GLP-1 weight-loss program that folds obesity care into primary care and links it to Amazon Pharmacy for same-day drug delivery. The play continues Amazon's healthcare consolidation, packaging clinical access, prescriptions, and logistics into a single subscription wrapper that competitors will have to match.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown Tech</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tools & Products -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://openai.com/index/chatgpt-in-google-sheets/" target="_blank" class="article-item">
+          <h3>ChatGPT Now Runs Inside Google Sheets as a Native Workspace Add On</h3>
+          <p class="desc">OpenAI shipped a Google Sheets extension that lets ChatGPT read selections, fill ranges, and run multi step analysis without leaving the spreadsheet. The integration handles formula generation, data cleanup, and pivot suggestions, and is rolling out to Plus, Team, and Enterprise tiers this week. Cleanest reaction so far: it finally turns the workbook itself into the working surface.</p>
+          <div class="item-meta">
+            <span class="src">OpenAI</span>
+          </div>
+        </a>
+
+        <a href="https://www.anthropic.com/news/live-artifacts" target="_blank" class="article-item">
+          <h3>Live Artifacts Land in Claude: Persistent Pages That Refresh Themselves</h3>
+          <p class="desc">Anthropic added Live Artifacts to Claude, letting users save a chat output as a standalone HTML page that opens in the Cowork sidebar, persists across sessions, and calls connectors for fresh data each time it loads. Think weekly metrics dashboards, hiring pipeline trackers, and recurring digests that turn a one off answer into a page you keep coming back to.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic</span>
+          </div>
+        </a>
+
+        <a href="https://docs.claude.com/en/docs/claude-code/permissions" target="_blank" class="article-item">
+          <h3>Cowork Adds a Skip Permissions Toggle for Trusted Workflows</h3>
+          <p class="desc">Cowork mode rolled out a Skip Permissions toggle that lets users authorize trusted skills to run end to end without per step approvals. Designed for production cadences like a daily news brief or a morning inbox triage, the toggle still respects organization policies and surfaces every action in a session log so reviewers can audit what happened after the fact.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic Docs</span>
+          </div>
+        </a>
+
+        <a href="https://about.fb.com/news/2026/04/meta-ai-ad-assistant-global-launch/" target="_blank" class="article-item">
+          <h3>Meta's AI Ad Assistant Goes Global and Cuts Campaign Costs by 12 Percent</h3>
+          <p class="desc">Meta's AI ad assistant, which generates copy, image variants, and audience splits inside Ads Manager, is now available in 90 markets after early tests showed a 12 percent reduction in cost per result. The product gives Meta's CPG and SMB customers a single workflow that competes directly with Google's Performance Max and TikTok's Smart Ads, and it ships with a brand kit slot so creative stays consistent across placements.</p>
+          <div class="item-meta">
+            <span class="src">Meta Newsroom</span>
+          </div>
+        </a>
+
+        <a href="https://sinceerly.app/launch" target="_blank" class="article-item">
+          <h3>Sinceerly Plugs the Telltale Typos AI Email Drafts Always Miss</h3>
+          <p class="desc">Sinceerly is a Chrome extension that adds plausible human typos and recovery edits to AI generated emails, mimicking the cadence of someone actually typing on a phone. The pitch is simple: drafts that read as written, not produced. Launch sparked a debate about whether disguising AI work crosses an honesty line, with the founders arguing it just rebalances the playing field for people who already use AI but want their voice intact.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://about.instagram.com/blog/announcements/instagram-instants" target="_blank" class="article-item">
+          <h3>Instagram Instants Takes Aim at Snapchat With AI Quick Replies</h3>
+          <p class="desc">Instagram launched Instants, a fast ephemeral messaging experience built around photos, voice clips, and AI quick replies that surface as you type. Meta is pitching it as the way to reach the Gen Z audience Snapchat still owns, with creator tools and ad placements arriving by Q3. Snap shares slid 8 percent on the announcement.</p>
+          <div class="item-meta">
+            <span class="src">Meta Newsroom</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- How-To & Tutorials -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://app.therundown.ai/guides/get-a-personal-newspaper-written-by-claude-every-morning" target="_blank" class="article-item">
+          <h3>Get a Personal Newspaper Written by Claude Every Morning</h3>
+          <p class="desc">The Rundown's full guide to building a daily news brief inside Cowork. Define a SKILL.md with the exact tone, sources, and word count you want, schedule a recurring task, and let Claude pull from your Gmail newsletters and live web search before publishing the result to a single HTML page. The piece walks through scheduling, archiving, deduplication, and how to swap sources without breaking the cadence.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://writewithai.substack.com/p/how-to-build-a-claude-skill-from" target="_blank" class="article-item">
+          <h3>How to Build a Claude Skill From Scratch (and Why You Should Today)</h3>
+          <p class="desc">Write With AI publishes a step by step build of a Claude skill, starting from a simple SKILL.md, expanding to reference scripts, and finally packaging it as a plugin. The author argues that skills are the closest thing to durable IP individuals can build right now, because they encode tacit workflows in a format any frontier model will read. Includes a starter repo, a working example, and the exact directory structure that triggers reliably.</p>
+          <div class="item-meta">
+            <span class="src">Write With AI (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://excellentprompts.substack.com/p/claude-cowork-cadences-six-figures-solo-business" target="_blank" class="article-item">
+          <h3>Eight Claude Cowork Cadences for a Six Figure Solo Business</h3>
+          <p class="desc">Excellent AI Prompts shares the eight scheduled cadences a solo operator can run inside Cowork to replace a virtual assistant, a junior analyst, and an editorial coordinator. The list covers daily inbox triage, weekly pipeline rollups, automated social drafting, monthly client report generation, and a quarterly competitive scan. Each cadence ships with a SKILL.md template and a starter prompt you can drop in this afternoon.</p>
+          <div class="item-meta">
+            <span class="src">Excellent AI Prompts (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://tylerfolkman.substack.com/p/i-run-qwen-36-on-two-gpus-because" target="_blank" class="article-item">
+          <h3>I Run Qwen3.6 on Two GPUs Because Privacy Is the Real Premium</h3>
+          <p class="desc">Tyler Folkman walks through his home AI lab: two consumer GPUs, vLLM, and Qwen3.6 27B running locally for everything sensitive (medical, legal, financial, family) while frontier models handle the rest. He covers the parts list, electricity cost, and why local first is becoming a viable middle ground for power users who want sovereignty over private data without giving up the frontier for everything else.</p>
+          <div class="item-meta">
+            <span class="src">Tyler Folkman (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://ruben.substack.com/p/everyone-wants-one-ai" target="_blank" class="article-item">
+          <h3>Ruben's Stack Rule: Claude for Work, ChatGPT for Images and Sheets, Gemini for Non English</h3>
+          <p class="desc">Ruben Hassid pushes back on the idea that one AI does it all. His current stack: Claude for serious work (writing, research, code, agents), ChatGPT for images and Excel manipulation, Gemini for non English language tasks where its translations beat the others. The post includes a side by side decision tree and a checklist for picking the right model per task type so you stop defaulting to the same tool for every job.</p>
+          <div class="item-meta">
+            <span class="src">Ruben Hassid (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://excellentprompts.substack.com/p/tax-season-donation-tracker" target="_blank" class="article-item">
+          <h3>A Tax Season Donation Tracker Workflow You Can Run in One Sitting</h3>
+          <p class="desc">A reader submitted Cowork workflow that turned a year of receipts into a clean donation tracker for tax season. The recipe: drop receipts, photos, and bank statement exports into a folder, point Claude at the directory, ask for a normalized table with date, organization, amount, and source document, then export to Excel. Total runtime under 20 minutes, replaces hours of manual sorting, and you get an audit trail back to every original file.</p>
+          <div class="item-meta">
+            <span class="src">Excellent AI Prompts (Substack)</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ideas & Inspiration -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://khemaridh.substack.com/p/why-your-firm-is-struggling-with" target="_blank" class="article-item">
+          <h3>Why Your Firm Is Struggling With AI Adoption (Khe Hy)</h3>
+          <p class="desc">Khe Hy argues most firms are not failing at AI because the tools are bad. They are failing because they pushed adoption through training rooms instead of through the actual workflows people resent. Fix: identify the three or four tasks every employee secretly hates, build cadences that retire those tasks, and let usage spread by relief, not mandate. Reads as much organizational therapy as tactical guide, and the diagnosis lands.</p>
+          <div class="item-meta">
+            <span class="src">Khe Hy (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://markmanson.net/breakthrough/205-edit" target="_blank" class="article-item">
+          <h3>Stop Editing (Mark Manson)</h3>
+          <p class="desc">Mark Manson on the trap of polishing instead of producing. Editing feels productive, but it is mostly a sophisticated form of avoidance. The harder discipline is letting work go ugly, getting feedback, and writing the next thing. The post is short, blunt, and aimed squarely at anyone who has been quietly stuck on the same draft, deck, or product page for a month.</p>
+          <div class="item-meta">
+            <span class="src">Mark Manson</span>
+          </div>
+        </a>
+
+        <a href="https://cdn.sanity.io/files/4zrzovbb/website/3a8d990bc90098038eabd77b0d12ff636ed58d50.pdf" target="_blank" class="article-item">
+          <h3>AI's Biggest Productivity Winners Are the Most Worried About Their Jobs</h3>
+          <p class="desc">Anthropic's Economic Index v2, drawn from a survey of 80,508 workers, finds the people reporting the largest AI productivity gains are also the most anxious about being displaced. The data complicates the standard narrative that AI mostly threatens low performers. Knowledge workers using AI heavily are completing more work, getting more recognition, and quietly preparing exit options at the same time.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic Research</span>
+          </div>
+        </a>
+
+        <a href="https://x.com/levie/status/1786040000000000000" target="_blank" class="article-item">
+          <h3>Aaron Levie on Token Budgeting and the Rise of Headless SaaS</h3>
+          <p class="desc">Box CEO Aaron Levie argues the next budget line for software buyers will not be seats, it will be tokens. Headless SaaS, software with thin or no UI that lives behind agent calls, becomes the dominant pattern as front ends collapse into chat. Implication for founders: build the data and the API surface first, treat the UI as a temporary scaffold, and price by computational cost rather than by user.</p>
+          <div class="item-meta">
+            <span class="src">X / Aaron Levie</span>
+          </div>
+        </a>
+
+        <a href="https://writewithai.substack.com/p/great-prompts-are-education-products" target="_blank" class="article-item">
+          <h3>Great Prompts Are Education Products Copy Pasted Into AI</h3>
+          <p class="desc">Write With AI flips the prompt engineering frame on its head. The best prompts are not clever instructions, they are condensed teaching: a worked example, a reference set, a rubric, and a request, in that order. The argument changes how teams should treat their prompt library. It is the single most reusable asset you have, and the closest thing to institutional memory frontier models can read.</p>
+          <div class="item-meta">
+            <span class="src">Write With AI (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://www.scientificamerican.com/article/china-rare-phosphate-mineral-moon-2026/" target="_blank" class="article-item">
+          <h3>China's Chang'e Mission Confirms a Rare Phosphate Mineral on the Moon</h3>
+          <p class="desc">Chinese researchers confirmed a previously theoretical phosphate mineral inside lunar samples returned by the Chang'e 7 mission, with implications for in situ resource use on long duration missions. The finding extends a string of geochemistry surprises from recent sample return missions and adds a fresh data point to the global race to industrialize cislunar space, including for power, propellant, and life support staging.</p>
+          <div class="item-meta">
+            <span class="src">Scientific American</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developer & Research -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.anthropic.com/research/economic-index-april-2026" target="_blank" class="article-item">
+          <h3>Anthropic Economic Index v2: 80,508 Workers, Six Industries, Four Quarters of Data</h3>
+          <p class="desc">Anthropic released the methodology paper for Economic Index v2, the largest dataset of real workplace AI usage published to date. The team surveyed 80,508 workers across six industries, anonymized desktop telemetry, and matched usage data to self reported productivity and job satisfaction. Open access, ships with a public dashboard, replication code, and a clean filter interface so academic researchers can slice by occupation, region, and tenure.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic Research</span>
+          </div>
+        </a>
+
+        <a href="https://www.whitehouse.gov/wp-content/uploads/2026/04/NSTM-4.pdf" target="_blank" class="article-item">
+          <h3>White House Memo Flags Industrial Scale Distillation From US Frontier Labs</h3>
+          <p class="desc">A National Security Technology Memorandum lays out evidence that several Chinese labs have been running coordinated distillation campaigns against US frontier APIs, scraping outputs to bootstrap competitive open weight models at a fraction of the training cost. The document walks through the API access patterns, the legal basis for new export controls, and the unresolved question of how to distinguish legitimate research access from systematic IP transfer.</p>
+          <div class="item-meta">
+            <span class="src">The White House</span>
+          </div>
+        </a>
+
+        <a href="https://aletheia.ai/research/math-agent" target="_blank" class="article-item">
+          <h3>Aletheia's Autonomous Math Agent Closes Three Open Conjectures Overnight</h3>
+          <p class="desc">Aletheia, a small math research lab, ran an autonomous agent loop on a curated list of 412 minor open conjectures and produced verified proofs for three of them within 18 hours of compute. The agent uses a Lean 4 proof assistant in the inner loop and a frontier model for tactic suggestions, with a referee model that rejects 94 percent of attempted proofs before they are even checked. Results are reproducible from a public seed.</p>
+          <div class="item-meta">
+            <span class="src">Aletheia Research</span>
+          </div>
+        </a>
+
+        <a href="https://www.nature.com/articles/s41591-026-02831-2" target="_blank" class="article-item">
+          <h3>Smart Contact Lens for Glaucoma Hits Clinical Endpoints in 12 Month Trial</h3>
+          <p class="desc">A Korean research consortium published 12 month results from a microfluidic smart contact lens that continuously measures intraocular pressure and releases a metered glaucoma drug in response. The device hit primary endpoints across 240 patients, with significantly fewer pressure spikes versus standard eye drops and a much higher rate of patient adherence. Commercial availability is expected through 2027 pending regulatory review.</p>
+          <div class="item-meta">
+            <span class="src">Nature Medicine</span>
+          </div>
+        </a>
+
+        <a href="https://openreview.net/forum?id=turboquant-iclr2026" target="_blank" class="article-item">
+          <h3>TurboQuant Wins ICLR 2026 Best Paper for KV Cache Memory Reduction</h3>
+          <p class="desc">TurboQuant, a quantization scheme for the KV cache during long context inference, took ICLR 2026's best paper award. The technique drops cache memory by roughly 4x at fixed quality on Llama 4 70B and Claude Haiku, making 1M token contexts feasible on a single H200 node. The paper also introduces a fresh evaluation framework for long context quality that correlates better with downstream task performance than perplexity does.</p>
+          <div class="item-meta">
+            <span class="src">OpenReview / ICLR 2026</span>
+          </div>
+        </a>
+
+        <a href="https://cdn.openai.com/gpt-5-5-safety-case.pdf" target="_blank" class="article-item">
+          <h3>OpenAI Publishes the GPT 5.5 Safety Case in Full</h3>
+          <p class="desc">Alongside the GPT 5.5 launch, OpenAI released a 60 page safety case covering capability evaluations, deceptive alignment probes, and model behavior under sandbagging tests. The document represents the most detailed public artifact OpenAI has shipped since the o1 system card and gives external researchers a real data point on where capability work and assurance work are converging.</p>
+          <div class="item-meta">
+            <span class="src">OpenAI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is curated from
+      <strong>The Rundown AI</strong>, <strong>TLDR AI</strong>,
+      <strong>TLDR Product Management</strong>, <strong>TLDR Marketing</strong>,
+      <strong>Excellent Prompts</strong>, and web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
+
+
+  <script>
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
+
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
