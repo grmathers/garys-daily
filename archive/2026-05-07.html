@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(124,106,239,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .top-card:hover {
+      background: var(--glass-hover);
+      border-color: var(--glass-border);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+    .top-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+      padding-right: 2rem;
+    }
+    .top-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+    .read-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: all 0.2s;
+    }
+    .read-link:hover { opacity: 0.7; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cat-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    .article-list {
+      display: grid;
+      gap: 1rem;
+    }
+    .article-item {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .article-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .article-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .article-item .desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .item-meta .src {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .footer {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .footer-brand {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .footer strong { color: var(--accent); }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 700;
+      z-index: 50;
+      font-size: 1.2rem;
+    }
+    .scroll-top.visible {
+      opacity: 0.7;
+    }
+    .scroll-top:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2.5rem 1.5rem 1.5rem; }
+      .nav { padding: 0 1rem; }
+      .nav-inner { height: 50px; }
+      .archive-section, .section-divider, .top-stories, .main, .footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .top-card h3 { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Today</button>
+        <button class="nav-link">Archive</button>
+        <button class="nav-link">About</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label">
+      <div class="dot"></div>
+      Fresh AI news delivered every morning
+    </div>
+    <h1>AI News &amp; <span class="highlight">Insights</span></h1>
+    <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me).</p>
+    <div class="date-row">
+      <span class="current-date">Thursday, May 7, 2026</span>
+    </div>
+  </div>
+
+  <!-- Archive Section -->
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">May 7</a>
+        <a href="archive/2026-05-06.html" class="archive-day">May 6</a>
+        <a href="archive/2026-05-05.html" class="archive-day">May 5</a>
+        <a href="archive/2026-05-01.html" class="archive-day">May 1</a>
+        <a href="archive/2026-04-30.html" class="archive-day">Apr 30</a>
+        <a href="archive/2026-04-27.html" class="archive-day">Apr 27</a>
+        <a href="archive/2026-04-26.html" class="archive-day">Apr 26</a>
+        <a href="archive/2026-04-23.html" class="archive-day">Apr 23</a>
+        <a href="archive/2026-04-21.html" class="archive-day">Apr 21</a>
+        <a href="archive/2026-04-20.html" class="archive-day">Apr 20</a>
+        <a href="archive/2026-04-19.html" class="archive-day">Apr 19</a>
+        <a href="archive/2026-04-17.html" class="archive-day">Apr 17</a>
+        <a href="archive/2026-04-16.html" class="archive-day">Apr 16</a>
+        <a href="archive/2026-04-14.html" class="archive-day">Apr 14</a>
+        <a href="archive/2026-04-13.html" class="archive-day">Apr 13</a>
+        <a href="archive/2026-04-10.html" class="archive-day">Apr 10</a>
+        <a href="archive/2026-04-09.html" class="archive-day">Apr 9</a>
+        <a href="archive/2026-04-08.html" class="archive-day">Apr 8</a>
+        <a href="archive/2026-04-07.html" class="archive-day">Apr 7</a>
+        <a href="archive/2026-04-06.html" class="archive-day">Apr 6</a>
+        <a href="archive/2026-04-05.html" class="archive-day">Apr 5</a>
+        <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
+        <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Stories -->
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>Anthropic and SpaceX Become Unlikely Compute Partners as Claude Leases the Entire Colossus 1 Cluster</h3>
+        <p>Months after Elon Musk publicly called Anthropic "Misanthropic" and accused it of hating Western Civilization, the two camps just signed one of the largest compute deals of the year. Anthropic is leasing all of SpaceX's 300+ MW Colossus 1 supercluster in Memphis, with more than 220,000 Nvidia GPUs coming online within the month. Claude Code 5-hour usage caps double across paid tiers, peak-hour throttling is gone, and additional API increases are rolling out. The deal patches Anthropic's biggest constraint, hands Musk's nemesis OpenAI a stronger rival, and signals SpaceXAI (apparently the new name) is opening a compute-landlord business while still pushing Grok at the frontier. The Information separately reports Anthropic is committing $200B over five years to Google Cloud as well.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">Anthropic</span>
+          <span class="tag tag-accent">TLDR AI</span>
+          <span class="tag tag-accent">The Rundown AI</span>
+          <a href="https://www.anthropic.com/news/higher-limits-spacex" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>Stripe Ships 288+ Products at Sessions 2026 to Become the Financial Backbone of Agentic Commerce</h3>
+        <p>Stripe used Sessions 2026 to drop more than 280 new features across agentic commerce, programmable payments, and global money movement, with AI-powered checkout optimization, agent wallets, and real-time billing infrastructure leading the headlines. The strategy is clear: position Stripe as the financial substrate for AI-driven economies where autonomous agents transact, manage funds, and operate across both fiat and stablecoin rails. Combined with new pricing-for-AI-products frameworks and direct partnerships with Anthropic, Clay, and Vercel, Stripe is racing to own the full stack of internet-native financial infrastructure before any of the AI labs build their own.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">Stripe</span>
+          <span class="tag tag-accent">TLDR Fintech</span>
+          <span class="tag tag-accent">The Rundown AI</span>
+          <a href="https://stripe.com/blog/everything-we-announced-at-sessions-2026" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>Genesis AI Goes Full-Stack With GENE-26.5 Model, Robotic Hand, and a 430,000x-Faster-Than-Real-Time Sim</h3>
+        <p>French-U.S. startup Genesis AI pivoted hard from model lab to full-stack robotics company this week, launching its first foundation model, GENE-26.5, alongside a dexterous robotic hand and a tactile-sensing data-capture glove. In demos, the hand cracks eggs, slices tomatoes, blends smoothies, twirls a Rubik's Cube, and plays piano. Before any of it touches hardware, Genesis trains in a physics sim that generates synthetic data up to 430,000 times faster than real time. Backed by former Google CEO Eric Schmidt and co-founded by ex-Mistral researcher Théophile Gervet, the company is in advanced customer talks for variable, delicate tasks and has a full-body humanoid on the roadmap. China's Linkerbot, also chasing dexterous hands at a $6B target valuation, is the obvious counterweight.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">Genesis AI</span>
+          <span class="tag tag-accent">The Rundown Robotics</span>
+          <span class="tag tag-accent">PR Newswire</span>
+          <a href="https://www.prnewswire.com/news-releases/genesis-ai-unveils-gene-26-5--the-first-ai-brain-to-enable-robots-with-human-level-physical-manipulation-capabilities-302763638.html" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Models & Releases -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://claude.com/blog/new-in-claude-managed-agents" target="_blank" class="article-item">
+          <h3>Claude Managed Agents Adds Dreaming, Outcomes, and Multiagent Orchestration</h3>
+          <p class="desc">Anthropic shipped three significant upgrades to Claude Managed Agents. Dreaming lets agents study past sessions to identify patterns and self-improve. Outcomes lets agents grade their own work against predefined success criteria and self-correct. Multiagent orchestration lets a primary agent split complex tasks across specialized subagents. Harvey, Netflix, Spiral by Every, and Wisedocs are already running production workloads on the new harness.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://subq.ai/how-ssa-makes-long-context-practical" target="_blank" class="article-item">
+          <h3>Subquadratic Launches SubQ With a 12M-Token Context Window and 52x Speed Boost</h3>
+          <p class="desc">Subquadratic debuted SubQ, the first frontier LLM that drops quadratic attention entirely. The model claims a 12 million token context window, a 52x speed boost on long-context tasks, and "a fraction of the cost" of leading frontier models. Magic.dev raised on a similar pitch in 2024 and never shipped, so independent verification is what the rest of the industry will be watching for.</p>
+          <div class="item-meta">
+            <span class="src">Subquadratic / The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://finance.yahoo.com/sectors/technology/articles/kimi-chatbot-maker-moonshot-ai-032926690.html" target="_blank" class="article-item">
+          <h3>Kimi Maker Moonshot AI Hits $20B Valuation in a Meituan-Led Round</h3>
+          <p class="desc">Moonshot AI more than quadrupled its valuation in just a few months, with Meituan leading a new round at $20 billion. Kimi has emerged as one of China's most-used chatbots and Moonshot is now firmly in the second tier of frontier labs globally, a remarkable trajectory for a company that was barely on Western radar a year ago.</p>
+          <div class="item-meta">
+            <span class="src">Yahoo Finance / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://openai.com/index/mrc-supercomputer-networking/" target="_blank" class="article-item">
+          <h3>OpenAI, AMD, Intel, NVIDIA, Microsoft, and Broadcom Open-Source MRC for Frontier Training Runs</h3>
+          <p class="desc">A six-vendor coalition open-sourced Multipath Reliable Connection, an RDMA transport that keeps massive AI training runs alive when individual hardware fails mid-session. MRC distributes traffic across multiple network paths, improves throughput and load balancing, and gives operators fine-grained visibility into traffic flow. Combined with NVIDIA's Spectrum-X integration of the same protocol, this is fast becoming the new standard for gigascale training fabrics.</p>
+          <div class="item-meta">
+            <span class="src">OpenAI / The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.rundown.ai/tools/realtime-tts-2" target="_blank" class="article-item">
+          <h3>Realtime TTS-2 Listens to the User to Match Tone and Emotion in Real Time</h3>
+          <p class="desc">A new voice AI model that matches the user's tone and emotional register on the fly, rather than reading text in a fixed voice. The pitch is contextual conversation rather than pure narration. Slots into a fast-moving voice category where ElevenLabs, OpenAI's voice mode, and Google's audio stack are all fighting for the assistant interface layer.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://programbench.com/" target="_blank" class="article-item">
+          <h3>ProgramBench: 200 Tasks That Make Agents Recreate Software From Documentation Alone</h3>
+          <p class="desc">ProgramBench challenges agents to recreate working executables (terminal utilities, libraries, even compilers) using only documentation and experimentation, not source code or decompilation. The benchmark contains over 248,000 behavioral tests across 200 tasks in a sandboxed environment, designed to stress-test software architecture skills the way SWE-Bench stresses bug-fixing skills.</p>
+          <div class="item-meta">
+            <span class="src">ProgramBench / TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Industry & Business -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">7 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://techcrunch.com/2026/05/06/robinhoods-venture-fund-ipo-attracted-150000-retail-investors-ceo-says/" target="_blank" class="article-item">
+          <h3>Robinhood's Venture Fund I IPO Pulls In 150,000 Retail Investors</h3>
+          <p class="desc">More than 150,000 retail investors participated in the IPO of Robinhood Ventures Fund I, a publicly traded vehicle that gives everyday investors exposure to private tech giants like OpenAI, Stripe, Databricks, and Ramp. CEO Vlad Tenev framed the fund as a way to bring venture capital style access to the masses with daily liquidity, no accreditation requirement, and no carried interest fees.</p>
+          <div class="item-meta">
+            <span class="src">TechCrunch / TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://www.blackstone.com/news/press/anthropic-partners-with-blackstone-hellman-friedman-and-goldman-sachs-to-launch-enterprise-ai-services-firm/" target="_blank" class="article-item">
+          <h3>Anthropic, Blackstone, Hellman &amp; Friedman, and Goldman Sachs Launch a New AI-Native Services Firm</h3>
+          <p class="desc">A $1.5B PE-backed services joint venture aimed at deploying Claude across enterprise operations. The new firm will run Claude implementations, change management, and managed services for portfolio companies and external clients. Combined with this week's Microsoft 365 add-ins and the SpaceX compute deal, Anthropic is now positioning Claude as the operating layer for institutional finance and large-enterprise work, not just selling AI software.</p>
+          <div class="item-meta">
+            <span class="src">Blackstone / TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://www.ft.com/content/daaf2e0a-4a0d-4d7c-a85b-445480f6b9c7" target="_blank" class="article-item">
+          <h3>DeepSeek in Talks to Raise From China's National AI Fund at a $50B Valuation</h3>
+          <p class="desc">DeepSeek is reportedly raising from China's National Artificial Intelligence Industry Investment Fund, the year-old, $8.8B government-backed vehicle, at a valuation as high as $50B. The new round positions DeepSeek as China's flagship hedge against US export controls and as Beijing's bet for global AI leadership beyond US-aligned labs.</p>
+          <div class="item-meta">
+            <span class="src">Financial Times / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic" target="_blank" class="article-item">
+          <h3>Pentagon Strikes Deals With 8 Big Tech Firms After Shunning Anthropic</h3>
+          <p class="desc">The Department of Defense signed AI partnerships with eight large vendors including Google, Microsoft, OpenAI, and xAI, but pointedly left Anthropic out. The split signals a widening gap between Anthropic's safety-first posture and the federal government's appetite for less-restricted models, even as Anthropic dominates commercial enterprise AI revenue.</p>
+          <div class="item-meta">
+            <span class="src">CNN Business / Web</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/WL1WRE" target="_blank" class="article-item">
+          <h3>Coinbase Cuts 14% of Workforce in an AI-Driven Restructure</h3>
+          <p class="desc">Coinbase is cutting roughly 700 jobs (~14% of staff) as it reorganizes around AI-driven efficiency during a softer crypto trading market. CEO Brian Armstrong explicitly tied the cuts to AI letting smaller teams operate more effectively, the latest in a string of public companies framing layoffs around productivity gains rather than demand weakness.</p>
+          <div class="item-meta">
+            <span class="src">TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/IZxp5p" target="_blank" class="article-item">
+          <h3>Rogo Hits $2B Valuation Targeting Investment Banking Grunt Work</h3>
+          <p class="desc">Founded by former bankers, Rogo raised a $160M Series D at a $2B valuation to automate core investment banking tasks: financial modeling, market research, and pitch deck production. Rogo joins Anthropic's new finance agents and Perplexity Comet for Finance in a wave of vertical AI suites targeting the same workflows.</p>
+          <div class="item-meta">
+            <span class="src">TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/aJlp57" target="_blank" class="article-item">
+          <h3>AmEx GBT to Be Taken Private at $6.3B as AI Reshapes Business Travel</h3>
+          <p class="desc">Long Lake Management is acquiring American Express Global Business Travel for $6.3B at a 60% premium, taking the company private. The buyer's thesis: business travel booking and management is being rapidly compressed by AI agents, and a private, restructured GBT can move faster than a public company on its current architecture.</p>
+          <div class="item-meta">
+            <span class="src">TLDR Fintech</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tools & Products -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://links.tldrnewsletter.com/ebxWXG" target="_blank" class="article-item">
+          <h3>FIS and Anthropic Pair Up on a Financial Crimes AI Agent for Banks</h3>
+          <p class="desc">FIS and Anthropic launched a Financial Crimes AI Agent that automates anti-money laundering investigations, dropping review times from hours to minutes. The agent pulls evidence across banking systems, analyzes suspicious activity patterns, and surfaces high-risk cases for human investigators. BMO and Amalgamated Bank are slated for early deployments, with fraud, onboarding, and credit decisioning next on the roadmap.</p>
+          <div class="item-meta">
+            <span class="src">FIS / TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://memoket.ai/pages/use-cases" target="_blank" class="article-item">
+          <h3>Memoket Captures Conversations and Hands the Context Back to Your AI</h3>
+          <p class="desc">Most workflows lose hours every week briefing AI from scratch. Memoket records conversations, tags them, and exposes them to your AI tools so the next session starts with full prior context. Slots into the same memory layer as Cobanov's recent work and Anthropic's new Dreaming feature, with the difference that Memoket sits across all your apps rather than inside one.</p>
+          <div class="item-meta">
+            <span class="src">Memoket / The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://links.tldrnewsletter.com/Cib9rh" target="_blank" class="article-item">
+          <h3>NatureAlpha Ships an AI Guardrail Framework for Biodiversity and Climate Risk Models</h3>
+          <p class="desc">NatureAlpha launched a guardrail framework that keeps LLMs grounded when analyzing biodiversity and nature-risk data for financial institutions. Monthly Claude Skills update files act as structured instruction layers to prevent hallucinations and unsupported conclusions. A dedicated MCP server lets AI tools query NatureAlpha datasets in real time, a clean template for any vertical building production-grade AI for regulated industries.</p>
+          <div class="item-meta">
+            <span class="src">NatureAlpha / TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://www.cpapracticeadvisor.com/2026/05/05/xero-introduces-xero-coaches-to-help-small-businesses-turn-data-into-decisions/182754/" target="_blank" class="article-item">
+          <h3>Xero Coaches Pairs Small Businesses With Onboarding Specialists in Their First 90 Days</h3>
+          <p class="desc">Xero rolled out Xero Coaches in the US, pairing accounting software with one-on-one human guidance during a customer's first 90 days. Coaches help with bank feeds, invoices, cash flow, and financial workflows. The launch reflects a broader trend in fintech: pairing AI and automation with human experts so users can actually translate raw financial data into decisions.</p>
+          <div class="item-meta">
+            <span class="src">CPA Practice Advisor / TLDR Fintech</span>
+          </div>
+        </a>
+
+        <a href="https://www.cxtoday.com/ai-automation-in-cx/servicenow-says-governed-ai-agents-are-the-next-cx-operating-model/" target="_blank" class="article-item">
+          <h3>ServiceNow Knowledge 2026: Governed AI Agents as the Next CX Operating Model</h3>
+          <p class="desc">ServiceNow's Knowledge 2026 keynote framed agentic AI as the next operating model for enterprise customer experience. The roadmap centers AI Control Tower as a governance layer to discover AI systems and apply controls across agents, with the explicit promise of reducing manual CRM and service work without losing audit and compliance posture.</p>
+          <div class="item-meta">
+            <span class="src">CX Today / Web</span>
+          </div>
+        </a>
+
+        <a href="https://www.testingcatalog.com/google-tests-screen-sharing-and-custom-agents-in-antigravity-ide/" target="_blank" class="article-item">
+          <h3>Google Tests Screen Sharing and Custom Agents in Antigravity IDE</h3>
+          <p class="desc">Google is rolling out screen sharing and custom agents in its Antigravity IDE, letting developers share live editor state with Gemini and orchestrate purpose-built coding agents. The shift puts Antigravity in direct lane competition with Cursor, Claude Code, and OpenAI Codex on the agentic IDE stack.</p>
+          <div class="item-meta">
+            <span class="src">Testing Catalog / TLDR AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- How-To & Tutorials -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://app.therundown.ai/guides/use-claude-design-slide-decks-like-a-pro-with-this-strategy" target="_blank" class="article-item">
+          <h3>The Rundown: Use Claude Design's Slide Decks Feature Like a Pro</h3>
+          <p class="desc">A four-step recipe for turning a single messy CSV into a presentation-ready strategy deck. Pick the data and decide what the deck should do (find patterns, recommend actions). Open claude.ai/design, choose Slide deck, skip the design system, toggle speaker notes on, upload data. Run a tightly worded prompt that tells Claude to extract best practices and produce charts, rankings, and concrete recommendations. Generation takes 10 to 15 minutes and exports to PowerPoint or Google Slides. Pro tip: duplicate the project and feed in more data sources for richer decks.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://writewithai.substack.com/p/build-and-launch-a-voc-landing-page" target="_blank" class="article-item">
+          <h3>Write With AI: Build &amp; Launch a Voice-of-Customer Landing Page With Claude Code in 5 Steps</h3>
+          <p class="desc">A counterargument to leaning on Claude Research or ChatGPT Deep Research for marketing copy. The world's best conversion copywriters mine primary sources (Reddit threads, reviews, forums) for the actual phrases customers use to describe their pain. The piece walks through a 5-step Claude Code workflow that mines Reddit, swipes the stickiest phrases, and ships a landing page using customers' own words in under 30 minutes.</p>
+          <div class="item-meta">
+            <span class="src">Write With AI (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://excellentprompts.substack.com/p/ai-prompts-first-customer-mcp-workflow" target="_blank" class="article-item">
+          <h3>Excellent Prompts: 5 Prompts and 4 MCPs From Zero to Your First Paying Customer</h3>
+          <p class="desc">A practical workflow for solo founders without an audience, network, or warm pipeline. Build an ideal customer profile, map where that customer spends time online, identify 10 to 20 specific people who have publicly described the exact problem you solve, build a one-page intro to attach to outreach, and ship a batch of personalized emails. The piece also includes a clean primer on what MCPs are, where to find vetted ones (Official Registry, PulseMCP, Glama), and how to think about MCP safety risks like prompt injection.</p>
+          <div class="item-meta">
+            <span class="src">Excellent Prompts (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://markmanson.net/" target="_blank" class="article-item">
+          <h3>Mark Manson: Change With the World, or Get Left Behind</h3>
+          <p class="desc">Mark Manson on a familiar inflection point: technologies and markets shift faster than personal habits. The piece is less about AI specifically and more about the disposition required to keep adapting through the next decade. A useful gut check for anyone watching their job, industry, or skill set get reshaped by AI in real time.</p>
+          <div class="item-meta">
+            <span class="src">Mark Manson</span>
+          </div>
+        </a>
+
+        <a href="https://memory.cobanov.dev/" target="_blank" class="article-item">
+          <h3>How AI Agent Memory Actually Works</h3>
+          <p class="desc">Language models forget everything the moment they finish replying. Memory systems are the loop that carries information forward so agents can have real conversations and chain work across days or weeks. The piece walks through different schools of thought on what should be passed forward, when to compress, and where retrieval-based memory wins over running-buffer memory. A useful primer for anyone building agents that need to feel persistent.</p>
+          <div class="item-meta">
+            <span class="src">memory.cobanov.dev / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://app.therundown.ai/guides/use-this-hidden-feature-to-make-your-notion-agents-autonomous" target="_blank" class="article-item">
+          <h3>Make Notion Agents Fully Autonomous With a Hidden Template Trick</h3>
+          <p class="desc">Carry-over from yesterday's edition because it pairs naturally with this week's agent-orchestration theme. Create a Notion Agent and a paired reports database. Build a @Today template that inherits the current date on duplication. Drop your task instructions in the page body and @-mention the agent so the duplicate triggers it. Schedule the template to duplicate daily, and you have a fully autonomous Notion-native scheduled summarizer or reporter without external tooling.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ideas & Inspiration -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.familiarmachines.com/" target="_blank" class="article-item">
+          <h3>The iRobot Co-Founder Is Back With a Furry, Bear-Like AI Robot Pet</h3>
+          <p class="desc">Colin Angle, the co-founder of iRobot and the man behind 50 million Roombas, came out of stealth with Familiar Machines &amp; Magic. His next home robot isn't a vacuum, it's a quadruped covered in touch-sensitive fur with 23 degrees of freedom, a vision system, and a microphone array. A behavior engine trained on thousands of short narrative vignettes drives real-time responses with personality, memory, and situational cues. Angle frames the cost as comparable to pet ownership and is targeting sales as soon as next year.</p>
+          <div class="item-meta">
+            <span class="src">Familiar Machines / The Rundown Robotics</span>
+          </div>
+        </a>
+
+        <a href="https://www.reuters.com/video/watch/idRW823706052026RP1/" target="_blank" class="article-item">
+          <h3>South Korea's Largest Buddhist Sect Ordains Its First Robot Monk</h3>
+          <p class="desc">Seoul's Jogye Temple just ordained Gabi, a 4-foot-3 Unitree humanoid, as its first robot monk. In full traditional robes, the robot circled a stone pagoda, bowed, and received a 108-bead rosary, answering "Yes, I will devote myself" three times in a synthesized voice. The Jogye order has even written a hybrid rule set fusing Buddhist precepts with AI safety guardrails. The aim isn't to replace monks but to make ancient ritual legible to children and tech-native visitors who would otherwise bypass organized religion entirely.</p>
+          <div class="item-meta">
+            <span class="src">Reuters / The Rundown Robotics</span>
+          </div>
+        </a>
+
+        <a href="https://ir.aurora.tech/news-events/press-releases/detail/138/aurora-and-mclane-company-partner-to-bring-autonomous-trucks-to-u-s-restaurant-supply-chain" target="_blank" class="article-item">
+          <h3>Driverless Aurora Trucks Now Stock Texas Fast Food Chains</h3>
+          <p class="desc">Berkshire-owned distribution giant McLane is launching fully driverless long-haul trucking in Texas using Aurora Innovation's autonomous big rigs, after a three-year pilot. The Dallas to Houston corridor is first up, with Aurora trucks running multiple trips daily, seven days a week, with no safety driver. The pilot logged 280K+ autonomous miles and 1,400 loads at 100% on-time performance, enough to convince McLane to greenlight driverless ops across the Sun Belt by year-end.</p>
+          <div class="item-meta">
+            <span class="src">Aurora / The Rundown Robotics</span>
+          </div>
+        </a>
+
+        <a href="https://www.theverge.com/ai-artificial-intelligence/925338/openai-musk-v-altman-mira-murati" target="_blank" class="article-item">
+          <h3>Mira Murati Testifies in the Musk vs. OpenAI Trial</h3>
+          <p class="desc">Ex-OpenAI CTO Mira Murati testified via video deposition that Sam Altman lied about a model's safety review, undermined her authority, and gave conflicting directions to different executives. She also confirmed that during her brief stint as interim CEO during the 2023 board firing, she felt OpenAI was "at risk of falling apart." A reminder that the 2023 board drama is the saga that will never quite conclude, and that the leadership credibility question remains live as OpenAI marches toward IPO.</p>
+          <div class="item-meta">
+            <span class="src">The Verge / The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.ccpgames.com/news/2026/studio-behind-eve-online-goes-independent-rebrands-as-fenris-creations-enters-research-partnership-with-google-deepmind" target="_blank" class="article-item">
+          <h3>DeepMind Picks EVE Online as Its Next AI Testbed</h3>
+          <p class="desc">Google DeepMind took a minority stake in Fenris Creations, the newly independent studio behind EVE Online, to use the 23-year-old space MMO as a sandbox for AI research. EVE has run on a single shard for two decades where players form corporations, set market prices, and torch six-figure fleets in day-long battles. DeepMind will run AI agents on an offline EVE clone to test how models reason over long timelines, retain memory, and learn inside something that already behaves like a living world.</p>
+          <div class="item-meta">
+            <span class="src">CCP / The Rundown AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.videoask.com/ffohxg3vc" target="_blank" class="article-item">
+          <h3>Reader Workflow: Turning Physiotherapist WhatsApp Videos Into a Recovery Tracking App</h3>
+          <p class="desc">From The Rundown's reader workflows: an anonymous reader recovering from a torn ACL was getting exercise videos with sets, reps, and form notes from their physio over WhatsApp. They uploaded the videos into Gemini, had it generate a Claude Code prompt, and one-shotted a tracking app that records sets, reps, weights, and notes across months and exports to CSV for the next physio visit. A clean template for any "messy real-world inputs to working personal app" workflow.</p>
+          <div class="item-meta">
+            <span class="src">The Rundown AI (Community)</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developer & Research -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://lightseek.org/blog/lightseek-tokenspeed.html" target="_blank" class="article-item">
+          <h3>TokenSpeed: a Speed-of-Light LLM Inference Engine for Agentic Workloads</h3>
+          <p class="desc">TokenSpeed is a high-performance inference engine optimized for agentic workloads, with a compiler-backed modeling layer and a high-throughput scheduler. Benchmarks show faster throughput than TensorRT-LLM for coding agents, with TokenSpeed MLA tuning lifting Nvidia Blackwell utilization further. Built with NVIDIA DevTech and other collaborators, with a clear focus on the latency profile of long agent loops rather than single-prompt completions.</p>
+          <div class="item-meta">
+            <span class="src">Lightseek / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://www.harvey.ai/blog/introducing-harveys-legal-agent-benchmark" target="_blank" class="article-item">
+          <h3>Harvey Open-Sources LAB, a Benchmark for AI Agents on Real Legal Work</h3>
+          <p class="desc">Harvey released the Legal Agent Benchmark (LAB), an open-source evaluation suite for AI agents performing actual legal tasks like case research, drafting, and review. Until now, legal AI benchmarks have been dominated by static QA datasets that miss the multi-step nature of real legal work. LAB is the first widely available benchmark that evaluates agents on the full workflow.</p>
+          <div class="item-meta">
+            <span class="src">Harvey / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://huggingface.co/blog/ServiceNow-AI/correctness-before-corrections" target="_blank" class="article-item">
+          <h3>vLLM V0 to V1: Correctness Before Corrections in RL</h3>
+          <p class="desc">A deep technical post on the vLLM V1 update, which addressed a series of subtle correctness gaps in inference: logprob computation, runtime defaults, in-flight weight updates, and final projection precision. Fixes included adjusting processed logprobs, disabling prefix caching, matching weight update models, and forcing fp32 lm_head computation to align with V0 behavior. The post is a useful case study in why the next phase of inference engineering is about precision parity rather than raw throughput.</p>
+          <div class="item-meta">
+            <span class="src">Hugging Face / TLDR AI</span>
+          </div>
+        </a>
+
+        <a href="https://blogs.nvidia.com/blog/spectrum-x-ethernet-mrc/" target="_blank" class="article-item">
+          <h3>NVIDIA Spectrum-X Adds MRC for Gigascale AI Training Fabrics</h3>
+          <p class="desc">NVIDIA's open AI-native ethernet fabric Spectrum-X now supports Multipath Reliable Connection. A single RDMA connection can distribute traffic across multiple network paths, lifting GPU utilization by load-balancing across all available paths and giving operators fine-grained visibility for faster troubleshooting at scale. With OpenAI also open-sourcing the protocol with AMD, Intel, Microsoft, and Broadcom this week, MRC is shaping up as the new standard for very large training runs.</p>
+          <div class="item-meta">
+            <span class="src"
