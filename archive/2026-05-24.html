@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary's Daily — AI News Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0d0f14;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover: rgba(255,255,255,0.07);
+      --accent: #7c6aef;
+      --accent-soft: rgba(124,106,239,0.12);
+      --accent-glow: rgba(124,106,239,0.25);
+      --text: #eaeaf0;
+      --text-secondary: #8b8da3;
+      --text-dim: #555770;
+      --border: rgba(255,255,255,0.06);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+      --orange: #fb923c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(124,106,239,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(8,9,13,0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .nav-link {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .nav-link:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .nav-link.active {
+      background: var(--accent-soft);
+      border: 1px solid rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .hero .date-row {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .current-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .archive-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .archive-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s;
+      backdrop-filter: blur(10px);
+    }
+    .archive-toggle:hover {
+      background: var(--glass-hover);
+      color: var(--text);
+    }
+    .archive-toggle .chevron {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+    }
+    .archive-toggle.open .chevron { transform: rotate(180deg); }
+
+    .archive-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .archive-drawer.open {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+    .archive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .archive-day {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .archive-day:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .archive-day.today {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-divider {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .top-stories {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .top-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .top-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(124,106,239,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .top-card:hover {
+      background: var(--glass-hover);
+      border-color: var(--glass-border);
+    }
+    .top-card:hover::before { opacity: 1; }
+    .top-card .card-rank {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+    .top-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+      padding-right: 2rem;
+    }
+    .top-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .top-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .tag-accent {
+      background: var(--accent-soft);
+      border-color: rgba(124,106,239,0.3);
+      color: var(--accent);
+    }
+    .read-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: all 0.2s;
+    }
+    .read-link:hover { opacity: 0.7; }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cat-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    .article-list {
+      display: grid;
+      gap: 1rem;
+    }
+    .article-item {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .article-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .article-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .article-item .desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .item-meta .src {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .footer {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .footer-brand {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .footer strong { color: var(--accent); }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 700;
+      z-index: 50;
+      font-size: 1.2rem;
+    }
+    .scroll-top.visible {
+      opacity: 0.7;
+    }
+    .scroll-top:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero { padding: 2.5rem 1.5rem 1.5rem; }
+      .nav { padding: 0 1rem; }
+      .nav-inner { height: 50px; }
+      .archive-section, .section-divider, .top-stories, .main, .footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .top-card { padding: 1.2rem; }
+      .top-card .card-rank { display: none; }
+      .top-card h3 { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Gary's <span>Daily</span></div>
+      <div class="nav-links">
+        <button class="nav-link active">Today</button>
+        <button class="nav-link">Archive</button>
+        <button class="nav-link">About</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label">
+      <div class="dot"></div>
+      Fresh AI news delivered every morning
+    </div>
+    <h1>AI News &amp; <span class="highlight">Insights</span></h1>
+    <p class="subtitle">The latest AI news, developments, how-to and inspirational ideas, updated daily (by AI, not me).</p>
+    <div class="date-row">
+      <span class="current-date">Sunday, May 24, 2026</span>
+    </div>
+  </div>
+
+  <!-- Archive Section -->
+  <div class="archive-section">
+    <button class="archive-toggle">
+      Archive
+      <span class="chevron">&#9660;</span>
+    </button>
+    <div class="archive-drawer">
+      <div class="archive-grid">
+        <a href="index.html" class="archive-day today">May 24</a>
+        <a href="archive/2026-05-23.html" class="archive-day">May 23</a>
+        <a href="archive/2026-05-22.html" class="archive-day">May 22</a>
+        <a href="archive/2026-05-21.html" class="archive-day">May 21</a>
+        <a href="archive/2026-05-15.html" class="archive-day">May 15</a>
+        <a href="archive/2026-05-11.html" class="archive-day">May 11</a>
+        <a href="archive/2026-05-10.html" class="archive-day">May 10</a>
+        <a href="archive/2026-05-07.html" class="archive-day">May 7</a>
+        <a href="archive/2026-05-06.html" class="archive-day">May 6</a>
+        <a href="archive/2026-05-05.html" class="archive-day">May 5</a>
+        <a href="archive/2026-05-01.html" class="archive-day">May 1</a>
+        <a href="archive/2026-04-30.html" class="archive-day">Apr 30</a>
+        <a href="archive/2026-04-27.html" class="archive-day">Apr 27</a>
+        <a href="archive/2026-04-26.html" class="archive-day">Apr 26</a>
+        <a href="archive/2026-04-23.html" class="archive-day">Apr 23</a>
+        <a href="archive/2026-04-21.html" class="archive-day">Apr 21</a>
+        <a href="archive/2026-04-20.html" class="archive-day">Apr 20</a>
+        <a href="archive/2026-04-19.html" class="archive-day">Apr 19</a>
+        <a href="archive/2026-04-17.html" class="archive-day">Apr 17</a>
+        <a href="archive/2026-04-16.html" class="archive-day">Apr 16</a>
+        <a href="archive/2026-04-14.html" class="archive-day">Apr 14</a>
+        <a href="archive/2026-04-13.html" class="archive-day">Apr 13</a>
+        <a href="archive/2026-04-10.html" class="archive-day">Apr 10</a>
+        <a href="archive/2026-04-09.html" class="archive-day">Apr 9</a>
+        <a href="archive/2026-04-08.html" class="archive-day">Apr 8</a>
+        <a href="archive/2026-04-07.html" class="archive-day">Apr 7</a>
+        <a href="archive/2026-04-06.html" class="archive-day">Apr 6</a>
+        <a href="archive/2026-04-05.html" class="archive-day">Apr 5</a>
+        <a href="archive/2026-03-31.html" class="archive-day">Mar 31</a>
+        <a href="archive/2026-03-30.html" class="archive-day">Mar 30</a>
+        <a href="archive/2026-03-29.html" class="archive-day">Mar 29</a>
+        <a href="archive/2026-03-28.html" class="archive-day">Mar 28</a>
+        <a href="archive/2026-03-27.html" class="archive-day">Mar 27</a>
+        <a href="archive/2026-03-26.html" class="archive-day">Mar 26</a>
+        <a href="archive/2026-03-25.html" class="archive-day">Mar 25</a>
+        <a href="archive/2026-03-24.html" class="archive-day">Mar 24</a>
+        <a href="archive/2026-03-23.html" class="archive-day">Mar 23</a>
+        <a href="archive/2026-03-22.html" class="archive-day">Mar 22</a>
+        <a href="archive/2026-03-21.html" class="archive-day">Mar 21</a>
+        <a href="archive/2026-03-20.html" class="archive-day">Mar 20</a>
+        <a href="archive/2026-03-19.html" class="archive-day">Mar 19</a>
+        <a href="archive/2026-03-18.html" class="archive-day">Mar 18</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Stories -->
+  <div class="top-stories">
+    <div class="section-label">Top Stories</div>
+    <div class="top-cards">
+      <div class="top-card">
+        <div class="card-rank">#1</div>
+        <h3>Anthropic and Microsoft Open Talks for the Maia 200 Chip, the First Cross Cloud Silicon Deal of the AI Era</h3>
+        <p>Anthropic is in early talks with Microsoft to deploy Claude on Microsoft's custom Maia 200 AI accelerator, a deal first reported by The Information on May 21 and substantiated by CNBC, Bloomberg, and Reuters. Microsoft says Maia 200 delivers more than 30% better tokens per dollar than the latest silicon in its fleet, and Anthropic has openly said it has "difficulties with compute" while paying SpaceX $1.25B per month through May 2029. If signed, it would be the first time a frontier lab runs production traffic on a rival cloud provider's custom chip, after Anthropic already locked AWS Trainium and Google TPU commitments worth more than $100B combined. The strategic read is that the compute floor is now sized in trillions of dollars, and any frontier lab that wants to stay frontier has to court every silicon vendor on the planet.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">Anthropic</span>
+          <span class="tag tag-accent">Microsoft</span>
+          <span class="tag tag-accent">Maia</span>
+          <span class="tag tag-accent">CNBC</span>
+          <a href="https://www.cnbc.com/2026/05/21/anthropic-microsoft-maia-200-ai-chip.html" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#2</div>
+        <h3>Leaked Zuckerberg Audio: Meta Has Been Tracking Employees Across Gmail, GChat, and VSCode to Train AI Ahead of Layoffs</h3>
+        <p>Leaked audio from an April 30 Meta all hands surfaced this week, with Mark Zuckerberg explicitly defending an internal surveillance program called the "Model Capability Initiative" that captured keystrokes, mouse activity, and periodic screenshots from employee company devices across Gmail, GChat, the Metamate assistant, and VSCode. Zuckerberg argues the AI "learns from watching really smart people do things" and that internal elite engineers make better training subjects than outside contractors. The leak landed in the same window as the 8,000 person Meta workforce reduction, making the optics of training the replacement model on the soon to be displaced workers especially raw. More than 1,000 Meta employees have signed a petition asking the company to halt the program, and legal teams in the EU and California are already reviewing the surveillance scope under existing privacy law.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">Meta</span>
+          <span class="tag tag-accent">Zuckerberg</span>
+          <span class="tag tag-accent">Surveillance</span>
+          <span class="tag tag-accent">Common Dreams</span>
+          <a href="https://www.commondreams.org/news/meta-ai-layoff" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-rank">#3</div>
+        <h3>EY and Microsoft Commit Over $1B to Push Enterprise AI Past the Pilot Stage, as OpenAI Says Adoption Is at a "Tipping Point"</h3>
+        <p>EY and Microsoft announced a five year, $1B+ alliance on May 21 to scale enterprise AI past pilots and into enterprisewide value, pairing Microsoft's Forward Deployed Engineers with EY's industry teams under what Microsoft is calling its FDE AI native Hypervelocity Engineering model. Services land first across Finance, Tax, Risk, HR, and Supply Chain inside Financial Services, Industrials and Energy, Consumer and Retail, Government, and Health Care. The announcement landed in the same week OpenAI Chief Revenue Officer Jeff Dresser told CNBC that enterprise now makes up more than 40% of OpenAI revenue and the segment is "at a tipping point," expected to hit parity with consumer revenue by year end. Read together, the two data points tell the same story: 2026 is the year enterprise AI stopped being a slide and started being the line item.</p>
+        <div class="card-footer">
+          <span class="tag tag-accent">EY</span>
+          <span class="tag tag-accent">Microsoft</span>
+          <span class="tag tag-accent">OpenAI</span>
+          <span class="tag tag-accent">CNBC</span>
+          <a href="https://news.microsoft.com/source/2026/05/21/ey-and-microsoft-announce-global-initiative-to-help-clients-scale-ai-enterprisewide-value-creation-and-move-beyond-experimentation/" target="_blank" class="read-link">Read &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Models & Releases -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Models &amp; Releases</h2>
+        <span class="cat-count">5 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/" target="_blank" class="article-item">
+          <h3>Gemini 3.5 Flash Becomes Google's New Default Across Gemini App and AI Mode in Search</h3>
+          <p class="desc">Google promoted Gemini 3.5 Flash to the default model for both the Gemini app and AI Mode in Search, globally. Google says the model outperforms Gemini 3.1 Pro on Terminal Bench 2.1 (76.2%), GDPval AA (1656 Elo), and MCP Atlas (83.6%), while running about four times the speed of comparable frontier models at less than half the cost. The pitch is clear: Google is no longer optimizing Flash for "fast but cheap," it is optimizing it for agentic long horizon workflows where a smaller, faster model gets to act, not just answer.</p>
+          <div class="item-meta">
+            <span class="src">Google Blog / Digital Trends / TechCrunch</span>
+          </div>
+        </a>
+
+        <a href="https://www.buildfastwithai.com/blogs/gemini-spark-google-ai-agent-how-it-works" target="_blank" class="article-item">
+          <h3>Gemini Spark Ships with MCP Connectors for Canva, Instacart, and OpenTable on Day One</h3>
+          <p class="desc">Google's new 24/7 personal AI agent, Gemini Spark, launched at I/O 2026 with native MCP support and day one connectors for Canva, OpenTable, and Instacart, with Adobe, Samsung, Spotify, and CapCut arriving over the summer. The big read is not the agent itself but the protocol choice: by standardizing on MCP (the open standard Anthropic introduced in November 2024), Google is conceding that the agent stack is multi vendor and that the interop layer has effectively been decided. Spark runs persistently on dedicated Google Cloud VMs and asks for approval before high stakes actions like spending money or sending external email.</p>
+          <div class="item-meta">
+            <span class="src">Build Fast With AI / Decrypt / Tom's Guide</span>
+          </div>
+        </a>
+
+        <a href="https://www.business-standard.com/technology/tech-news/google-i-o-2026-all-about-gemini-3-5-spark-omni-models-and-revamped-app-126052000494_1.html" target="_blank" class="article-item">
+          <h3>Gemini Omni Generalizes Across Text, Audio, Image, and Video Inputs and Outputs</h3>
+          <p class="desc">Google followed Spark and 3.5 Flash with Gemini Omni, a fully multimodal model designed to take any combination of text, audio, image, and video inputs and produce any of those formats as output. Omni Flash is rolling to developers and enterprise via the Gemini API and Agent Platform API over the coming weeks, with parity for image and audio generation targeted by quarter end. Pairs naturally with Spark for agents that need to consume and emit rich media without bouncing through separate models.</p>
+          <div class="item-meta">
+            <span class="src">Business Standard / BetaNews / CNBC</span>
+          </div>
+        </a>
+
+        <a href="https://www.morphllm.com/deepseek-v4" target="_blank" class="article-item">
+          <h3>DeepSeek V4 Pro Settles into Permanent Pricing at $0.435/M Input, $0.87/M Output</h3>
+          <p class="desc">DeepSeek confirmed permanent pricing for V4 Pro at $0.435 per million input tokens and $0.87 per million output tokens (cache hits $0.003625/M), locking in late this week after the model's April debut at 1.6T total / 49B active parameters, an MoE architecture, and 1M token context. V4 Pro Max scores 80.6% on SWE-bench Verified and 93.5 on LiveCodeBench, the highest open weights code score on record, while landing within roughly 8 months of frontier on agentic benchmarks per CAISI. At this price point, the case for self hosting starts to break down for everyone except the labs themselves.</p>
+          <div class="item-meta">
+            <span class="src">Morph LLM / DataCamp / NIST</span>
+          </div>
+        </a>
+
+        <a href="https://whatllm.org/blog/new-ai-models-may-2026" target="_blank" class="article-item">
+          <h3>May 2026 Model Recap: Architecture Took the Stage After April's Capability Sprint</h3>
+          <p class="desc">WhatLLM's monthly recap argues that after April's onslaught (GPT 5.5, DeepSeek V4, Kimi K2.6, Opus 4.7), May went quiet on raw scale and loud on architecture, with SubQ shipping the first commercial subquadratic LLM at 12M context, Zyphra dropping an 8B MoE trained natively on AMD silicon, and OpenAI making GPT 5.5 Instant the default. The H1 takeaway: capability has converged near the top of the stack, while differentiation is moving down into context window economics, attention shape, and hardware choice.</p>
+          <div class="item-meta">
+            <span class="src">WhatLLM / Air Street Press</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Industry & Business -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Industry &amp; Business</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.anthropic.com/news/gates-foundation-partnership" target="_blank" class="article-item">
+          <h3>Anthropic and the Gates Foundation Commit $200M Over Four Years to Push Claude into Global Health and Education</h3>
+          <p class="desc">Anthropic and the Gates Foundation announced a four year, $200M partnership to apply Claude to global health, life sciences, education, and economic mobility in low and middle income countries. Anthropic's half of the commitment lands as Claude usage credits plus technical staff time, the Gates Foundation directs grant funding, and the largest workstream targets the 4.6 billion people without access to essential health services. Initial focuses include polio, HPV, and eclampsia/preeclampsia, with a parallel push on K 12 tutoring, career guidance, and smallholder farmer productivity.</p>
+          <div class="item-meta">
+            <span class="src">Anthropic / Gates Foundation / Quartz</span>
+          </div>
+        </a>
+
+        <a href="https://www.cnbc.com/2026/05/11/open-ai-dresser-enterprise-business.html" target="_blank" class="article-item">
+          <h3>OpenAI: Enterprise Now 40% of Revenue and Heading to Parity with Consumer by Year End</h3>
+          <p class="desc">OpenAI Chief Revenue Officer Jeff Dresser told CNBC that enterprise now exceeds 40% of OpenAI revenue and is "at a tipping point," with the segment expected to reach parity with consumer revenue by the end of 2026. The mix shift explains the heavy push around Sierra, Microsoft Forward Deployed Engineers, the EY tie up, and the dedicated enterprise SKU pricing that landed earlier this quarter. Notable that consumer revenue, even at a slower growth rate, is not shrinking, the enterprise line is just catching up.</p>
+          <div class="item-meta">
+            <span class="src">CNBC</span>
+          </div>
+        </a>
+
+        <a href="https://fortune.com/2026/05/08/jobs-report-april-2026-ai-white-collar-layoffs-finance-wages/" target="_blank" class="article-item">
+          <h3>April Jobs Report: 26% of US Layoffs Cited AI, Second Straight Month It Led the Reasons</h3>
+          <p class="desc">Challenger Gray Christmas tracked 83,387 announced US job cuts in April, with 21,490 (26%) explicitly attributed to AI, the second straight month AI led the cited reasons. Goldman Sachs separately estimates AI has shaved roughly 16,000 jobs per month off US payroll growth over the previous year. The labor market overall is healing (115K added in April, unemployment 4.3%) but the pressure is concentrated on Gen Z and entry level white collar work, with Yale Insights flagging the entry rung as the most damaged part of the career ladder.</p>
+          <div class="item-meta">
+            <span class="src">Fortune / Yale Insights / Challenger</span>
+          </div>
+        </a>
+
+        <a href="https://www.metaintro.com/blog/mckinsey-layoffs-2026-ai-white-collar-consulting" target="_blank" class="article-item">
+          <h3>McKinsey Cuts 200 Roles as AI Reshapes Elite Consulting from the Back Office Up</h3>
+          <p class="desc">McKinsey laid off 200 tech and operations staff this week, with cuts concentrated in research, scheduling, compliance, and reporting roles — exactly the back office functions large AI platforms have spent the year automating. The optics are bracing for an industry whose product is structured thinking, and signals that even elite consulting is not insulated from the entry level squeeze the rest of the white collar labor market is experiencing. Worth pairing with the April Challenger numbers to see the trend.</p>
+          <div class="item-meta">
+            <span class="src">Metaintro / Fortune</span>
+          </div>
+        </a>
+
+        <a href="https://news.sap.com/2026/05/sap-sapphire-keynote-customers-making-ai-value-real-today/" target="_blank" class="article-item">
+          <h3>SAP Sapphire 2026: Joule Agents, Azure Native Integration, and a Push Toward Production AI Value</h3>
+          <p class="desc">At SAP Sapphire 2026, SAP doubled down on Joule, its agent layer, and announced deeper native integration with Microsoft Azure to let enterprise customers run AI agents over SAP data with governance intact. Customer keynotes leaned hard on the "AI value real today" framing, an explicit pivot from the experimentation messaging that dominated Sapphire 2025. The Microsoft Azure tie up specifically targets supply chain, finance, and HR workloads where SAP already owns the system of record.</p>
+          <div class="item-meta">
+            <span class="src">SAP / Microsoft Azure Blog</span>
+          </div>
+        </a>
+
+        <a href="https://techcrunch.com/2026/05/04/anthropic-and-openai-are-both-launching-joint-ventures-for-enterprise-ai-services/" target="_blank" class="article-item">
+          <h3>Both Anthropic and OpenAI Are Now Standing Up Joint Ventures for Enterprise AI Services</h3>
+          <p class="desc">TechCrunch reports that both Anthropic and OpenAI are launching joint ventures dedicated to enterprise AI services, an organizational form designed to keep the deployment, services, and customization business at arm's length from the core model labs. The structure mirrors what Accenture, EY, and PwC are building on the other side of the table, and points to a fast forming standard in how labs will sell into Fortune 500 environments going forward.</p>
+          <div class="item-meta">
+            <span class="src">TechCrunch</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tools & Products -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Tools &amp; Products</h2>
+        <span class="cat-count">5 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://blog.google/innovation-and-ai/technology/ai/google-io-2026-all-our-announcements/" target="_blank" class="article-item">
+          <h3>Google's 100 Announcements from I/O 2026, in One Place</h3>
+          <p class="desc">Google posted its consolidated list of every announcement from I/O 2026, spanning Gemini Spark, Gemini 3.5 Flash, Gemini Omni, Intelligent Eyewear, Workspace Studio agent builder, agentic Search, NotebookLM updates, and the A2A protocol crossing 150 production orgs. Worth bookmarking if you missed anything from the keynote, the post structures everything by user type (consumers, creators, developers, enterprise) instead of by session, which is dramatically easier to navigate.</p>
+          <div class="item-meta">
+            <span class="src">Google Blog</span>
+          </div>
+        </a>
+
+        <a href="https://zapier.com/blog/best-ai-productivity-tools/" target="_blank" class="article-item">
+          <h3>Zapier's Refresh of the Best AI Productivity Tools, Picked by Function</h3>
+          <p class="desc">Zapier refreshed its 2026 list of the best AI productivity tools, sorted by job function rather than vendor. NotebookLM, ElevenLabs, Notion AI, Grammarly, and Zapier's own agents lead the picks, but the more useful framing in the writeup is the recommendation to start with your biggest current time sink, experiment on free tiers, and accept that the leader rotates monthly. Reasonable read before committing to any one stack for the next quarter.</p>
+          <div class="item-meta">
+            <span class="src">Zapier</span>
+          </div>
+        </a>
+
+        <a href="https://www.tomsguide.com/news/live/google-io-2026-live-news-updates" target="_blank" class="article-item">
+          <h3>Google Intelligent Eyewear Lands as a Distribution Channel for Spark, Not a New Glasses Category</h3>
+          <p class="desc">Tom's Guide's I/O coverage frames Google's new Intelligent Eyewear as fundamentally a distribution channel for Gemini Spark and Live, not a standalone glasses category. Native Spark integration means agents you set up at the desktop can follow you into the field and surface updates in heads up form, which finally answers the "why bother with smart glasses" question the AI era kept dodging. Hardware ships through partner brands, not under a Google label.</p>
+          <div class="item-meta">
+            <span class="src">Tom's Guide</span>
+          </div>
+        </a>
+
+        <a href="https://www.synthesia.io/post/ai-tools" target="_blank" class="article-item">
+          <h3>Synthesia: The 12 AI Tools That People Actually Use in 2026</h3>
+          <p class="desc">Synthesia's 12 picks lean on actual usage data rather than feature comparison, which makes the list dominated by Claude, ChatGPT, Gemini, NotebookLM, ElevenLabs, Synthesia itself, Perplexity, Cursor, and a small handful of niche tools rather than the long tail of launch year hotness. A useful reality check for anyone planning their 2026 tool budget — most teams converge on six or seven products and ignore the rest.</p>
+          <div class="item-meta">
+            <span class="src">Synthesia</span>
+          </div>
+        </a>
+
+        <a href="https://lovable.dev/guides/best-ai-productivity-tools-2026" target="_blank" class="article-item">
+          <h3>Lovable: 9 Game Changing AI Productivity Apps for the Solo Builder</h3>
+          <p class="desc">Lovable's 9 picks are tilted toward the solo founder workflow: a no code site builder, a research assistant, a meeting recorder with action item extraction, an inbox triage agent, and a financial modeling agent that drops into spreadsheets. The most useful framing in the guide is the explicit cost ceiling per persona (consultant, indie maker, sales solo) which makes the picks immediately actionable instead of aspirational.</p>
+          <div class="item-meta">
+            <span class="src">Lovable</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- How-To & Tutorials -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>How-To &amp; Tutorials</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://michaelcrist.substack.com/p/claude-cowork" target="_blank" class="article-item">
+          <h3>Michael Crist: How to Turn Claude Cowork into Your Personal Chief of Staff</h3>
+          <p class="desc">A step by step Substack tutorial for wiring Claude Cowork up as a daily chief of staff: connect Gmail, Google Calendar, Slack, ClickUp, and the Chrome extension via Claude Connections, then have Claude produce a morning briefing that surfaces meetings, urgent threads, and outstanding promises. Builds on the Stephanie Curcio (NL Patent) pattern Inc. covered last week, and gives a clean starting recipe for anyone trying to replicate the "AI as second brain" workflow without writing code.</p>
+          <div class="item-meta">
+            <span class="src">Michael Crist (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://excellentprompts.substack.com/p/solo-revenue-engine" target="_blank" class="article-item">
+          <h3>Excellent Prompts: 5 AI Prompts to Build Your Solo Revenue Engine in Two Weeks</h3>
+          <p class="desc">A pack of five prompts aimed at the 5.6 million US independents now earning $100K+ a year. The framing is that the difference between top end independents and the rest is systems, not talent, and the prompts walk through offer extraction, niche selection, content distribution, pipeline tracking, and a weekly performance review. Lands the same week as Lovable's solo builder roundup, which suggests there is now a real "AI native solo operator" category worth taking seriously.</p>
+          <div class="item-meta">
+            <span class="src">Excellent Prompts (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://writewithai.substack.com/p/self-publish-your-book-in-14-days" target="_blank" class="article-item">
+          <h3>Write With AI: A 5 Step Pipeline to Self Publish Your First Book on Amazon in 14 Days</h3>
+          <p class="desc">A walkthrough for using a sequence of AI assistants to ship a Kindle title from outline to listed product inside two weeks. Covers topic discovery using market data, structured outline generation, drafting in voice consistent chunks, cover and metadata generation, and the KDP listing workflow. The honest answer in the guide is that AI takes care of about 70% of the workload but the editorial pass still has to be human.</p>
+          <div class="item-meta">
+            <span class="src">Write With AI (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://ruben.substack.com/p/stop-learning-excel" target="_blank" class="article-item">
+          <h3>Ruben Hassid: Stop Learning Excel — Use This AI Workflow Instead</h3>
+          <p class="desc">Ruben's blunt argument this week is that for 90% of normal spreadsheet work, the right move is no longer to learn Excel formulas, it is to describe what you want and let an AI agent generate the workbook. The post tests every major option (ChatGPT, Claude, Gemini, Perplexity, plus a handful of specialty tools) and lands on a clear winner workflow for cleaning, modeling, and chart generation. Reasonable read for anyone whose Excel skills have been a moat that is quietly evaporating.</p>
+          <div class="item-meta">
+            <span class="src">Ruben Hassid (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://chatpromptgenius.com/claude-ai-prompt-engineering-guide-advanced-2026-techniques/" target="_blank" class="article-item">
+          <h3>Claude Prompt Engineering 2026: XML Tags, Context Engineering, and the 10/10 Attention Rule</h3>
+          <p class="desc">A consolidated guide to the techniques that actually matter for Claude in 2026: structured XML style tags (which Claude follows reliably), placing the most important instructions in the first and last 10% of the prompt window, and the shift from "prompt engineering" to "context engineering" as the primary skill. Useful as a one page checklist for any team rolling Claude into production this quarter.</p>
+          <div class="item-meta">
+            <span class="src">ChatPromptGenius / Promptarch</span>
+          </div>
+        </a>
+
+        <a href="https://promptbuilder.cc/blog/claude-prompt-engineering-best-practices-2026" target="_blank" class="article-item">
+          <h3>Prompt Builder: A Claude System Prompt That Reads Like a One Page Contract</h3>
+          <p class="desc">Prompt Builder's 2026 best practices breaks a Claude system prompt into four bounded sections: role (one line), goal (success criteria), constraints, and an explicit uncertainty handling rule. The template is short enough to memorize and consistently outperforms the long preamble style prompts most teams started with two years ago. Pair with the XML structure guidance above and you have a working production prompt in roughly 15 minutes.</p>
+          <div class="item-meta">
+            <span class="src">Prompt Builder</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ideas & Inspiration -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Ideas &amp; Inspiration</h2>
+        <span class="cat-count">5 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://www.lennysnewsletter.com/p/dan-shipper-ai-paradox" target="_blank" class="article-item">
+          <h3>Lenny + Dan Shipper: The AI Paradox — More Automation, More Humans, and More Work</h3>
+          <p class="desc">Lenny interviews Every's Dan Shipper on the paradox of 2026: as AI automates more work, the demand for human judgment, taste, and direction is increasing, not decreasing. Shipper's view is that most work will happen inside Codex or Claude Code, the CLI era is over, and every agent still needs a human in the loop. Particularly bullish for PMs and designers, whose ability to specify a desired outcome cleanly is now the binding constraint on agent productivity.</p>
+          <div class="item-meta">
+            <span class="src">Lenny's Newsletter / Every</span>
+          </div>
+        </a>
+
+        <a href="https://khemaridh.substack.com/p/founder-mode-ai-lessons" target="_blank" class="article-item">
+          <h3>Khe Hy: Lessons in Founder Mode and AI from AI Weekly Round Up #34</h3>
+          <p class="desc">Khe's weekly roundup leads with the tension between Founder Mode and the AI era: founders who win in 2026 spend their hours on the highest leverage activities (deciding, narrating, prioritizing) and outsource the rest of the company's thinking to agents under their direction. Round up also touches data center water demand, Codex maxxing as a posture, and the broader AI jobs apocalypse framing — Khe lands skeptical of the doom narrative and constructive about the IC opportunity.</p>
+          <div class="item-meta">
+            <span class="src">Khe Hy (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://becauseofmarketing.substack.com/p/weekly-marketing-roundup-may-24" target="_blank" class="article-item">
+          <h3>Because of Marketing: Weekly Roundup on Strategies, Campaigns, and Partnerships</h3>
+          <p class="desc">This week's Because of Marketing roundup leads with the strategies, campaigns, and partnerships driving the marketing industry forward in May, with several AI native players getting traction on the back of agentic creative production. The throughline: the brands that are pulling ahead this quarter are doing it through systems and partnerships, not through outspending the field. A useful weekend scan for anyone in growth or brand strategy.</p>
+          <div class="item-meta">
+            <span class="src">Because of Marketing (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://markmanson.net/ai-replacement-anxiety" target="_blank" class="article-item">
+          <h3>Mark Manson: Replacement Anxiety Is the Wrong Frame for the AI Era</h3>
+          <p class="desc">Manson's recent column reframes the AI displacement panic as the latest in a long line of replacement anxieties (assembly lines, computers, the internet) and argues that the durable winners in every wave are the people who let go of identifying with their job description and instead identify with their capacity to learn. Short, sharp, and worth re reading once a quarter for anyone whose career arc was disrupted by the last 24 months.</p>
+          <div class="item-meta">
+            <span class="src">Mark Manson</span>
+          </div>
+        </a>
+
+        <a href="https://insights.som.yale.edu/insights/the-real-job-destruction-from-ai-is-hitting-before-careers-can-start" target="_blank" class="article-item">
+          <h3>Yale Insights: The Real AI Job Destruction Is Hitting Before Careers Can Start</h3>
+          <p class="desc">Yale's School of Management argues the AI labor pressure is concentrated on the entry rung of the white collar career ladder, not the middle. Routine work in data entry, customer service, legal support, and billing is contracting, which means fewer first jobs and a steeper climb to mid career. The recommended policy response is to invest in apprenticeship style on ramps that bypass the disappearing entry tier, with a parallel push to reframe "AI fluency" as a foundational skill for school leavers.</p>
+          <div class="item-meta">
+            <span class="src">Yale SOM Insights</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developer & Research -->
+    <div class="category">
+      <div class="cat-header">
+        <span class="cat-dot"></span>
+        <h2>Developer &amp; Research</h2>
+        <span class="cat-count">6 articles</span>
+      </div>
+      <div class="article-list">
+        <a href="https://tylerfolkman.substack.com/p/ai-agent-steal-secrets" target="_blank" class="article-item">
+          <h3>Tyler Folkman: I Asked My AI Agent to Steal My Secrets — and It Worked</h3>
+          <p class="desc">Folkman ran a controlled red team exercise: he set up an AI agent inside his own environment and asked it to exfiltrate credentials and sensitive files. The agent succeeded, and the "obvious fixes" people reach for first (sandboxing prompts, removing tool permissions one at a time) turned out not to be real security boundaries. The actionable read is that the only working defense is treating agent capability as a unit and isolating it at the OS layer, not the prompt layer.</p>
+          <div class="item-meta">
+            <span class="src">Tyler Folkman (Substack)</span>
+          </div>
+        </a>
+
+        <a href="https://x.com/danshipper/status/2006395285459677556" target="_blank" class="article-item">
+          <h3>Dan Shipper: 2026 Predictions for an Agent Native Software Architecture</h3>
+          <p class="desc">Shipper's 2026 thread argues most new software will essentially be "Claude Code in a trench coat" — new features as buttons that activate prompts to an underlying general agent. Designers get superpowers, agentic engineering becomes a new discipline distinct from traditional engineering, and the highest productivity engineers in 2026 will be people who don't read or write code at all. Worth reading alongside the Cursor cloud agents writeup if you are designing your own agent platform.</p>
+          <div class="item-meta">
+            <span class="src">Dan Shipper (X) / Every</span>
+          </div>
+        </a>
+
+        <a href="https://dev.to/alexmercedcoder/ai-weekly-google-reshapes-the-coding-stack-claude-pulls-ahead-and-the-agent-protocol-stack-17co" target="_blank" class="article-item">
+          <h3>AI Weekly: Google Reshapes the Coding Stack, Claude Pulls Ahead, and the Agent Protocol Stack Hardens</h3>
+          <p class="desc">A weekly developer recap covering Google Antigravity 2.0, the new Gemini 3.5 Flash defaults for AI Mode and agentic coding, Claude Code's growing lead on architectural and long horizon work, and the maturation of the agent protocol stack (MCP, A2A, ACP). The throughline: the coding agent space has effectively standardized on two interop protocols this month, which is what was needed for the multi vendor agent stack to be deployable.</p>
+          <div class="item-meta">
+            <span class="src">DEV Community / Web</span>
+          </div>
+        </a>
+
+        <a href="https://every.to/chain-of-thought/inside-anthropic-s-2026-developer-conference" target="_blank" class="article-item">
+          <h3>Every: Inside Anthropic's 2026 Developer Conference</h3>
+          <p class="desc">Every's recap of Code with Claude 2026 covers the five new agent features Anthropic shipped (Claude Skills, native MCP UI in Cowork, the new model picker, expanded computer use, and the Production Memory APIs), the technical roadmap reveals, and the side conversations on safety, scaling, and the Anthropic Microsoft Maia talks. A solid read for anyone who couldn't get into the conference but wants the substance of what landed.</p>
+          <div class="item-meta">
+            <span class="src">Every</span>
+          </div>
+        </a>
+
+        <a href="https://www.digitalapplied.com/blog/frontier-models-h1-2026-retrospective-release-cadence-data" target="_blank" class="article-item">
+          <h3>Digital Applied: H1 2026 Frontier Model Retrospective and Release Cadence Data</h3>
+          <p class="desc">Digital Applied compiled the actual release cadence data across all frontier labs for H1 2026, showing reasoning effort routing becoming the default, 1M context turning economical, structured outputs hitting production grade reliability, and agent loops graduating from research demo to native primitive. The headline observation: capability convergence at the top of the stack means competitive differentiation has migrated to architecture, cost structure, and deployment, not raw scores.</p>
+          <div class="item-meta">
+            <span class="src">Digital Applied</span>
+          </div>
+        </a>
+
+        <a href="https://www.blog.brightcoding.dev/2026/05/20/claude-skills-177-production-ready-ai-agent-power-ups" target="_blank" class="article-item">
+          <h3>BrightCoding: 177 Production Ready Claude Skills Indexed for Reuse</h3>
+          <p class="desc">A catalog of 177 production ready Claude Skills (the new agent capability format Anthropic introduced earlier this quarter), organized by domain and use case. The skill graph itself is the more interesting object than any individual entry, because it shows where the community has already converged (data wrangling, document conversion, browser automation, marketing copywriting) versus where there is still no good shared skill (regulatory filings, scientific writing, anything regulated and high stakes).</p>
+          <div class="item-meta">
+            <span class="src">BrightCoding</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>
+      <span class="footer-brand">Gary's Daily</span> is curated from
+      <strong>The Rundown AI</strong>, <strong>TLDR AI</strong>,
+      <strong>The Rundown Tech</strong>, <strong>The Rundown Robotics</strong>,
+      <strong>Excellent Prompts</strong>, <strong>Khe Hy</strong>,
+      <strong>Lenny's Newsletter</strong>, <strong>Mark Manson</strong>, and web sources.
+      <br><br>
+      Updated every morning. Built with focus and love.
+    </p>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-top" id="scrollTop">&uarr;</div>
+
+
+  <script>
+    const archiveToggle = document.querySelector('.archive-toggle');
+    const archiveDrawer = document.querySelector('.archive-drawer');
+    const scrollTop = document.getElementById('scrollTop');
+
+    archiveToggle.addEventListener('click', () => {
+      archiveToggle.classList.toggle('open');
+      archiveDrawer.classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
+                                        
